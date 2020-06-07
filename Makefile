@@ -6,5 +6,5 @@ run:
 clean:
 	rm -rf docs/
 
-build: clean
+build:
 	HUGO_ENV="production" hugo --gc || exit 1
