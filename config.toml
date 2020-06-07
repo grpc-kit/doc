@@ -1,0 +1,123 @@
+# 根路径
+baseURL = "/"
+#title = "gRPC Kit"
+
+# 是否生成robots.txt
+enableRobotsTXT = true
+
+# 使用的主题
+theme = ["docsy"]
+themsDir = "themes"
+
+# 根据git最后一次提交，生成Last modified信息
+enableGitInfo = true
+
+# 默认中文
+languageCode = "zh-CN"
+contentDir = "content/zh"
+defaultContentLanguage = "zh"
+defaultContentLanguageInSubdir = false
+enableMissingTranslationPlaceholders = true
+
+# 生成网站文件的目录
+publishDir = "docs"
+
+disableKinds = ["taxonomy", "taxonomyTerm"]
+
+# Highlighting config
+pygmentsCodeFences = true
+# Use the new Chroma Go highlighter in Hugo.
+pygmentsUseClassic = false
+# See https://help.farbox.com/pygments.html
+pygmentsStyle = "tango"
+
+# 顶部导航栏
+[menu]
+[[menu.main]]
+  name = "Documentation"
+  weight = 1
+  url = "/docs/"
+[[menu.main]]
+  name = "GitHub"
+  weight = 2
+  url = "https://github.com/grpc-kit/"
+
+# 博客url路径风格
+[permalinks]
+  blog = "/:section/:year/:month/:day/:slug/"
+
+# markdown解析器 
+# https://github.com/russross/blackfriday
+[blackfriday]
+  plainIDAnchors = true
+  hrefTargetBlank = true
+  angledQuotes = false
+  latexDashes = true
+
+# 图片处理
+[imaging]
+  resampleFilter = "CatmullRom"
+  quality = 75
+  anchor = "smart"
+
+[services]
+[services.googleAnalytics]
+  id = "UA-168659370-1"
+
+# 多语言支持
+[languages]
+[languages.zh]
+  description = "gRPC Kit Docs"
+  languageName ="中文"
+  contentDir = "content/zh"
+  time_format_default = "02.01.2006"
+  time_format_blog = "02.01.2006"
+  weight = 1
+
+[markup]
+[markup.goldmark]
+[markup.goldmark.renderer]
+  unsafe = true
+
+# 以下均为网站参数配置
+[params]
+  copyright = "The gRPC Kit Authors."
+  privacy_policy = "https://policies.google.com/privacy"
+  github_repo = "https://github.com/grpc-kit/doc"
+  github_project_repo = "https://github.com/grpc-kit/cli"
+  gcs_engine_id = "000898198112489359493:3uykxhmu83e"
+  algolia_docsearch = false
+  offlineSearch = true
+
+# UI上相关的设置
+[params.ui]
+  # Enable to show the side bar menu in its compact state.
+  sidebar_menu_compact = false
+  # Set to true to disable breadcrumb navigation.
+  breadcrumb_disable = false
+  # 禁用菜单树上的搜索框
+  sidebar_search_disable = true
+  # 是否在导航栏显示logo(/assets/icons/logo.svg)
+  navbar_logo = true
+  # Set to true to disable the About link in the site footer
+  footer_about_disable = false
+
+# 用户浏览页面的反馈，依赖于googleAnalytics服务，可通过页面添加："hide_feedback: true"，单独停用该功能
+[params.ui.feedback]
+  enable = true
+  yes = '感谢您的支持! 如有其他建议，<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>'
+  no = '非常抱歉，您有什么改进建议？<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>'
+
+# 阅读本文大约时间，可通过页面添加："hide_readingtime: true"，单独停用该功能
+[params.ui.readingtime]
+  enable = true
+
+[params.links]
+[[params.links.user]]
+  name = "联系我们"
+  url = "https://github.com/grpc-kit/doc/issues/new"
+  icon = "fa fa-envelope"
+[[params.links.developer]]
+  name = "GitHub"
+  url = "https://github.com/grpc-kit"
+  icon = "fab fa-github"

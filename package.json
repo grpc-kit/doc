@@ -1,0 +1,24 @@
+{
+  "name": "grpc-kit-doc",
+  "version": "0.1.0",
+  "description": "gRPC Kit for technical documentation.",
+  "main": "none.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/grpc-kit/doc.git"
+  },
+  "author": "",
+  "license": "CC-BY-4.0",
+  "bugs": {
+    "url": "https://github.com/grpc-kit/doc/issues"
+  },
+  "homepage": "https://github.com/grpc-kit/doc",
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^9.4.6",
+    "postcss-cli": "^5.0.1"
+  }
+}
