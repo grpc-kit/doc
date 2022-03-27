@@ -1,10 +1,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title> – gRPC Kit</title>
+    <title>gRPC Kit – gRPC Kit</title>
     <link>/</link>
-    <description>Recent content in gRPC Kit on </description>
+    <description>Recent content on gRPC Kit</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>zh-CN</language>
     
 	  <atom:link href="/index.xml" rel="self" type="application/rss+xml" />
     
