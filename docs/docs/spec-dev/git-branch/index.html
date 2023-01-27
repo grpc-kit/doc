@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.102.3" />
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,30 +18,62 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Documentation | gRPC Kit</title>
-<meta name="description" content="
+<title>分支管理 | gRPC Kit</title>
+<meta name="description" content="简要概述
+高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。
+只能根据不通的业务场景选择最适合的策略。
+主干开发
+开发者在主分支提交代码，发布版本时创建版本发布分支。
+优点：
 
+集成频繁效率高；
+无需在多个分支之间切；
+仅包含：主分支、版本分支；
 
-gGRPC Kit 是什么？
-一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：
+缺点：
 
-grpc
-gogo
-grpc-gateway
+可 …">
+<meta property="og:title" content="分支管理" />
+<meta property="og:description" content="简要概述 高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。
+只能根据不通的业务场景选择最适合的策略。
+主干开发 开发者在主分支提交代码，发布版本时创建版本发布分支。
+优点：
+集成频繁效率高； 无需在多个分支之间切； 仅包含：主分支、版本分支； 缺点：
+可能出现某个人的代码失误而影响全局； 需要在代码运行期间使用特性切换加速开发； 特性分支开发 需要新增特性时，开发者从主干分支克隆特性分支，仅允许在该分支直接提交代码，待功能完成之后合并至主分支，常见的模型有：git flow、github flow、gitlab flow 三种模型。
+Git Flow 该模型是在2010年构想出来的，在这十几年里，已经被许多软件团队使用，以至于部分开发者将其视为某种标准。
+在使用会涉及到较繁琐的流程，很多团队新人还需额外时间学习才能融入业务开发，反而降低了效率。
+分支功能描述：
+名称 功能 生命周期 代码稳定 权限 main 主分支 长期 是 仅允许开发负责人且只能从 release 分支合并，tag 只能从 main 分支标记 develop 开发分支 长期 是 不允许直接提交，只能由开发负责人且只能从 feature 分支合并 release-X.Y 发布分支 长期 是 不允许直接提交，仅允许从 develop 分支合并 feature-XYZ 功能分支 合并后删除 否 开发可直接提交代码，必须从 develop 分支创建出来 hotfix-XYZ 补丁分支 合并后删除 否 开发可直接提交代码，比较急的异常，直接从 main 分支创建，完成后必须合并至 main 与 develop 分支 查看分支流程。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/spec-dev/git-branch/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-01-13T18:02:26+08:00" />
+<meta property="article:modified_time" content="2023-01-27T22:53:10+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 
-
-
-
-">
-<meta property="og:title" content="Documentation" />
-<meta property="og:description" content="gRPC Kit Docs" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/" /><meta property="og:site_name" content="gRPC Kit" />
-
-<meta itemprop="name" content="Documentation">
-<meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Documentation"/>
-<meta name="twitter:description" content="gRPC Kit Docs"/>
+<meta itemprop="name" content="分支管理">
+<meta itemprop="description" content="简要概述 高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。
+只能根据不通的业务场景选择最适合的策略。
+主干开发 开发者在主分支提交代码，发布版本时创建版本发布分支。
+优点：
+集成频繁效率高； 无需在多个分支之间切； 仅包含：主分支、版本分支； 缺点：
+可能出现某个人的代码失误而影响全局； 需要在代码运行期间使用特性切换加速开发； 特性分支开发 需要新增特性时，开发者从主干分支克隆特性分支，仅允许在该分支直接提交代码，待功能完成之后合并至主分支，常见的模型有：git flow、github flow、gitlab flow 三种模型。
+Git Flow 该模型是在2010年构想出来的，在这十几年里，已经被许多软件团队使用，以至于部分开发者将其视为某种标准。
+在使用会涉及到较繁琐的流程，很多团队新人还需额外时间学习才能融入业务开发，反而降低了效率。
+分支功能描述：
+名称 功能 生命周期 代码稳定 权限 main 主分支 长期 是 仅允许开发负责人且只能从 release 分支合并，tag 只能从 main 分支标记 develop 开发分支 长期 是 不允许直接提交，只能由开发负责人且只能从 feature 分支合并 release-X.Y 发布分支 长期 是 不允许直接提交，仅允许从 develop 分支合并 feature-XYZ 功能分支 合并后删除 否 开发可直接提交代码，必须从 develop 分支创建出来 hotfix-XYZ 补丁分支 合并后删除 否 开发可直接提交代码，比较急的异常，直接从 main 分支创建，完成后必须合并至 main 与 develop 分支 查看分支流程。"><meta itemprop="datePublished" content="2023-01-13T18:02:26+08:00" />
+<meta itemprop="dateModified" content="2023-01-27T22:53:10+08:00" />
+<meta itemprop="wordCount" content="102">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="分支管理"/>
+<meta name="twitter:description" content="简要概述 高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。
+只能根据不通的业务场景选择最适合的策略。
+主干开发 开发者在主分支提交代码，发布版本时创建版本发布分支。
+优点：
+集成频繁效率高； 无需在多个分支之间切； 仅包含：主分支、版本分支； 缺点：
+可能出现某个人的代码失误而影响全局； 需要在代码运行期间使用特性切换加速开发； 特性分支开发 需要新增特性时，开发者从主干分支克隆特性分支，仅允许在该分支直接提交代码，待功能完成之后合并至主分支，常见的模型有：git flow、github flow、gitlab flow 三种模型。
+Git Flow 该模型是在2010年构想出来的，在这十几年里，已经被许多软件团队使用，以至于部分开发者将其视为某种标准。
+在使用会涉及到较繁琐的流程，很多团队新人还需额外时间学习才能融入业务开发，反而降低了效率。
+分支功能描述：
+名称 功能 生命周期 代码稳定 权限 main 主分支 长期 是 仅允许开发负责人且只能从 release 分支合并，tag 只能从 main 分支标记 develop 开发分支 长期 是 不允许直接提交，只能由开发负责人且只能从 feature 分支合并 release-X.Y 发布分支 长期 是 不允许直接提交，仅允许从 develop 分支合并 feature-XYZ 功能分支 合并后删除 否 开发可直接提交代码，必须从 develop 分支创建出来 hotfix-XYZ 补丁分支 合并后删除 否 开发可直接提交代码，比较急的异常，直接从 main 分支创建，完成后必须合并至 main 与 develop 分支 查看分支流程。"/>
 
 
 
@@ -84,7 +115,7 @@ if (!doNotTrack) {
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -197,9 +228,9 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib" id="docs">
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docs">
       <input type="checkbox" id="docs-check" checked/>
-      <label for="docs-check"  id="td-sidebar-nav-active-item" ><a href="/docs/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
+      <label for="docs-check" ><a href="/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
       
         
         
@@ -307,14 +338,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-dev">
-      <input type="checkbox" id="docsspec-dev-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-dev">
+      <input type="checkbox" id="docsspec-dev-check" checked/>
       <label for="docsspec-dev-check" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">开发规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -323,10 +354,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-branch">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-devgit-branch">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-branch-a" href="/docs/spec-dev/git-branch/">分支管理</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-devgit-branch-a" href="/docs/spec-dev/git-branch/">分支管理</a>
                     
                   </span>
                   
@@ -340,7 +371,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-commit">
+                <li class="without-sib" id="m-docsspec-devgit-commit">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-commit-a" href="/docs/spec-dev/git-commit/">提交日志</a>
@@ -549,6 +580,21 @@ if (!doNotTrack) {
             
 
 
+<h5>目录</h5>
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简要概述">简要概述</a></li>
+    <li><a href="#主干开发">主干开发</a></li>
+    <li><a href="#特性分支开发">特性分支开发</a>
+      <ul>
+        <li><a href="#git-flow">Git Flow</a></li>
+        <li><a href="#github-flow">GitHub Flow</a></li>
+        <li><a href="#gitlab-flow">GitLab Flow</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
 
@@ -577,17 +623,23 @@ if (!doNotTrack) {
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
-  <li class="breadcrumb-item active" aria-current="page">
+  <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/spec-dev/">开发规范</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="/docs/spec-dev/git-branch/">分支管理</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Documentation</h1>
-  
+	<h1>分支管理</h1>
+	
 	<header class="article-meta">
 		
 		
@@ -602,94 +654,190 @@ if (!doNotTrack) {
 			
 		
 		
-	</header>
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
+
+		
+	</header>    
+	<h2 id="简要概述">简要概述</h2>
+<p>高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。</p>
+<p>只能根据不通的业务场景选择<strong>最适合</strong>的策略。</p>
+<h2 id="主干开发">主干开发</h2>
+<p>开发者在<strong>主分支</strong>提交代码，发布版本时创建<strong>版本发布分支</strong>。</p>
+<p>优点：</p>
+<ol>
+<li>集成频繁效率高；</li>
+<li>无需在多个分支之间切；</li>
+<li>仅包含：主分支、版本分支；</li>
+</ol>
+<p>缺点：</p>
+<ol>
+<li>可能出现某个人的代码失误而影响全局；</li>
+<li>需要在代码运行期间使用特性切换加速开发；</li>
+</ol>
+<h2 id="特性分支开发">特性分支开发</h2>
+<p>需要新增特性时，开发者从主干分支克隆特性分支，仅允许在该分支直接提交代码，待功能完成之后合并至主分支，常见的模型有：git flow、github flow、gitlab flow 三种模型。</p>
+<h3 id="git-flow">Git Flow</h3>
+<p>该模型是在2010年构想出来的，在这十几年里，已经被许多软件团队使用，以至于部分开发者将其视为某种标准。</p>
+<p>在使用会涉及到较繁琐的流程，很多团队新人还需额外时间学习才能融入业务开发，反而降低了效率。</p>
+<p>分支功能描述：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>功能</th>
+<th>生命周期</th>
+<th>代码稳定</th>
+<th>权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>主分支</td>
+<td>长期</td>
+<td>是</td>
+<td>仅允许开发负责人且只能从 release 分支合并，tag 只能从 main 分支标记</td>
+</tr>
+<tr>
+<td>develop</td>
+<td>开发分支</td>
+<td>长期</td>
+<td>是</td>
+<td>不允许直接提交，只能由开发负责人且只能从 feature 分支合并</td>
+</tr>
+<tr>
+<td>release-X.Y</td>
+<td>发布分支</td>
+<td>长期</td>
+<td>是</td>
+<td>不允许直接提交，仅允许从 develop 分支合并</td>
+</tr>
+<tr>
+<td>feature-XYZ</td>
+<td>功能分支</td>
+<td>合并后删除</td>
+<td>否</td>
+<td>开发可直接提交代码，必须从 develop 分支创建出来</td>
+</tr>
+<tr>
+<td>hotfix-XYZ</td>
+<td>补丁分支</td>
+<td>合并后删除</td>
+<td>否</td>
+<td>开发可直接提交代码，比较急的异常，直接从 main 分支创建，完成后必须合并至 main 与 develop 分支</td>
+</tr>
+</tbody>
+</table>
+<p>查看<a href="/docs/spec-dev/flows/git-flow/">分支流程</a>。</p>
+<p>查看<a href="https://nvie.com/posts/a-successful-git-branching-model/">规范出处</a>。</p>
+<h3 id="github-flow">GitHub Flow</h3>
+<p>仅包含主分支与特性分支。</p>
+<p>相比 <code>Git Flow</code> 简化了流程，开发者接收需求并创建独立的特性分支，完成后则发起 &ldquo;Pull requests&rdquo; 请求合并，待在其他人审阅并签署确认后由专人合并到主分支，最后删除特性分支。</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>功能</th>
+<th>生命周期</th>
+<th>代码稳定</th>
+<th>权限</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>main</td>
+<td>主分支</td>
+<td>长期</td>
+<td>是</td>
+<td>不允许直接提交代码，仅允许负责人合并来自其他分支</td>
+</tr>
+<tr>
+<td>feat-X</td>
+<td>特性分支</td>
+<td>合并后删除</td>
+<td>否</td>
+<td>由开发人员控制，必须包含完整的文档与测试案例</td>
+</tr>
+</tbody>
+</table>
+<p>查看<a href="/docs/spec-dev/flows/github-flow/">分支流程</a>。</p>
+<p>查看<a href="https://docs.github.com/en/get-started/quickstart/github-flow">规范出处</a>。</p>
+<h3 id="gitlab-flow">GitLab Flow</h3>
+<p><a href="https://docs.gitlab.com/ee/topics/gitlab_flow.html">https://docs.gitlab.com/ee/topics/gitlab_flow.html</a></p>
+
 	
+		<br /><hr />
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
 
-<div class="pageinfo pageinfo-primary">
-<p>gGRPC Kit 是什么？</p>
-<p>一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：</p>
-<ul>
-<li><a href="https://github.com/golang/protobuf">grpc</a></li>
-<li><a href="https://github.com/gogo/protobuf">gogo</a></li>
-<li><a href="https://github.com/grpc-ecosystem/grpc-gateway">grpc-gateway</a></li>
-</ul>
-
+<div class="d-print-none">
+  <h4 class="feedback--title">希望您的反馈</h4>
+  <p class="feedback--question">该页面的内容对您有帮助吗?</p>
+  <button class="btn btn-primary mb-4 feedback--answer feedback--answer-yes">是的</button>
+  <button class="btn btn-danger mb-4 feedback--answer feedback--answer-no">没有</button>
+  <p class="feedback--response feedback--response-yes">
+    感谢您的支持! 如有其他建议，<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
+  <p class="feedback--response feedback--response-no">
+    非常抱歉，您有什么改进建议？<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
 </div>
 
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/overview/">快速开始</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-dev/">开发规范</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/changelog/">更新日志</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
-
-
-    
-
+		<br />
+	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 24.01.2023: <a href="https://github.com/grpc-kit/doc/commit/9da128f677a39922d733b7002a2befc65e903c9e">feat: 添加开发规范 (9da128f)</a>
+  最后修改 27.01.2023: <a href="https://github.com/grpc-kit/doc/commit/d507c844dfa9b806fd1cad51e86f0caacf54376f">feat: 添加 git flow 与 github flow 流程图 (d507c84)</a>
 </div>
 
 </div>
+
 
           </main>
 

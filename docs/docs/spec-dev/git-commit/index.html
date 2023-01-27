@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.102.3" />
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,30 +18,38 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Documentation | gRPC Kit</title>
-<meta name="description" content="
+<title>提交日志 | gRPC Kit</title>
+<meta name="description" content="简要概述
+用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
 
+快速查找历史变更信息；
+自动化生成 CHANGELOG.md 文档；
 
-gGRPC Kit 是什么？
-一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：
+提交规范
+各个 git commit 提交记录，由：header、body、footer 三部分组成，格式如下： …">
+<meta property="og:title" content="提交日志" />
+<meta property="og:description" content="简要概述 用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
+快速查找历史变更信息； 自动化生成 CHANGELOG.md 文档； 提交规范 各个 git commit 提交记录，由：header、body、footer 三部分组成，格式如下：
+&lt;header&gt; // 空一行 &lt;body&gt; // 空一行 &lt;footer&gt; 其中 header 是强制填写，由以下三部分组成：
+&lt;type&gt;(&lt;scope&gt;): &lt;short summary&gt; │ │ │ │ │ └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号 │ │ │ └─⫸ 涉及变更的主要模块，如：cli|pkg|api │ └─⫸ 本次提交功能变更的类型，如：feat|fix|docs|perf|refactor|test 参数详解 header type type 说明 feat 涉及业务代码变更，添加新功能 fix 涉及业务代码变更，修复已知BUG perf 涉及业务代码变更，优化功能性能、体验等 refactor 涉及业务代码变更，但不属于 feat、fix、perf 的类型 ci 仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件 docs 仅涉及文档类变更，如：README.md 或 代码注释 等 release 仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值 test 仅涉及测试代码变更，如：hello_test." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/spec-dev/git-commit/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-01-15T10:15:07+08:00" />
+<meta property="article:modified_time" content="2023-01-27T22:53:10+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 
-grpc
-gogo
-grpc-gateway
-
-
-
-
-">
-<meta property="og:title" content="Documentation" />
-<meta property="og:description" content="gRPC Kit Docs" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/" /><meta property="og:site_name" content="gRPC Kit" />
-
-<meta itemprop="name" content="Documentation">
-<meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Documentation"/>
-<meta name="twitter:description" content="gRPC Kit Docs"/>
+<meta itemprop="name" content="提交日志">
+<meta itemprop="description" content="简要概述 用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
+快速查找历史变更信息； 自动化生成 CHANGELOG.md 文档； 提交规范 各个 git commit 提交记录，由：header、body、footer 三部分组成，格式如下：
+&lt;header&gt; // 空一行 &lt;body&gt; // 空一行 &lt;footer&gt; 其中 header 是强制填写，由以下三部分组成：
+&lt;type&gt;(&lt;scope&gt;): &lt;short summary&gt; │ │ │ │ │ └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号 │ │ │ └─⫸ 涉及变更的主要模块，如：cli|pkg|api │ └─⫸ 本次提交功能变更的类型，如：feat|fix|docs|perf|refactor|test 参数详解 header type type 说明 feat 涉及业务代码变更，添加新功能 fix 涉及业务代码变更，修复已知BUG perf 涉及业务代码变更，优化功能性能、体验等 refactor 涉及业务代码变更，但不属于 feat、fix、perf 的类型 ci 仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件 docs 仅涉及文档类变更，如：README.md 或 代码注释 等 release 仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值 test 仅涉及测试代码变更，如：hello_test."><meta itemprop="datePublished" content="2023-01-15T10:15:07+08:00" />
+<meta itemprop="dateModified" content="2023-01-27T22:53:10+08:00" />
+<meta itemprop="wordCount" content="158">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="提交日志"/>
+<meta name="twitter:description" content="简要概述 用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
+快速查找历史变更信息； 自动化生成 CHANGELOG.md 文档； 提交规范 各个 git commit 提交记录，由：header、body、footer 三部分组成，格式如下：
+&lt;header&gt; // 空一行 &lt;body&gt; // 空一行 &lt;footer&gt; 其中 header 是强制填写，由以下三部分组成：
+&lt;type&gt;(&lt;scope&gt;): &lt;short summary&gt; │ │ │ │ │ └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号 │ │ │ └─⫸ 涉及变更的主要模块，如：cli|pkg|api │ └─⫸ 本次提交功能变更的类型，如：feat|fix|docs|perf|refactor|test 参数详解 header type type 说明 feat 涉及业务代码变更，添加新功能 fix 涉及业务代码变更，修复已知BUG perf 涉及业务代码变更，优化功能性能、体验等 refactor 涉及业务代码变更，但不属于 feat、fix、perf 的类型 ci 仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件 docs 仅涉及文档类变更，如：README.md 或 代码注释 等 release 仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值 test 仅涉及测试代码变更，如：hello_test."/>
 
 
 
@@ -84,7 +91,7 @@ if (!doNotTrack) {
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -197,9 +204,9 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib" id="docs">
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docs">
       <input type="checkbox" id="docs-check" checked/>
-      <label for="docs-check"  id="td-sidebar-nav-active-item" ><a href="/docs/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
+      <label for="docs-check" ><a href="/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
       
         
         
@@ -307,14 +314,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-dev">
-      <input type="checkbox" id="docsspec-dev-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-dev">
+      <input type="checkbox" id="docsspec-dev-check" checked/>
       <label for="docsspec-dev-check" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">开发规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -323,7 +330,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-branch">
+                <li class="without-sib" id="m-docsspec-devgit-branch">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-branch-a" href="/docs/spec-dev/git-branch/">分支管理</a>
@@ -340,10 +347,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-commit">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-devgit-commit">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-commit-a" href="/docs/spec-dev/git-commit/">提交日志</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-devgit-commit-a" href="/docs/spec-dev/git-commit/">提交日志</a>
                     
                   </span>
                   
@@ -549,6 +556,26 @@ if (!doNotTrack) {
             
 
 
+<h5>目录</h5>
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简要概述">简要概述</a></li>
+    <li><a href="#提交规范">提交规范</a></li>
+    <li><a href="#参数详解">参数详解</a>
+      <ul>
+        <li><a href="#header">header</a></li>
+        <li><a href="#body">body</a></li>
+        <li><a href="#footer">footer</a></li>
+      </ul>
+    </li>
+    <li><a href="#相关示例">相关示例</a>
+      <ul>
+        <li><a href="#查看历史变更记录">查看历史变更记录</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
 
@@ -577,17 +604,23 @@ if (!doNotTrack) {
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
-  <li class="breadcrumb-item active" aria-current="page">
+  <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/spec-dev/">开发规范</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="/docs/spec-dev/git-commit/">提交日志</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Documentation</h1>
-  
+	<h1>提交日志</h1>
+	
 	<header class="article-meta">
 		
 		
@@ -602,94 +635,207 @@ if (!doNotTrack) {
 			
 		
 		
-	</header>
-	
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
 
-<div class="pageinfo pageinfo-primary">
-<p>gGRPC Kit 是什么？</p>
-<p>一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：</p>
+		
+	</header>    
+	<h2 id="简要概述">简要概述</h2>
+<p>用于规范项目代码提交日志，这里借鉴 <a href="https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit">Angular 规则</a>，规范化的提交记录，有以下好处：</p>
+<ol>
+<li>快速查找历史变更信息；</li>
+<li>自动化生成 CHANGELOG.md 文档；</li>
+</ol>
+<h2 id="提交规范">提交规范</h2>
+<p>各个 <code>git commit</code> 提交记录，由：header、body、footer 三部分组成，格式如下：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&lt;header&gt;
+</span></span><span style="display:flex;"><span>// 空一行
+</span></span><span style="display:flex;"><span>&lt;body&gt;
+</span></span><span style="display:flex;"><span>// 空一行
+</span></span><span style="display:flex;"><span>&lt;footer&gt;
+</span></span></code></pre></div><p>其中 header 是强制填写，由以下三部分组成：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>&lt;type&gt;<span style="color:#ce5c00;font-weight:bold">(</span>&lt;scope&gt;<span style="color:#ce5c00;font-weight:bold">)</span>: &lt;short summary&gt;
+</span></span><span style="display:flex;"><span>  │       │             │
+</span></span><span style="display:flex;"><span>  │       │             └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号
+</span></span><span style="display:flex;"><span>  │       │
+</span></span><span style="display:flex;"><span>  │       └─⫸ 涉及变更的主要模块，如：cli<span style="color:#000;font-weight:bold">|</span>pkg<span style="color:#000;font-weight:bold">|</span>api
+</span></span><span style="display:flex;"><span>  │
+</span></span><span style="display:flex;"><span>  └─⫸ 本次提交功能变更的类型，如：feat<span style="color:#000;font-weight:bold">|</span>fix<span style="color:#000;font-weight:bold">|</span>docs<span style="color:#000;font-weight:bold">|</span>perf<span style="color:#000;font-weight:bold">|</span>refactor<span style="color:#000;font-weight:bold">|</span><span style="color:#204a87">test</span>
+</span></span></code></pre></div><h2 id="参数详解">参数详解</h2>
+<h3 id="header">header</h3>
 <ul>
-<li><a href="https://github.com/golang/protobuf">grpc</a></li>
-<li><a href="https://github.com/gogo/protobuf">gogo</a></li>
-<li><a href="https://github.com/grpc-ecosystem/grpc-gateway">grpc-gateway</a></li>
+<li>type</li>
 </ul>
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>feat</td>
+<td>涉及业务代码变更，添加新功能</td>
+</tr>
+<tr>
+<td>fix</td>
+<td>涉及业务代码变更，修复已知BUG</td>
+</tr>
+<tr>
+<td>perf</td>
+<td>涉及业务代码变更，优化功能性能、体验等</td>
+</tr>
+<tr>
+<td>refactor</td>
+<td>涉及业务代码变更，但不属于 <code>feat</code>、<code>fix</code>、<code>perf</code> 的类型</td>
+</tr>
+<tr>
+<td>ci</td>
+<td>仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件</td>
+</tr>
+<tr>
+<td>docs</td>
+<td>仅涉及文档类变更，如：README.md 或 代码注释 等</td>
+</tr>
+<tr>
+<td>release</td>
+<td>仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值</td>
+</tr>
+<tr>
+<td>test</td>
+<td>仅涉及测试代码变更，如：hello_test.go</td>
+</tr>
+<tr>
+<td>build</td>
+<td>仅涉及构建编译依赖的组件版本等变更，如：go.mod</td>
+</tr>
+<tr>
+<td>chore</td>
+<td>其他琐碎的变更，但对代码功能没有影响，比如删除了无用的代码、注释等清理操作</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>scope</li>
+</ul>
+<p>代码变更的模块，如：cli、pkg、api 等，这块为可选，非必填内容。</p>
+<ul>
+<li>summary</li>
+</ul>
+<p>编写一个具有概括性简短的描述</p>
+<ol>
+<li>不超过 50 个字符</li>
+<li>可选择编写中文或英文</li>
+<li>英文统一小写，首字母不大写</li>
+<li>英文专业术语除外，如：Makefile</li>
+<li>末尾不带任何标点符号</li>
+</ol>
+<p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>feat<span style="color:#ce5c00;font-weight:bold">(</span>cli<span style="color:#ce5c00;font-weight:bold">)</span>: 在 Makefile 中添加容器化构建应用
+</span></span></code></pre></div><h3 id="body">body</h3>
+<p>解释此次变更的详细描述，可由多行组成，格式准守 &ldquo;Markdown&rdquo; 语法。</p>
+<h3 id="footer">footer</h3>
+<p>仅在两种情况下才会使用：</p>
+<ul>
+<li>不兼容的更改</li>
+</ul>
+<p>如果当前代码提交之后，会对上一个版本不兼容，则必须以 <code>BREAKING CHANGE</code> 开头，后面在添加详细描述。</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>BREAKING CHANGE: &lt;breaking change summary&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>&lt;breaking change description + migration instructions&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>Fixes <span style="color:#8f5902;font-style:italic">#&lt;issue number&gt;</span>
+</span></span></code></pre></div><ul>
+<li>关闭 issue</li>
+</ul>
+<p>如果当前提交是针对某个 &ldquo;issue&rdquo;，那么可以以 <code>Closes #</code> 加问题编号。</p>
+<ul>
+<li>已经废弃的功能</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>DEPRECATED: &lt;what is deprecated&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>&lt;deprecation description + recommended update path&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>&lt;BLANK LINE&gt;
+</span></span><span style="display:flex;"><span>Closes <span style="color:#8f5902;font-style:italic">#&lt;pr number&gt;</span>
+</span></span></code></pre></div><h2 id="相关示例">相关示例</h2>
+<h3 id="查看历史变更记录">查看历史变更记录</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>git log HEAD --pretty<span style="color:#ce5c00;font-weight:bold">=</span>format:%s
+</span></span></code></pre></div>
+	
+		<br /><hr />
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
 
+<div class="d-print-none">
+  <h4 class="feedback--title">希望您的反馈</h4>
+  <p class="feedback--question">该页面的内容对您有帮助吗?</p>
+  <button class="btn btn-primary mb-4 feedback--answer feedback--answer-yes">是的</button>
+  <button class="btn btn-danger mb-4 feedback--answer feedback--answer-no">没有</button>
+  <p class="feedback--response feedback--response-yes">
+    感谢您的支持! 如有其他建议，<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
+  <p class="feedback--response feedback--response-no">
+    非常抱歉，您有什么改进建议？<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
 </div>
 
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/overview/">快速开始</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-dev/">开发规范</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/changelog/">更新日志</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
-
-
-    
-
+		<br />
+	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 24.01.2023: <a href="https://github.com/grpc-kit/doc/commit/9da128f677a39922d733b7002a2befc65e903c9e">feat: 添加开发规范 (9da128f)</a>
+  最后修改 27.01.2023: <a href="https://github.com/grpc-kit/doc/commit/d507c844dfa9b806fd1cad51e86f0caacf54376f">feat: 添加 git flow 与 github flow 流程图 (d507c84)</a>
 </div>
 
 </div>
+
 
           </main>
 

@@ -1,0 +1,214 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gRPC Kit – 更新日志</title>
+    <link>/docs/changelog/</link>
+    <description>Recent content in 更新日志 on gRPC Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 20 Jan 2023 22:08:35 +0800</lastBuildDate>
+    
+	  <atom:link href="/docs/changelog/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: CHANGELOG 0.2</title>
+      <link>/docs/changelog/changelog-0.2/</link>
+      <pubDate>Fri, 20 Jan 2023 22:08:54 +0800</pubDate>
+      
+      <guid>/docs/changelog/changelog-0.2/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;changelog&#34;&gt;Changelog&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Added&lt;/td&gt;
+&lt;td&gt;添加新功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Changed&lt;/td&gt;
+&lt;td&gt;功能的变更&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Deprecated&lt;/td&gt;
+&lt;td&gt;未来会删除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Removed&lt;/td&gt;
+&lt;td&gt;之前为Deprecated状态，此版本被移除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fixed&lt;/td&gt;
+&lt;td&gt;功能的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Security&lt;/td&gt;
+&lt;td&gt;有关安全问题的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;unreleased&#34;&gt;[Unreleased]&lt;/h2&gt;
+&lt;h2 id=&#34;023---2022-11-28&#34;&gt;[0.2.3] - 2022-11-28&lt;/h2&gt;
+&lt;h3 id=&#34;added&#34;&gt;Added&lt;/h3&gt;
+&lt;p&gt;grpc-kit/pkg 模块&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持针对用户组进行鉴权&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;http_users 新增 &amp;ldquo;groups&amp;rdquo; 属性；&lt;/li&gt;
+&lt;li&gt;如果配置了 &amp;ldquo;security.authorization.allowed_groups&amp;rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403；&lt;/li&gt;
+&lt;li&gt;用户组区分大小写&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;添加最小化配置示例&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;未配置的模块，将不开启该功能&lt;/li&gt;
+&lt;li&gt;添加 &amp;ldquo;app-mini.yaml&amp;rdquo; 示例&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;添加健康检测服务可对外部网络&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;添加 &amp;ldquo;HTTP GET /ping&amp;rdquo; 接口，不过 grpc 服务&lt;/li&gt;
+&lt;li&gt;区别于 &amp;ldquo;HTTP GET /healthz&amp;rdquo;，该接口过 grpc 服务&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;grpc-kit/cli 模块&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;支持自定义应用短名称&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;通过自定义&amp;quot;SHORTNAME&amp;quot;变量；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;所有脚本应用shell更改&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;ubuntu默认为dash，明确使用&amp;quot;/bin/bash&amp;quot;，而非&amp;quot;/bin/sh&amp;quot;，会导致部分shell不支持&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;更改默认 http 服务端口 10080 至 8080&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;由于chrome等浏览器默认对&amp;quot;10080&amp;quot;端口存在&amp;quot;ERR_UNSAFE_PORT&amp;quot;告警，所以更改http默认为&amp;quot;8080&amp;quot;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;cli、pkg 组件版本号统一&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;为了解决统一编写变更记录(CHANGELOG.md)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;ul&gt;
+&lt;li&gt;支持自动生成 kubernetes 编排模版&lt;/li&gt;
+&lt;/ul&gt;
+&lt;ol&gt;
+&lt;li&gt;新增 &amp;ldquo;DEPLOY_ENV&amp;rdquo; 变量，表示部署环境，如：dev、test、prod&lt;/li&gt;
+&lt;li&gt;新增 &amp;ldquo;BUILD_ENV&amp;rdquo; 变量，表示构建环境，一般用户自定义，默认为：local&lt;/li&gt;
+&lt;li&gt;新增指令 &lt;code&gt;make manifests&lt;/code&gt; 生成基于 Kubernetes 的编排清单&lt;/li&gt;
+&lt;li&gt;模版路径：scripts/templates/kubernetes&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;022---2022-06-30&#34;&gt;[0.2.2] - 2022-06-30&lt;/h2&gt;
+&lt;h3 id=&#34;changed&#34;&gt;Changed&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;版本号格式的变更&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;旧规则以&amp;quot;v&amp;quot;为前缀，更新后不在带&amp;quot;v&amp;quot;为前缀，如：&amp;ldquo;v0.1.0-beta.3&amp;rdquo;，变更为：&amp;ldquo;0.1.0-beta.3&amp;rdquo;&lt;/p&gt;
+&lt;h3 id=&#34;added-1&#34;&gt;Added&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;新增&amp;quot;VERSION&amp;quot;文件&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;用于描述当前分支版本，同时提供给CICD使用，如果当前分支未打成&amp;quot;tag&amp;quot;，则均说明是先行版本号，同时版本去掉以&amp;quot;v&amp;quot;开头；&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;新增&amp;quot;Makefile&amp;quot;的帮助说明&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;make help
+&lt;/code&gt;&lt;/pre&gt;&lt;h2 id=&#34;021---2022-06-09&#34;&gt;[0.2.1] - 2022-06-09&lt;/h2&gt;
+&lt;h3 id=&#34;added-2&#34;&gt;Added&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;&amp;ldquo;api/doc&amp;quot;目录内容更改至&amp;quot;public/doc&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;api/proto&amp;quot;目录更改为&amp;quot;api/{product-code}/{short-name}&amp;rdquo;&lt;/li&gt;
+&lt;li&gt;&amp;ldquo;cli&amp;quot;新增&amp;quot;repository&amp;quot;参数用于说明代码仓库名&lt;/li&gt;
+&lt;li&gt;rpc客户端、服务端实例初始化转移至&amp;quot;cfg&amp;quot;实现&lt;/li&gt;
+&lt;li&gt;favicon.ico文件移至自定义http handler中实现&lt;/li&gt;
+&lt;li&gt;http接口统一以&amp;rdquo;/api/&amp;ldquo;为前缀对外暴露&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: CHANGELOG 0.1</title>
+      <link>/docs/changelog/changelog-0.1/</link>
+      <pubDate>Fri, 20 Jan 2023 22:08:51 +0800</pubDate>
+      
+      <guid>/docs/changelog/changelog-0.1/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;changelog&#34;&gt;Changelog&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Added&lt;/td&gt;
+&lt;td&gt;添加新功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Changed&lt;/td&gt;
+&lt;td&gt;功能的变更&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Deprecated&lt;/td&gt;
+&lt;td&gt;未来会删除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Removed&lt;/td&gt;
+&lt;td&gt;之前为Deprecated状态，此版本被移除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fixed&lt;/td&gt;
+&lt;td&gt;功能的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Security&lt;/td&gt;
+&lt;td&gt;有关安全问题的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;unreleased&#34;&gt;[Unreleased]&lt;/h2&gt;
+&lt;h2 id=&#34;011---2021-11-10&#34;&gt;[0.1.1] - 2021-11-10&lt;/h2&gt;
+&lt;h3 id=&#34;added&#34;&gt;Added&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;添加pkg/errors的示例&lt;/li&gt;
+&lt;li&gt;默认配置使用yaml格式&lt;/li&gt;
+&lt;li&gt;更新依赖的grpc-gateway等几个版本&lt;/li&gt;
+&lt;li&gt;根据product_code与short_name自动生成服务名称&lt;/li&gt;
+&lt;li&gt;服务结构添加rpc.Client属性，用于调用其他依赖服务&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;010---2020-04-12&#34;&gt;[0.1.0] - 2020-04-12&lt;/h2&gt;
+&lt;h3 id=&#34;added-1&#34;&gt;Added&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;首次发布&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

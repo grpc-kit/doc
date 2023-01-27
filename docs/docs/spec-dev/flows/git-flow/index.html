@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.102.3" />
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,30 +18,28 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Documentation | gRPC Kit</title>
-<meta name="description" content="
+<title>Git Flow | gRPC Kit</title>
+<meta name="description" content="flowchart TD
+    A([开始]) --&gt; A1[主分支 main];
+    A([开始]) --&gt; A2[开发分支 develop];
+    Z([结束])
 
+    A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX];
+    A21 --&gt; A22{ …">
+<meta property="og:title" content="Git Flow" />
+<meta property="og:description" content="flowchart TD A([开始]) --&gt; A1[主分支 main]; A([开始]) --&gt; A2[开发分支 develop]; Z([结束]) A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX]; A21 --&gt; A22{新开发功能是否完成}; A22 --&gt; |是| A221[提交代码执行 CI 阶段]; A221 --&gt; A2211{Runner: 自动化构建与测试案例是否通过}; A2211 --&gt; |是| A22111[从 develop 合并代码并删除 feature-XXX 分支]; A2211 --&gt; |否| A222; A22 --&gt; |否| A222[继续开发自测完成后提交代码]; A222 --&gt; A221; A22111 --&gt; Z; A2 --&gt; A31[累计功能发布: 创建发布分支 release-X.Y]; A31 --&gt; A311{是否已存在 release-X.Y 分支}; A311 --&gt; |是| A3111[从 develop 合并最新代码]; A311 --&gt; |否| A3112[从 develop 创建最新分支]; A3111 --&gt; A3113[监听合并或创建事件 触发CICD阶段]; A3112 --&gt; A3113; A3113 --&gt; A31131{Runner: 自动化构建与测试案例是否通过}; A31131 --&gt; |是| A311311[合并至 develop 分支]; A311311 --&gt; A3113112[合并至 main 分支]; A31131 --&gt; |否| A311312[在 release-X." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/spec-dev/flows/git-flow/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-01-24T20:35:41+08:00" />
+<meta property="article:modified_time" content="2023-01-27T22:53:10+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 
-gGRPC Kit 是什么？
-一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：
-
-grpc
-gogo
-grpc-gateway
-
-
-
-
-">
-<meta property="og:title" content="Documentation" />
-<meta property="og:description" content="gRPC Kit Docs" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/" /><meta property="og:site_name" content="gRPC Kit" />
-
-<meta itemprop="name" content="Documentation">
-<meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Documentation"/>
-<meta name="twitter:description" content="gRPC Kit Docs"/>
+<meta itemprop="name" content="Git Flow">
+<meta itemprop="description" content="flowchart TD A([开始]) --&gt; A1[主分支 main]; A([开始]) --&gt; A2[开发分支 develop]; Z([结束]) A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX]; A21 --&gt; A22{新开发功能是否完成}; A22 --&gt; |是| A221[提交代码执行 CI 阶段]; A221 --&gt; A2211{Runner: 自动化构建与测试案例是否通过}; A2211 --&gt; |是| A22111[从 develop 合并代码并删除 feature-XXX 分支]; A2211 --&gt; |否| A222; A22 --&gt; |否| A222[继续开发自测完成后提交代码]; A222 --&gt; A221; A22111 --&gt; Z; A2 --&gt; A31[累计功能发布: 创建发布分支 release-X.Y]; A31 --&gt; A311{是否已存在 release-X.Y 分支}; A311 --&gt; |是| A3111[从 develop 合并最新代码]; A311 --&gt; |否| A3112[从 develop 创建最新分支]; A3111 --&gt; A3113[监听合并或创建事件 触发CICD阶段]; A3112 --&gt; A3113; A3113 --&gt; A31131{Runner: 自动化构建与测试案例是否通过}; A31131 --&gt; |是| A311311[合并至 develop 分支]; A311311 --&gt; A3113112[合并至 main 分支]; A31131 --&gt; |否| A311312[在 release-X."><meta itemprop="datePublished" content="2023-01-24T20:35:41+08:00" />
+<meta itemprop="dateModified" content="2023-01-27T22:53:10+08:00" />
+<meta itemprop="wordCount" content="206">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Git Flow"/>
+<meta name="twitter:description" content="flowchart TD A([开始]) --&gt; A1[主分支 main]; A([开始]) --&gt; A2[开发分支 develop]; Z([结束]) A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX]; A21 --&gt; A22{新开发功能是否完成}; A22 --&gt; |是| A221[提交代码执行 CI 阶段]; A221 --&gt; A2211{Runner: 自动化构建与测试案例是否通过}; A2211 --&gt; |是| A22111[从 develop 合并代码并删除 feature-XXX 分支]; A2211 --&gt; |否| A222; A22 --&gt; |否| A222[继续开发自测完成后提交代码]; A222 --&gt; A221; A22111 --&gt; Z; A2 --&gt; A31[累计功能发布: 创建发布分支 release-X.Y]; A31 --&gt; A311{是否已存在 release-X.Y 分支}; A311 --&gt; |是| A3111[从 develop 合并最新代码]; A311 --&gt; |否| A3112[从 develop 创建最新分支]; A3111 --&gt; A3113[监听合并或创建事件 触发CICD阶段]; A3112 --&gt; A3113; A3113 --&gt; A31131{Runner: 自动化构建与测试案例是否通过}; A31131 --&gt; |是| A311311[合并至 develop 分支]; A311311 --&gt; A3113112[合并至 main 分支]; A31131 --&gt; |否| A311312[在 release-X."/>
 
 
 
@@ -84,7 +81,7 @@ if (!doNotTrack) {
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -197,9 +194,9 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib" id="docs">
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docs">
       <input type="checkbox" id="docs-check" checked/>
-      <label for="docs-check"  id="td-sidebar-nav-active-item" ><a href="/docs/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
+      <label for="docs-check" ><a href="/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
       
         
         
@@ -307,14 +304,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-dev">
-      <input type="checkbox" id="docsspec-dev-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-dev">
+      <input type="checkbox" id="docsspec-dev-check" checked/>
       <label for="docsspec-dev-check" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">开发规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -323,7 +320,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-branch">
+                <li class="without-sib" id="m-docsspec-devgit-branch">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-branch-a" href="/docs/spec-dev/git-branch/">分支管理</a>
@@ -340,7 +337,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devgit-commit">
+                <li class="without-sib" id="m-docsspec-devgit-commit">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-commit-a" href="/docs/spec-dev/git-commit/">提交日志</a>
@@ -375,14 +372,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-devflows">
-      <input type="checkbox" id="docsspec-devflows-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-devflows">
+      <input type="checkbox" id="docsspec-devflows-check" checked/>
       <label for="docsspec-devflows-check" ><a href="/docs/spec-dev/flows/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">分支流程</a></label>
       
         
         
       
-      <ul class="ul-3 collapsed">
+      <ul class="ul-3">
 
         
           
@@ -391,10 +388,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devflowsgit-flow">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-devflowsgit-flow">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devflowsgit-flow-a" href="/docs/spec-dev/flows/git-flow/">Git Flow</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-devflowsgit-flow-a" href="/docs/spec-dev/flows/git-flow/">Git Flow</a>
                     
                   </span>
                   
@@ -408,7 +405,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-devflowsgithub-flow">
+                <li class="without-sib" id="m-docsspec-devflowsgithub-flow">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devflowsgithub-flow-a" href="/docs/spec-dev/flows/github-flow/">Github Flow</a>
@@ -537,57 +534,30 @@ if (!doNotTrack) {
           </aside>
 
 
-          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
-            
-<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-
-
-
-
-</div>
-
-            
-
-
-
-
-
-            
-
-	
-		
-
-
-
-  
-  
-
-	
-		
-
-
-
-  
-  
-
-	
-
-          </aside>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          <main class="col-12 col-md-9 col-xl-10 pl-md-5" role="main">
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
-  <li class="breadcrumb-item active" aria-current="page">
+  <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/spec-dev/">开发规范</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/spec-dev/flows/">分支流程</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="/docs/spec-dev/flows/git-flow/">Git Flow</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Documentation</h1>
-  
+	<h1>Git Flow</h1>
+	
 	<header class="article-meta">
 		
 		
@@ -602,94 +572,72 @@ if (!doNotTrack) {
 			
 		
 		
-	</header>
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
+
+		
+	</header>    
+	<div class="mermaid">flowchart TD
+    A([开始]) --> A1[主分支 main];
+    A([开始]) --> A2[开发分支 develop];
+    Z([结束])
+
+    A2 --> A21[新增功能需求: 创建功能分支 feature-XXX];
+    A21 --> A22{新开发功能是否完成};
+    A22 --> |是| A221[提交代码执行 CI 阶段];
+    A221 --> A2211{Runner: 自动化构建与测试案例是否通过};
+    A2211 --> |是| A22111[从 develop 合并代码并删除 feature-XXX 分支];
+    A2211 --> |否| A222;
+    A22 --> |否| A222[继续开发自测完成后提交代码];
+    A222 --> A221;
+    A22111 --> Z;
+
+    A2 --> A31[累计功能发布: 创建发布分支 release-X.Y];
+    A31 --> A311{是否已存在 release-X.Y 分支};
+    A311 --> |是| A3111[从 develop 合并最新代码];
+    A311 --> |否| A3112[从 develop 创建最新分支];
+    A3111 --> A3113[监听合并或创建事件 触发CICD阶段];
+    A3112 --> A3113;
+    A3113 --> A31131{Runner: 自动化构建与测试案例是否通过};
+    A31131 --> |是| A311311[合并至 develop 分支];
+    A311311 --> A3113112[合并至 main 分支];
+    A31131 --> |否| A311312[在 release-X.Y 分支修复异常提交代码];
+    A311312 --> A3113;
+    A3113112 --> Z;
+
+    A1 --> A12[来自 release-X.Y 或 hotfix-XXX 的合并请求];
+    A12 --> A121{管理员确认是否允许};
+    A121 --> |是| A1211[确认合并];
+    A121 --> |否| A1212[拒绝合并];
+    A1212 --> A311312;
+    A1211 --> A13[提交标签 git tag vX.Y.Z];
+    A13 --> A131[使用 release-X.Y 或 hotfix-XXX 阶段构建的镜像进行部署];
+    A131 --> A1311{Runner: 自动化部署是否通过};
+    A1311 --> |是| Z;
+    A1311 --> |否| A311312;
+
+    A1 --> A11[线上环境发现BUG];
+    A11 --> A111{确认为BUG是否需修复};
+    A111 --> |是| A1111[从 main 仓库创建 hotfix-XXX 分支];
+    A111 --> |否| Z;
+    A1111 --> A112[仅修复BUG代码不涉及任何功能新增];
+    A112 --> A1121[提交代码在 hotfix-XXX 分支];
+    A1121 --> A11211{Runner: 自动化构建与测试案例是否通过};
+    A11211 --> |是| A112111[构建提交容器镜像];
+    A11211 --> |否| A1121;
+    A112111 --> A11212[合并至 develop 与 main 分支];
+    A11212 --> A11213[删除 hotfix-XXX 分支];
+    A11213 --> A12;
+</div>
+
+
 	
-
-<div class="pageinfo pageinfo-primary">
-<p>gGRPC Kit 是什么？</p>
-<p>一个以 Go 语言为主的微服务脚手架，主要基于以下几个核心类库实现：</p>
-<ul>
-<li><a href="https://github.com/golang/protobuf">grpc</a></li>
-<li><a href="https://github.com/gogo/protobuf">gogo</a></li>
-<li><a href="https://github.com/grpc-ecosystem/grpc-gateway">grpc-gateway</a></li>
-</ul>
-
-</div>
-
-
-        <div class="section-index">
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/overview/">快速开始</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-dev/">开发规范</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/changelog/">更新日志</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-    
-</div>
-
-
-    
-
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 24.01.2023: <a href="https://github.com/grpc-kit/doc/commit/9da128f677a39922d733b7002a2befc65e903c9e">feat: 添加开发规范 (9da128f)</a>
+  最后修改 27.01.2023: <a href="https://github.com/grpc-kit/doc/commit/d507c844dfa9b806fd1cad51e86f0caacf54376f">feat: 添加 git flow 与 github flow 流程图 (d507c84)</a>
 </div>
 
 </div>
+
 
           </main>
 
@@ -748,6 +696,11 @@ if (!doNotTrack) {
 
 
 
+
+  <script src="https://cdn.staticfile.org/mermaid/9.3.0/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true });
+  </script>
 
 
     </div>

@@ -1,0 +1,114 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gRPC Kit – 分支流程</title>
+    <link>/docs/spec-dev/flows/</link>
+    <description>Recent content in 分支流程 on gRPC Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Tue, 24 Jan 2023 20:36:31 +0800</lastBuildDate>
+    
+	  <atom:link href="/docs/spec-dev/flows/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Git Flow</title>
+      <link>/docs/spec-dev/flows/git-flow/</link>
+      <pubDate>Tue, 24 Jan 2023 20:35:41 +0800</pubDate>
+      
+      <guid>/docs/spec-dev/flows/git-flow/</guid>
+      <description>
+        
+        
+        &lt;div class=&#34;mermaid&#34;&gt;flowchart TD
+    A([开始]) --&gt; A1[主分支 main];
+    A([开始]) --&gt; A2[开发分支 develop];
+    Z([结束])
+
+    A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX];
+    A21 --&gt; A22{新开发功能是否完成};
+    A22 --&gt; |是| A221[提交代码执行 CI 阶段];
+    A221 --&gt; A2211{Runner: 自动化构建与测试案例是否通过};
+    A2211 --&gt; |是| A22111[从 develop 合并代码并删除 feature-XXX 分支];
+    A2211 --&gt; |否| A222;
+    A22 --&gt; |否| A222[继续开发自测完成后提交代码];
+    A222 --&gt; A221;
+    A22111 --&gt; Z;
+
+    A2 --&gt; A31[累计功能发布: 创建发布分支 release-X.Y];
+    A31 --&gt; A311{是否已存在 release-X.Y 分支};
+    A311 --&gt; |是| A3111[从 develop 合并最新代码];
+    A311 --&gt; |否| A3112[从 develop 创建最新分支];
+    A3111 --&gt; A3113[监听合并或创建事件 触发CICD阶段];
+    A3112 --&gt; A3113;
+    A3113 --&gt; A31131{Runner: 自动化构建与测试案例是否通过};
+    A31131 --&gt; |是| A311311[合并至 develop 分支];
+    A311311 --&gt; A3113112[合并至 main 分支];
+    A31131 --&gt; |否| A311312[在 release-X.Y 分支修复异常提交代码];
+    A311312 --&gt; A3113;
+    A3113112 --&gt; Z;
+
+    A1 --&gt; A12[来自 release-X.Y 或 hotfix-XXX 的合并请求];
+    A12 --&gt; A121{管理员确认是否允许};
+    A121 --&gt; |是| A1211[确认合并];
+    A121 --&gt; |否| A1212[拒绝合并];
+    A1212 --&gt; A311312;
+    A1211 --&gt; A13[提交标签 git tag vX.Y.Z];
+    A13 --&gt; A131[使用 release-X.Y 或 hotfix-XXX 阶段构建的镜像进行部署];
+    A131 --&gt; A1311{Runner: 自动化部署是否通过};
+    A1311 --&gt; |是| Z;
+    A1311 --&gt; |否| A311312;
+
+    A1 --&gt; A11[线上环境发现BUG];
+    A11 --&gt; A111{确认为BUG是否需修复};
+    A111 --&gt; |是| A1111[从 main 仓库创建 hotfix-XXX 分支];
+    A111 --&gt; |否| Z;
+    A1111 --&gt; A112[仅修复BUG代码不涉及任何功能新增];
+    A112 --&gt; A1121[提交代码在 hotfix-XXX 分支];
+    A1121 --&gt; A11211{Runner: 自动化构建与测试案例是否通过};
+    A11211 --&gt; |是| A112111[构建提交容器镜像];
+    A11211 --&gt; |否| A1121;
+    A112111 --&gt; A11212[合并至 develop 与 main 分支];
+    A11212 --&gt; A11213[删除 hotfix-XXX 分支];
+    A11213 --&gt; A12;
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: Github Flow</title>
+      <link>/docs/spec-dev/flows/github-flow/</link>
+      <pubDate>Tue, 24 Jan 2023 20:47:24 +0800</pubDate>
+      
+      <guid>/docs/spec-dev/flows/github-flow/</guid>
+      <description>
+        
+        
+        &lt;div class=&#34;mermaid&#34;&gt;    gitGraph
+       commit
+       commit
+       branch increase-test-timeout
+       commit
+       commit
+       checkout main
+       merge increase-test-timeout
+       commit
+       branch add-code-of-conduct
+       commit
+       commit
+       checkout main
+       merge add-code-of-conduct
+       commit
+&lt;/div&gt;
+
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

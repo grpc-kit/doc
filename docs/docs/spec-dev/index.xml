@@ -1,0 +1,286 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gRPC Kit – 开发规范</title>
+    <link>/docs/spec-dev/</link>
+    <description>Recent content in 开发规范 on gRPC Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Fri, 13 Jan 2023 18:01:09 +0800</lastBuildDate>
+    
+	  <atom:link href="/docs/spec-dev/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: 分支管理</title>
+      <link>/docs/spec-dev/git-branch/</link>
+      <pubDate>Fri, 13 Jan 2023 18:02:26 +0800</pubDate>
+      
+      <guid>/docs/spec-dev/git-branch/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;简要概述&#34;&gt;简要概述&lt;/h2&gt;
+&lt;p&gt;高效的持续交付体系，必须需要一个合适的代码分支管理策略，主要有：主干开发、特性分支开发。&lt;/p&gt;
+&lt;p&gt;只能根据不通的业务场景选择&lt;strong&gt;最适合&lt;/strong&gt;的策略。&lt;/p&gt;
+&lt;h2 id=&#34;主干开发&#34;&gt;主干开发&lt;/h2&gt;
+&lt;p&gt;开发者在&lt;strong&gt;主分支&lt;/strong&gt;提交代码，发布版本时创建&lt;strong&gt;版本发布分支&lt;/strong&gt;。&lt;/p&gt;
+&lt;p&gt;优点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;集成频繁效率高；&lt;/li&gt;
+&lt;li&gt;无需在多个分支之间切；&lt;/li&gt;
+&lt;li&gt;仅包含：主分支、版本分支；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;缺点：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;可能出现某个人的代码失误而影响全局；&lt;/li&gt;
+&lt;li&gt;需要在代码运行期间使用特性切换加速开发；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;特性分支开发&#34;&gt;特性分支开发&lt;/h2&gt;
+&lt;p&gt;需要新增特性时，开发者从主干分支克隆特性分支，仅允许在该分支直接提交代码，待功能完成之后合并至主分支，常见的模型有：git flow、github flow、gitlab flow 三种模型。&lt;/p&gt;
+&lt;h3 id=&#34;git-flow&#34;&gt;Git Flow&lt;/h3&gt;
+&lt;p&gt;该模型是在2010年构想出来的，在这十几年里，已经被许多软件团队使用，以至于部分开发者将其视为某种标准。&lt;/p&gt;
+&lt;p&gt;在使用会涉及到较繁琐的流程，很多团队新人还需额外时间学习才能融入业务开发，反而降低了效率。&lt;/p&gt;
+&lt;p&gt;分支功能描述：&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;生命周期&lt;/th&gt;
+&lt;th&gt;代码稳定&lt;/th&gt;
+&lt;th&gt;权限&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;main&lt;/td&gt;
+&lt;td&gt;主分支&lt;/td&gt;
+&lt;td&gt;长期&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;仅允许开发负责人且只能从 release 分支合并，tag 只能从 main 分支标记&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;develop&lt;/td&gt;
+&lt;td&gt;开发分支&lt;/td&gt;
+&lt;td&gt;长期&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;不允许直接提交，只能由开发负责人且只能从 feature 分支合并&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;release-X.Y&lt;/td&gt;
+&lt;td&gt;发布分支&lt;/td&gt;
+&lt;td&gt;长期&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;不允许直接提交，仅允许从 develop 分支合并&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;feature-XYZ&lt;/td&gt;
+&lt;td&gt;功能分支&lt;/td&gt;
+&lt;td&gt;合并后删除&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;开发可直接提交代码，必须从 develop 分支创建出来&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;hotfix-XYZ&lt;/td&gt;
+&lt;td&gt;补丁分支&lt;/td&gt;
+&lt;td&gt;合并后删除&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;开发可直接提交代码，比较急的异常，直接从 main 分支创建，完成后必须合并至 main 与 develop 分支&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;查看&lt;a href=&#34;/docs/spec-dev/flows/git-flow/&#34;&gt;分支流程&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;查看&lt;a href=&#34;https://nvie.com/posts/a-successful-git-branching-model/&#34;&gt;规范出处&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;github-flow&#34;&gt;GitHub Flow&lt;/h3&gt;
+&lt;p&gt;仅包含主分支与特性分支。&lt;/p&gt;
+&lt;p&gt;相比 &lt;code&gt;Git Flow&lt;/code&gt; 简化了流程，开发者接收需求并创建独立的特性分支，完成后则发起 &amp;ldquo;Pull requests&amp;rdquo; 请求合并，待在其他人审阅并签署确认后由专人合并到主分支，最后删除特性分支。&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;功能&lt;/th&gt;
+&lt;th&gt;生命周期&lt;/th&gt;
+&lt;th&gt;代码稳定&lt;/th&gt;
+&lt;th&gt;权限&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;main&lt;/td&gt;
+&lt;td&gt;主分支&lt;/td&gt;
+&lt;td&gt;长期&lt;/td&gt;
+&lt;td&gt;是&lt;/td&gt;
+&lt;td&gt;不允许直接提交代码，仅允许负责人合并来自其他分支&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;feat-X&lt;/td&gt;
+&lt;td&gt;特性分支&lt;/td&gt;
+&lt;td&gt;合并后删除&lt;/td&gt;
+&lt;td&gt;否&lt;/td&gt;
+&lt;td&gt;由开发人员控制，必须包含完整的文档与测试案例&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;查看&lt;a href=&#34;/docs/spec-dev/flows/github-flow/&#34;&gt;分支流程&lt;/a&gt;。&lt;/p&gt;
+&lt;p&gt;查看&lt;a href=&#34;https://docs.github.com/en/get-started/quickstart/github-flow&#34;&gt;规范出处&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;gitlab-flow&#34;&gt;GitLab Flow&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;https://docs.gitlab.com/ee/topics/gitlab_flow.html&#34;&gt;https://docs.gitlab.com/ee/topics/gitlab_flow.html&lt;/a&gt;&lt;/p&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 提交日志</title>
+      <link>/docs/spec-dev/git-commit/</link>
+      <pubDate>Sun, 15 Jan 2023 10:15:07 +0800</pubDate>
+      
+      <guid>/docs/spec-dev/git-commit/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;简要概述&#34;&gt;简要概述&lt;/h2&gt;
+&lt;p&gt;用于规范项目代码提交日志，这里借鉴 &lt;a href=&#34;https://github.com/angular/angular/blob/main/CONTRIBUTING.md#commit&#34;&gt;Angular 规则&lt;/a&gt;，规范化的提交记录，有以下好处：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;快速查找历史变更信息；&lt;/li&gt;
+&lt;li&gt;自动化生成 CHANGELOG.md 文档；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;提交规范&#34;&gt;提交规范&lt;/h2&gt;
+&lt;p&gt;各个 &lt;code&gt;git commit&lt;/code&gt; 提交记录，由：header、body、footer 三部分组成，格式如下：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;header&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;// 空一行
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;body&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;// 空一行
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;footer&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;其中 header 是强制填写，由以下三部分组成：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;type&amp;gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;&amp;lt;scope&amp;gt;&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;: &amp;lt;short summary&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  │       │             │
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  │       │             └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  │       │
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  │       └─⫸ 涉及变更的主要模块，如：cli&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;pkg&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;api
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  │
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  └─⫸ 本次提交功能变更的类型，如：feat&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;fix&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;docs&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;perf&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;refactor&lt;span style=&#34;color:#000;font-weight:bold&#34;&gt;|&lt;/span&gt;&lt;span style=&#34;color:#204a87&#34;&gt;test&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;参数详解&#34;&gt;参数详解&lt;/h2&gt;
+&lt;h3 id=&#34;header&#34;&gt;header&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;type&lt;/li&gt;
+&lt;/ul&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;type&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;feat&lt;/td&gt;
+&lt;td&gt;涉及业务代码变更，添加新功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;fix&lt;/td&gt;
+&lt;td&gt;涉及业务代码变更，修复已知BUG&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;perf&lt;/td&gt;
+&lt;td&gt;涉及业务代码变更，优化功能性能、体验等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;refactor&lt;/td&gt;
+&lt;td&gt;涉及业务代码变更，但不属于 &lt;code&gt;feat&lt;/code&gt;、&lt;code&gt;fix&lt;/code&gt;、&lt;code&gt;perf&lt;/code&gt; 的类型&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ci&lt;/td&gt;
+&lt;td&gt;仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;docs&lt;/td&gt;
+&lt;td&gt;仅涉及文档类变更，如：README.md 或 代码注释 等&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;release&lt;/td&gt;
+&lt;td&gt;仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;test&lt;/td&gt;
+&lt;td&gt;仅涉及测试代码变更，如：hello_test.go&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;build&lt;/td&gt;
+&lt;td&gt;仅涉及构建编译依赖的组件版本等变更，如：go.mod&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;chore&lt;/td&gt;
+&lt;td&gt;其他琐碎的变更，但对代码功能没有影响，比如删除了无用的代码、注释等清理操作&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;ul&gt;
+&lt;li&gt;scope&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;代码变更的模块，如：cli、pkg、api 等，这块为可选，非必填内容。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;summary&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;编写一个具有概括性简短的描述&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;不超过 50 个字符&lt;/li&gt;
+&lt;li&gt;可选择编写中文或英文&lt;/li&gt;
+&lt;li&gt;英文统一小写，首字母不大写&lt;/li&gt;
+&lt;li&gt;英文专业术语除外，如：Makefile&lt;/li&gt;
+&lt;li&gt;末尾不带任何标点符号&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;示例：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;feat&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;(&lt;/span&gt;cli&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;)&lt;/span&gt;: 在 Makefile 中添加容器化构建应用
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;body&#34;&gt;body&lt;/h3&gt;
+&lt;p&gt;解释此次变更的详细描述，可由多行组成，格式准守 &amp;ldquo;Markdown&amp;rdquo; 语法。&lt;/p&gt;
+&lt;h3 id=&#34;footer&#34;&gt;footer&lt;/h3&gt;
+&lt;p&gt;仅在两种情况下才会使用：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不兼容的更改&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果当前代码提交之后，会对上一个版本不兼容，则必须以 &lt;code&gt;BREAKING CHANGE&lt;/code&gt; 开头，后面在添加详细描述。&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;BREAKING CHANGE: &amp;lt;breaking change summary&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;breaking change description + migration instructions&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Fixes &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#&amp;lt;issue number&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ul&gt;
+&lt;li&gt;关闭 issue&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;如果当前提交是针对某个 &amp;ldquo;issue&amp;rdquo;，那么可以以 &lt;code&gt;Closes #&lt;/code&gt; 加问题编号。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;已经废弃的功能&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;DEPRECATED: &amp;lt;what is deprecated&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;deprecation description + recommended update path&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&amp;lt;BLANK LINE&amp;gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;Closes &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#&amp;lt;pr number&amp;gt;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;相关示例&#34;&gt;相关示例&lt;/h2&gt;
+&lt;h3 id=&#34;查看历史变更记录&#34;&gt;查看历史变更记录&lt;/h3&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;git log HEAD --pretty&lt;span style=&#34;color:#ce5c00;font-weight:bold&#34;&gt;=&lt;/span&gt;format:%s
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+      </description>
+    </item>
+    
+    <item>
+      <title>Docs: 分支流程</title>
+      <link>/docs/spec-dev/flows/</link>
+      <pubDate>Tue, 24 Jan 2023 20:36:31 +0800</pubDate>
+      
+      <guid>/docs/spec-dev/flows/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+  </channel>
+</rss>
