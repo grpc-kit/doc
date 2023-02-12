@@ -35,15 +35,15 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-dev/git-commit/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-01-15T10:15:07+08:00" />
-<meta property="article:modified_time" content="2023-01-27T22:53:10+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-02-12T16:08:33+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 
 <meta itemprop="name" content="提交日志">
 <meta itemprop="description" content="简要概述 用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
 快速查找历史变更信息； 自动化生成 CHANGELOG.md 文档； 提交规范 各个 git commit 提交记录，由：header、body、footer 三部分组成，格式如下：
 &lt;header&gt; // 空一行 &lt;body&gt; // 空一行 &lt;footer&gt; 其中 header 是强制填写，由以下三部分组成：
 &lt;type&gt;(&lt;scope&gt;): &lt;short summary&gt; │ │ │ │ │ └─⫸ 本次变更内容的一句话总结，中文或小写英文，末尾不带句号 │ │ │ └─⫸ 涉及变更的主要模块，如：cli|pkg|api │ └─⫸ 本次提交功能变更的类型，如：feat|fix|docs|perf|refactor|test 参数详解 header type type 说明 feat 涉及业务代码变更，添加新功能 fix 涉及业务代码变更，修复已知BUG perf 涉及业务代码变更，优化功能性能、体验等 refactor 涉及业务代码变更，但不属于 feat、fix、perf 的类型 ci 仅涉及流水线变更，如：gitlab-ci、github action 的 yaml 文件 docs 仅涉及文档类变更，如：README.md 或 代码注释 等 release 仅涉及版本号变更，如：VERSION、CHANGELOG.md 中关联的值 test 仅涉及测试代码变更，如：hello_test."><meta itemprop="datePublished" content="2023-01-15T10:15:07+08:00" />
-<meta itemprop="dateModified" content="2023-01-27T22:53:10+08:00" />
-<meta itemprop="wordCount" content="158">
+<meta itemprop="dateModified" content="2023-02-12T16:08:33+08:00" />
+<meta itemprop="wordCount" content="168">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="提交日志"/>
 <meta name="twitter:description" content="简要概述 用于规范项目代码提交日志，这里借鉴 Angular 规则，规范化的提交记录，有以下好处：
@@ -135,7 +135,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9ae645e8dbc8ec66a9dc06b20d0cee4b.json"
+  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -162,7 +162,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9ae645e8dbc8ec66a9dc06b20d0cee4b.json"
+  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -275,6 +275,116 @@ if (!doNotTrack) {
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewlocal-a" href="/docs/overview/local/">本机环境</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check"/>
+      <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgapi">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgapi-a" href="/docs/spec-cfg/api/"></a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcli">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcli-a" href="/docs/spec-cfg/cli/"></a>
                     
                   </span>
                   
@@ -732,6 +842,8 @@ if (!doNotTrack) {
 </ol>
 <p>示例：</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>feat<span style="color:#ce5c00;font-weight:bold">(</span>cli<span style="color:#ce5c00;font-weight:bold">)</span>: 在 Makefile 中添加容器化构建应用
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>release: cut the 0.2.4-beta.1
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>docs: release notes <span style="color:#204a87;font-weight:bold">for</span> the 0.2.4-beta.1
 </span></span></code></pre></div><h3 id="body">body</h3>
 <p>解释此次变更的详细描述，可由多行组成，格式准守 &ldquo;Markdown&rdquo; 语法。</p>
 <h3 id="footer">footer</h3>
@@ -831,7 +943,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 27.01.2023: <a href="https://github.com/grpc-kit/doc/commit/d507c844dfa9b806fd1cad51e86f0caacf54376f">feat: 添加 git flow 与 github flow 流程图 (d507c84)</a>
+  最后修改 12.02.2023: <a href="https://github.com/grpc-kit/doc/commit/781e64cc1d964f84d8e70bbdc71d7bd74567429f">feat: 添加配置规范文档结构 (781e64c)</a>
 </div>
 
 </div>

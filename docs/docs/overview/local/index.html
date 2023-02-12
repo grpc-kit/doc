@@ -35,13 +35,12 @@ yum install -y …">
 go version centos 7 安装方式
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式
 brew install go 设置全局GOPATH且开启go mod支持 export GO111MODULE=on # 根据实际情况是否需要设置proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH仅做示例，根据实际情况更改 export GOPATH=$HOME/go export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 $HOME/.bash_profile 或 $HOME/.zshrc 等
-安装protoc与protoc-gen-* protoc选择3.17.3版本，示例：
-## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ protoc-gen-go、protoc-gen-go-grpc选择1.27.1与1.1.0版本
-go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1 go get google." />
+安装 protoc Linux 系统 protoc 选择 3.17.3 版本，示例：
+## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ macOS apple 芯片选择 v21." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/overview/local/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-01-13T00:00:00+08:00" />
-<meta property="article:modified_time" content="2023-01-24T20:25:56+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-02-09T10:18:38+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 
 <meta itemprop="name" content="本机环境">
 <meta itemprop="description" content="简要概述 通过在本机安装 go、protoc、grpc 等编译依赖的组件，一般情况下更推荐使用容器环境进行应用模版创建、编译。
@@ -49,11 +48,10 @@ go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1 go get google." />
 go version centos 7 安装方式
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式
 brew install go 设置全局GOPATH且开启go mod支持 export GO111MODULE=on # 根据实际情况是否需要设置proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH仅做示例，根据实际情况更改 export GOPATH=$HOME/go export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 $HOME/.bash_profile 或 $HOME/.zshrc 等
-安装protoc与protoc-gen-* protoc选择3.17.3版本，示例：
-## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ protoc-gen-go、protoc-gen-go-grpc选择1.27.1与1.1.0版本
-go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1 go get google."><meta itemprop="datePublished" content="2023-01-13T00:00:00+08:00" />
-<meta itemprop="dateModified" content="2023-01-24T20:25:56+08:00" />
-<meta itemprop="wordCount" content="146">
+安装 protoc Linux 系统 protoc 选择 3.17.3 版本，示例：
+## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ macOS apple 芯片选择 v21."><meta itemprop="datePublished" content="2023-01-13T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2023-02-09T10:18:38+08:00" />
+<meta itemprop="wordCount" content="166">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="本机环境"/>
 <meta name="twitter:description" content="简要概述 通过在本机安装 go、protoc、grpc 等编译依赖的组件，一般情况下更推荐使用容器环境进行应用模版创建、编译。
@@ -61,9 +59,8 @@ go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1 go get google."><met
 go version centos 7 安装方式
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式
 brew install go 设置全局GOPATH且开启go mod支持 export GO111MODULE=on # 根据实际情况是否需要设置proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH仅做示例，根据实际情况更改 export GOPATH=$HOME/go export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 $HOME/.bash_profile 或 $HOME/.zshrc 等
-安装protoc与protoc-gen-* protoc选择3.17.3版本，示例：
-## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ protoc-gen-go、protoc-gen-go-grpc选择1.27.1与1.1.0版本
-go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1 go get google."/>
+安装 protoc Linux 系统 protoc 选择 3.17.3 版本，示例：
+## 可直接从这里下载对应的二进制 cd /usr/local/src curl -L -O &#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39; unzip protoc-3.17.3-linux-x86_64.zip mv bin/protoc /usr/local/bin/ mv include/google /usr/local/include/ rmdir bin/ include/ macOS apple 芯片选择 v21."/>
 
 
 
@@ -149,7 +146,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9ae645e8dbc8ec66a9dc06b20d0cee4b.json"
+  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -176,7 +173,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9ae645e8dbc8ec66a9dc06b20d0cee4b.json"
+  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -289,6 +286,116 @@ if (!doNotTrack) {
                   <span  id="td-sidebar-nav-active-item" >
                     
                       <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsoverviewlocal-a" href="/docs/overview/local/">本机环境</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check"/>
+      <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgapi">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgapi-a" href="/docs/spec-cfg/api/"></a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcli">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcli-a" href="/docs/spec-cfg/cli/"></a>
                     
                   </span>
                   
@@ -670,9 +777,9 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$PATH</span>:<span style="color:#000">$HOME</span>/bin:<span style="color:#000">$GOPATH</span>/bin
 </span></span></code></pre></div><p>请确保以上变量在系统全局生效，可以写入 $HOME/.bash_profile 或 $HOME/.zshrc 等</p>
 <ul>
-<li>安装protoc与protoc-gen-*</li>
+<li>安装 protoc</li>
 </ul>
-<p>protoc选择3.17.3版本，示例：</p>
+<p>Linux 系统 protoc 选择 3.17.3 版本，示例：</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">## 可直接从这里下载对应的二进制</span>
 </span></span><span style="display:flex;"><span><span style="color:#204a87">cd</span> /usr/local/src
 </span></span><span style="display:flex;"><span>curl -L -O <span style="color:#4e9a06">&#39;https://github.com/protocolbuffers/protobuf/releases/download/v3.17.3/protoc-3.17.3-linux-x86_64.zip&#39;</span>
@@ -680,14 +787,20 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span>mv bin/protoc /usr/local/bin/
 </span></span><span style="display:flex;"><span>mv include/google /usr/local/include/
 </span></span><span style="display:flex;"><span>rmdir bin/ include/
-</span></span></code></pre></div><p>protoc-gen-go、protoc-gen-go-grpc选择1.27.1与1.1.0版本</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go get google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
-</span></span><span style="display:flex;"><span>go get google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0
+</span></span></code></pre></div><p>macOS apple 芯片选择 v21.12 的 aarch 架构版本，如：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>protoc-3.19.3-linux-aarch_64.zip
+</span></span><span style="display:flex;"><span>curl -L -O <span style="color:#4e9a06">&#39;https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-osx-aarch_64.zip&#39;</span>
+</span></span></code></pre></div><ul>
+<li>安装 protoc-gen-X</li>
+</ul>
+<p>protoc-gen-go、protoc-gen-go-grpc选择1.27.1与1.1.0版本</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.27.1
+</span></span><span style="display:flex;"><span>go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.1.0
 </span></span></code></pre></div><p>protoc-gen-gogo选择为v1.3.2版本，示例：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go get github.com/gogo/protobuf/protoc-gen-gogo@v1.3.2
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go install github.com/gogo/protobuf/protoc-gen-gogo@v1.3.2
 </span></span></code></pre></div><p>protoc-gen-swagger、protoc-gen-grpc-gateway选择1.16.0版本（不支持2.X），示例：</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@v1.16.0
-</span></span><span style="display:flex;"><span>go get github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.16.0
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger@v1.16.0
+</span></span><span style="display:flex;"><span>go install github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway@v1.16.0
 </span></span></code></pre></div><ul>
 <li>安装其他依赖的proto定义文件</li>
 </ul>
@@ -782,7 +895,7 @@ cp ./build/grpc-kit-cli /usr/local/bin
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 24.01.2023: <a href="https://github.com/grpc-kit/doc/commit/9da128f677a39922d733b7002a2befc65e903c9e">feat: 添加开发规范 (9da128f)</a>
+  最后修改 09.02.2023: <a href="https://github.com/grpc-kit/doc/commit/89e71b3aecd5a9dc8a98290ddb2597ea2a7e6c8c">feat: 添加 macOS apple 芯片的 protoc 地址 (89e71b3)</a>
 </div>
 
 </div>
