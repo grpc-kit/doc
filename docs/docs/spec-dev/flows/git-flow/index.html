@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.102.3" />
+<meta name="generator" content="Hugo 0.110.0">
 <meta name="robots" content="index, follow">
 
 
@@ -32,7 +32,6 @@
 <meta property="og:url" content="/docs/spec-dev/flows/git-flow/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-01-24T20:35:41+08:00" />
 <meta property="article:modified_time" content="2023-01-27T22:53:10+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-
 <meta itemprop="name" content="Git Flow">
 <meta itemprop="description" content="flowchart TD A([开始]) --&gt; A1[主分支 main]; A([开始]) --&gt; A2[开发分支 develop]; Z([结束]) A2 --&gt; A21[新增功能需求: 创建功能分支 feature-XXX]; A21 --&gt; A22{新开发功能是否完成}; A22 --&gt; |是| A221[提交代码执行 CI 阶段]; A221 --&gt; A2211{Runner: 自动化构建与测试案例是否通过}; A2211 --&gt; |是| A22111[从 develop 合并代码并删除 feature-XXX 分支]; A2211 --&gt; |否| A222; A22 --&gt; |否| A222[继续开发自测完成后提交代码]; A222 --&gt; A221; A22111 --&gt; Z; A2 --&gt; A31[累计功能发布: 创建发布分支 release-X.Y]; A31 --&gt; A311{是否已存在 release-X.Y 分支}; A311 --&gt; |是| A3111[从 develop 合并最新代码]; A311 --&gt; |否| A3112[从 develop 创建最新分支]; A3111 --&gt; A3113[监听合并或创建事件 触发CICD阶段]; A3112 --&gt; A3113; A3113 --&gt; A31131{Runner: 自动化构建与测试案例是否通过}; A31131 --&gt; |是| A311311[合并至 develop 分支]; A311311 --&gt; A3113112[合并至 main 分支]; A31131 --&gt; |否| A311312[在 release-X."><meta itemprop="datePublished" content="2023-01-24T20:35:41+08:00" />
 <meta itemprop="dateModified" content="2023-01-27T22:53:10+08:00" />
@@ -125,7 +124,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
+  data-offline-search-index-json-src="/offline-search-index.c370216f5a9703f8faf7c6a636fbba14.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -152,7 +151,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2b88b0280062c9fd6e28e7e07bf8f165.json"
+  data-offline-search-index-json-src="/offline-search-index.c370216f5a9703f8faf7c6a636fbba14.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -244,10 +243,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsoverviewdocker">
+                <li class="without-sib collapsed" id="m-docsoverviewlocal">
                   <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewdocker-a" href="/docs/overview/docker/">容器环境</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewlocal-a" href="/docs/overview/local/">本机环境</a>
                     
                   </span>
                   
@@ -261,10 +260,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsoverviewlocal">
+                <li class="without-sib collapsed" id="m-docsoverviewdocker">
                   <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewlocal-a" href="/docs/overview/local/">本机环境</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewdocker-a" href="/docs/overview/docker/">容器环境</a>
                     
                   </span>
                   
@@ -531,6 +530,82 @@ if (!doNotTrack) {
     </li>
   
 
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-api">
+      <input type="checkbox" id="docsspec-api-check"/>
+      <label for="docsspec-api-check" ><a href="/docs/spec-api/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">接口规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-apiservice">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apiservice-a" href="/docs/spec-api/service/">定义服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-apierror">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apierror-a" href="/docs/spec-api/error/">处理错误</a>
+                    
+                  </span>
+                  
+                </li>
             
           
         

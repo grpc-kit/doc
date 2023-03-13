@@ -18,51 +18,40 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>gRPC Kit</title>
-<meta name="description" content="api
-作用
-所有基础数据结构的定义
-Faqs
-使用gogoproto来代替google官方的proto是什么原因？
-需要兼容各个现有的http服务接口，比如pushgateway、alertmanager等
-默认序列化的规则
-restful接口规范
-具体接口返回属性以：驼峰、下画线 没有统一标准
- …">
-<meta property="og:title" content="" />
-<meta property="og:description" content="api 作用 所有基础数据结构的定义
-Faqs 使用gogoproto来代替google官方的proto是什么原因？ 需要兼容各个现有的http服务接口，比如pushgateway、alertmanager等
-默认序列化的规则 restful接口规范 具体接口返回属性以：驼峰、下画线 没有统一标准
-除非服务特殊说明，否则默认均以下划线为默认标准，
-{ &#34;type_url&#34;: &#34;&#34;, } 所有返回值建议带key，默认均不建议直接通过数组响应
-[ {xxx}, {xxx} ] =&gt; { &#34;key&#34;: [ {xxx}, {yyy} ] } 使用场景 控制平面 基于k8s apiserver为控制平面类，可以接入git进行管理
-数据平面 基于grpc-kit为数据平面，也就是所有流量要经过它
-接口规范 POST /api/alerts /healthz /metrics /debug/pprof 参考规范 kubebuilder https://cloud.google.com/apis/design https://stackoverflow.com/questions/5543490/json-naming-convention-snake-case-camelcase-or-pascalcase https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/create#request-body " />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/spec-cfg/api/" /><meta property="article:section" content="docs" />
+<title>定义服务 | gRPC Kit</title>
+<meta name="description" content="简要概述
+如何通过 proto 编写一个符合相同规范的服务定义。
+示例模版
+// 仅支持版本 proto3
+syntax = &#34;proto3&#34;;
 
-<meta property="article:modified_time" content="2023-01-16T13:44:12+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="">
-<meta itemprop="description" content="api 作用 所有基础数据结构的定义
-Faqs 使用gogoproto来代替google官方的proto是什么原因？ 需要兼容各个现有的http服务接口，比如pushgateway、alertmanager等
-默认序列化的规则 restful接口规范 具体接口返回属性以：驼峰、下画线 没有统一标准
-除非服务特殊说明，否则默认均以下划线为默认标准，
-{ &#34;type_url&#34;: &#34;&#34;, } 所有返回值建议带key，默认均不建议直接通过数组响应
-[ {xxx}, {xxx} ] =&gt; { &#34;key&#34;: [ {xxx}, {yyy} ] } 使用场景 控制平面 基于k8s apiserver为控制平面类，可以接入git进行管理
-数据平面 基于grpc-kit为数据平面，也就是所有流量要经过它
-接口规范 POST /api/alerts /healthz /metrics /debug/pprof 参考规范 kubebuilder https://cloud.google.com/apis/design https://stackoverflow.com/questions/5543490/json-naming-convention-snake-case-camelcase-or-pascalcase https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/create#request-body ">
-<meta itemprop="dateModified" content="2023-01-16T13:44:12+08:00" />
-<meta itemprop="wordCount" content="45">
+// 服务包名称
+package grpc_kit.api.opsaid.test1.v1;
+
+// 生成的 go 包
+option …">
+<meta property="og:title" content="定义服务" />
+<meta property="og:description" content="简要概述 如何通过 proto 编写一个符合相同规范的服务定义。
+示例模版 // 仅支持版本 proto3 syntax = &#34;proto3&#34;; // 服务包名称 package grpc_kit.api.opsaid.test1.v1; // 生成的 go 包 option go_package = &#34;github.com/opsaid/test1/api/opsaid/test1/v1;test1v1&#34;; // 引入依赖的外部 proto 文件 import &#34;github.com/grpc-kit/api/known/status/v1/response.proto&#34;; // 同组 RPC 方法对应一个 proto 文件，以该组 RPC 名称的小写字母为文件名 import &#34;github.com/opsaid/test1/api/opsaid/test1/v1/demo.proto&#34;; // 该微服务支持的 RPC 方法定义 service OpsaidTest1 { rpc HealthCheck(grpc_kit.api.known.status.v1.HealthCheckRequest) returns (grpc_kit.api.known.status.v1.HealthCheckResponse) {} rpc Demo(DemoRequest) returns (DemoResponse) {} } 名称规范 proto 包名 格式：
+package {组织代码}.api.{产品代码}.{应用短名}.{接口版本} 示例：
+package grpc_kit.api.opsaid.test1.v1; 名称 示例 说明 组织代码 grpc_kit 同一个组织下，如：公司、部门等 产品代码 opsaid 同一个产品体系，如：运维助手 应用短名 test1 同一个产品友好名称，如：告警服务 接口版本 v1 服务接口主版本，微服务在 &ldquo;0." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/spec-api/service/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-03-09T18:24:57+08:00" />
+<meta property="article:modified_time" content="2023-03-09T18:24:57+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="定义服务">
+<meta itemprop="description" content="简要概述 如何通过 proto 编写一个符合相同规范的服务定义。
+示例模版 // 仅支持版本 proto3 syntax = &#34;proto3&#34;; // 服务包名称 package grpc_kit.api.opsaid.test1.v1; // 生成的 go 包 option go_package = &#34;github.com/opsaid/test1/api/opsaid/test1/v1;test1v1&#34;; // 引入依赖的外部 proto 文件 import &#34;github.com/grpc-kit/api/known/status/v1/response.proto&#34;; // 同组 RPC 方法对应一个 proto 文件，以该组 RPC 名称的小写字母为文件名 import &#34;github.com/opsaid/test1/api/opsaid/test1/v1/demo.proto&#34;; // 该微服务支持的 RPC 方法定义 service OpsaidTest1 { rpc HealthCheck(grpc_kit.api.known.status.v1.HealthCheckRequest) returns (grpc_kit.api.known.status.v1.HealthCheckResponse) {} rpc Demo(DemoRequest) returns (DemoResponse) {} } 名称规范 proto 包名 格式：
+package {组织代码}.api.{产品代码}.{应用短名}.{接口版本} 示例：
+package grpc_kit.api.opsaid.test1.v1; 名称 示例 说明 组织代码 grpc_kit 同一个组织下，如：公司、部门等 产品代码 opsaid 同一个产品体系，如：运维助手 应用短名 test1 同一个产品友好名称，如：告警服务 接口版本 v1 服务接口主版本，微服务在 &ldquo;0."><meta itemprop="datePublished" content="2023-03-09T18:24:57+08:00" />
+<meta itemprop="dateModified" content="2023-03-09T18:24:57+08:00" />
+<meta itemprop="wordCount" content="133">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="api 作用 所有基础数据结构的定义
-Faqs 使用gogoproto来代替google官方的proto是什么原因？ 需要兼容各个现有的http服务接口，比如pushgateway、alertmanager等
-默认序列化的规则 restful接口规范 具体接口返回属性以：驼峰、下画线 没有统一标准
-除非服务特殊说明，否则默认均以下划线为默认标准，
-{ &#34;type_url&#34;: &#34;&#34;, } 所有返回值建议带key，默认均不建议直接通过数组响应
-[ {xxx}, {xxx} ] =&gt; { &#34;key&#34;: [ {xxx}, {yyy} ] } 使用场景 控制平面 基于k8s apiserver为控制平面类，可以接入git进行管理
-数据平面 基于grpc-kit为数据平面，也就是所有流量要经过它
-接口规范 POST /api/alerts /healthz /metrics /debug/pprof 参考规范 kubebuilder https://cloud.google.com/apis/design https://stackoverflow.com/questions/5543490/json-naming-convention-snake-case-camelcase-or-pascalcase https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/create#request-body "/>
+<meta name="twitter:title" content="定义服务"/>
+<meta name="twitter:description" content="简要概述 如何通过 proto 编写一个符合相同规范的服务定义。
+示例模版 // 仅支持版本 proto3 syntax = &#34;proto3&#34;; // 服务包名称 package grpc_kit.api.opsaid.test1.v1; // 生成的 go 包 option go_package = &#34;github.com/opsaid/test1/api/opsaid/test1/v1;test1v1&#34;; // 引入依赖的外部 proto 文件 import &#34;github.com/grpc-kit/api/known/status/v1/response.proto&#34;; // 同组 RPC 方法对应一个 proto 文件，以该组 RPC 名称的小写字母为文件名 import &#34;github.com/opsaid/test1/api/opsaid/test1/v1/demo.proto&#34;; // 该微服务支持的 RPC 方法定义 service OpsaidTest1 { rpc HealthCheck(grpc_kit.api.known.status.v1.HealthCheckRequest) returns (grpc_kit.api.known.status.v1.HealthCheckResponse) {} rpc Demo(DemoRequest) returns (DemoResponse) {} } 名称规范 proto 包名 格式：
+package {组织代码}.api.{产品代码}.{应用短名}.{接口版本} 示例：
+package grpc_kit.api.opsaid.test1.v1; 名称 示例 说明 组织代码 grpc_kit 同一个组织下，如：公司、部门等 产品代码 opsaid 同一个产品体系，如：运维助手 应用短名 test1 同一个产品友好名称，如：告警服务 接口版本 v1 服务接口主版本，微服务在 &ldquo;0."/>
 
 
 
@@ -327,14 +316,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-cfg">
-      <input type="checkbox" id="docsspec-cfg-check" checked/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check"/>
       <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
       
-      <ul class="ul-2">
+      <ul class="ul-2 collapsed">
 
         
           
@@ -343,7 +332,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgsecurity">
+                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
@@ -360,10 +349,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib active-path" id="m-docsspec-cfgapi">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib collapsed" id="m-docsspec-cfgapi">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgapi-a" href="/docs/spec-cfg/api/"></a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgapi-a" href="/docs/spec-cfg/api/"></a>
                     
                   </span>
                   
@@ -377,7 +366,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgcfg">
+                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
@@ -394,7 +383,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgcli">
+                <li class="without-sib collapsed" id="m-docsspec-cfgcli">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcli-a" href="/docs/spec-cfg/cli/"></a>
@@ -589,14 +578,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-api">
-      <input type="checkbox" id="docsspec-api-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-api">
+      <input type="checkbox" id="docsspec-api-check" checked/>
       <label for="docsspec-api-check" ><a href="/docs/spec-api/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">接口规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -605,10 +594,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-apiservice">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-apiservice">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apiservice-a" href="/docs/spec-api/service/">定义服务</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-apiservice-a" href="/docs/spec-api/service/">定义服务</a>
                     
                   </span>
                   
@@ -622,7 +611,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-apierror">
+                <li class="without-sib" id="m-docsspec-apierror">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apierror-a" href="/docs/spec-api/error/">处理错误</a>
@@ -758,22 +747,15 @@ if (!doNotTrack) {
 <h5>目录</h5>
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#作用">作用</a></li>
-    <li><a href="#faqs">Faqs</a>
+    <li><a href="#简要概述">简要概述</a></li>
+    <li><a href="#示例模版">示例模版</a></li>
+    <li><a href="#名称规范">名称规范</a>
       <ul>
-        <li><a href="#使用gogoproto来代替google官方的proto是什么原因">使用gogoproto来代替google官方的proto是什么原因？</a></li>
+        <li><a href="#proto-包名">proto 包名</a></li>
+        <li><a href="#go-包名">go 包名</a></li>
+        <li><a href="#service-名称">service 名称</a></li>
       </ul>
     </li>
-    <li><a href="#默认序列化的规则">默认序列化的规则</a></li>
-    <li><a href="#restful接口规范">restful接口规范</a></li>
-    <li><a href="#使用场景">使用场景</a>
-      <ul>
-        <li><a href="#控制平面">控制平面</a></li>
-        <li><a href="#数据平面">数据平面</a></li>
-      </ul>
-    </li>
-    <li><a href="#接口规范">接口规范</a></li>
-    <li><a href="#参考规范">参考规范</a></li>
   </ul>
 </nav></div>
 
@@ -811,16 +793,16 @@ if (!doNotTrack) {
     <a href="/docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="/docs/spec-cfg/">配置规范</a>
+    <a href="/docs/spec-api/">接口规范</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-cfg/api/"></a>
+    <a href="/docs/spec-api/service/">定义服务</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1></h1>
+	<h1>定义服务</h1>
 	
 	<header class="article-meta">
 		
@@ -840,50 +822,117 @@ if (!doNotTrack) {
 
 		
 	</header>    
-	<h1 id="api">api</h1>
-<h2 id="作用">作用</h2>
-<p>所有基础数据结构的定义</p>
-<h2 id="faqs">Faqs</h2>
-<h3 id="使用gogoproto来代替google官方的proto是什么原因">使用gogoproto来代替google官方的proto是什么原因？</h3>
-<p>需要兼容各个现有的http服务接口，比如pushgateway、alertmanager等</p>
-<h2 id="默认序列化的规则">默认序列化的规则</h2>
-<h2 id="restful接口规范">restful接口规范</h2>
-<p>具体接口返回属性以：驼峰、下画线 没有统一标准</p>
-<p>除非服务特殊说明，否则默认均以下划线为默认标准，</p>
-<pre tabindex="0"><code>{
-    &#34;type_url&#34;: &#34;&#34;,
-}
-</code></pre><p>所有返回值建议带key，默认均不建议直接通过数组响应</p>
-<pre tabindex="0"><code>[
- {xxx},
- {xxx}
-]
-
-=&gt;
-
-{
-  &#34;key&#34;: [
-    {xxx},
-    {yyy}
-  ]
-}
-</code></pre><h2 id="使用场景">使用场景</h2>
-<h3 id="控制平面">控制平面</h3>
-<p>基于k8s apiserver为控制平面类，可以接入git进行管理</p>
-<h3 id="数据平面">数据平面</h3>
-<p>基于grpc-kit为数据平面，也就是所有流量要经过它</p>
-<h2 id="接口规范">接口规范</h2>
-<pre tabindex="0"><code>POST /api/alerts
-</code></pre><pre tabindex="0"><code>/healthz
-/metrics
-/debug/pprof
-</code></pre><h2 id="参考规范">参考规范</h2>
-<ol>
-<li>kubebuilder</li>
-<li><a href="https://cloud.google.com/apis/design">https://cloud.google.com/apis/design</a></li>
-<li><a href="https://stackoverflow.com/questions/5543490/json-naming-convention-snake-case-camelcase-or-pascalcase">https://stackoverflow.com/questions/5543490/json-naming-convention-snake-case-camelcase-or-pascalcase</a></li>
-<li><a href="https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/create#request-body">https://cloud.google.com/pubsub/docs/reference/rest/v1/projects.topics/create#request-body</a></li>
-</ol>
+	<h2 id="简要概述">简要概述</h2>
+<p>如何通过 proto 编写一个符合相同规范的服务定义。</p>
+<h2 id="示例模版">示例模版</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-proto" data-lang="proto"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 仅支持版本 proto3
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">syntax</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;proto3&#34;</span><span style="color:#000;font-weight:bold">;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic">// 服务包名称
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">package</span> <span style="color:#000">grpc_kit</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">api.opsaid.test1.v1</span><span style="color:#000;font-weight:bold">;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic">// 生成的 go 包
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">option</span> <span style="color:#000">go_package</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;github.com/opsaid/test1/api/opsaid/test1/v1;test1v1&#34;</span><span style="color:#000;font-weight:bold">;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic">// 引入依赖的外部 proto 文件
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">import</span> <span style="color:#4e9a06">&#34;github.com/grpc-kit/api/known/status/v1/response.proto&#34;</span><span style="color:#000;font-weight:bold">;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic">// 同组 RPC 方法对应一个 proto 文件，以该组 RPC 名称的小写字母为文件名
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">import</span> <span style="color:#4e9a06">&#34;github.com/opsaid/test1/api/opsaid/test1/v1/demo.proto&#34;</span><span style="color:#000;font-weight:bold">;</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#8f5902;font-style:italic">// 该微服务支持的 RPC 方法定义
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">service</span> <span style="color:#000">OpsaidTest1</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>  <span style="color:#204a87;font-weight:bold">rpc</span> <span style="color:#000">HealthCheck</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">grpc_kit.api.known.status.v1.HealthCheckRequest</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">returns</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">grpc_kit.api.known.status.v1.HealthCheckResponse</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{}</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>  <span style="color:#204a87;font-weight:bold">rpc</span> <span style="color:#000">Demo</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">DemoRequest</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">returns</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">DemoResponse</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{}</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span><span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">
+</span></span></span></code></pre></div><h2 id="名称规范">名称规范</h2>
+<h3 id="proto-包名">proto 包名</h3>
+<p>格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>package <span style="color:#ce5c00;font-weight:bold">{</span>组织代码<span style="color:#ce5c00;font-weight:bold">}</span>.api.<span style="color:#ce5c00;font-weight:bold">{</span>产品代码<span style="color:#ce5c00;font-weight:bold">}</span>.<span style="color:#ce5c00;font-weight:bold">{</span>应用短名<span style="color:#ce5c00;font-weight:bold">}</span>.<span style="color:#ce5c00;font-weight:bold">{</span>接口版本<span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>package grpc_kit.api.opsaid.test1.v1<span style="color:#000;font-weight:bold">;</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>组织代码</td>
+<td>grpc_kit</td>
+<td>同一个组织下，如：公司、部门等</td>
+</tr>
+<tr>
+<td>产品代码</td>
+<td>opsaid</td>
+<td>同一个产品体系，如：运维助手</td>
+</tr>
+<tr>
+<td>应用短名</td>
+<td>test1</td>
+<td>同一个产品友好名称，如：告警服务</td>
+</tr>
+<tr>
+<td>接口版本</td>
+<td>v1</td>
+<td>服务接口主版本，微服务在 &ldquo;0.1.X&rdquo; 与 &ldquo;1.X&rdquo; 均表示为 &ldquo;v1&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="go-包名">go 包名</h3>
+<p>格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>option <span style="color:#000">go_package</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;{引用 pb.go 包地址};{应用短名}{接口版本}&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span></code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>option <span style="color:#000">go_package</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;github.com/grpc-kit/pkg/api/known/example/v1;examplev1&#34;</span><span style="color:#000;font-weight:bold">;</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>引用 pb.go 包地址</td>
+<td>github.com/grpc-kit/pkg/api/known/example/v1</td>
+<td>不一定是 proto 源文件地址</td>
+</tr>
+<tr>
+<td>{应用短名}{接口版本}</td>
+<td>examplev1</td>
+<td>两个组合，中间没有任何分隔符</td>
+</tr>
+</tbody>
+</table>
+<h3 id="service-名称">service 名称</h3>
+<p>格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>service <span style="color:#ce5c00;font-weight:bold">{</span>产品代码<span style="color:#ce5c00;font-weight:bold">}{</span>应用短名<span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	......
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><p>示例：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>service OpsaidTest1 <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  ......
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><table>
+<thead>
+<tr>
+<th>名称</th>
+<th>示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>{产品代码}{应用短名}</td>
+<td>OpsaidTest1</td>
+<td>两个单词组合，中间无风格符且首字母大写</td>
+</tr>
+</tbody>
+</table>
 
 	
 		<br /><hr />
@@ -952,10 +1001,7 @@ if (!doNotTrack) {
 		<br />
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 16.01.2023: <a href="https://github.com/grpc-kit/doc/commit/a4b9427e121e9912978baba1e6087a4bc8f99514">refactor: 本地与容器化编译 (a4b9427)</a>
-</div>
-
+	
 </div>
 
 
