@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.102.3" />
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/spec-cfg/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,17 +18,85 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>配置规范 | gRPC Kit</title>
-<meta name="description" content="">
-<meta property="og:title" content="配置规范" />
-<meta property="og:description" content="gRPC Kit Docs" />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/spec-cfg/" /><meta property="og:site_name" content="gRPC Kit" />
+<title>CHANGELOG 0.3 | gRPC Kit</title>
+<meta name="description" content="Changelog
 
-<meta itemprop="name" content="配置规范">
-<meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="配置规范"/>
-<meta name="twitter:description" content="gRPC Kit Docs"/>
+
+
+名称
+说明
+
+
+
+
+Added
+添加新功能
+
+
+Changed
+功能的变更
+
+
+Deprecated
+未来会删除
+
+
+Removed
+之前为Deprecated状态，此版本被移除
+
+
+Fixed
+功能的修复
+
+
+Security …">
+<meta property="og:title" content="CHANGELOG 0.3" />
+<meta property="og:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.3.0] - 2023-03-10 Added 新增 &ldquo;组织代码&rdquo; 作为所有 proto 包名前缀
+默认 &ldquo;组织代码&rdquo; 取值为 &ldquo;grpc-kit&rdquo;
+根据规则自动生成内置变量：应用名称、服务包名、服务标题、服务代码
+APPNAME、PROTO_PACKAGE、SERVICE_TITLE、SERVICE_CODE 对 microservice.proto 文件中的功能注解分离并声明式
+分离 &ldquo;google.api.http&rdquo; 功能到文件 &ldquo;microservice.gateway.yaml&rdquo;
+文档地址：https://github.com/googleapis/googleapis/blob/master/google/api/service.proto
+分离 &ldquo;grpc.gateway.protoc_gen_openapiv2.options&rdquo; 功能到文件 &ldquo;microservice.openapiv2.yaml&rdquo;
+文档地址：https://github.com/grpc-ecosystem/grpc-gateway/internal/descriptor/openapiconfig/openapiconfig.proto
+去掉 gogo 模块，升级 grpc-gateway v2 版本
+移除了 https://github.com/gogo/protobuf 的依赖； 升级了 grpc-gateway 为 v2 版本； 重新规范公知类 proto 的文件存放目录
+更改了 https://github.com/grpc-kit/api 原先 proto 路径规范； proto/v1/example.proto proto/v1/tracing.proto 更改为以下格式：
+known/status/v1/response.proto known/example/v1/example." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/changelog/changelog-0.3/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-01-20T22:08:54+08:00" />
+<meta property="article:modified_time" content="2023-03-19T22:30:44+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+
+<meta itemprop="name" content="CHANGELOG 0.3">
+<meta itemprop="description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.3.0] - 2023-03-10 Added 新增 &ldquo;组织代码&rdquo; 作为所有 proto 包名前缀
+默认 &ldquo;组织代码&rdquo; 取值为 &ldquo;grpc-kit&rdquo;
+根据规则自动生成内置变量：应用名称、服务包名、服务标题、服务代码
+APPNAME、PROTO_PACKAGE、SERVICE_TITLE、SERVICE_CODE 对 microservice.proto 文件中的功能注解分离并声明式
+分离 &ldquo;google.api.http&rdquo; 功能到文件 &ldquo;microservice.gateway.yaml&rdquo;
+文档地址：https://github.com/googleapis/googleapis/blob/master/google/api/service.proto
+分离 &ldquo;grpc.gateway.protoc_gen_openapiv2.options&rdquo; 功能到文件 &ldquo;microservice.openapiv2.yaml&rdquo;
+文档地址：https://github.com/grpc-ecosystem/grpc-gateway/internal/descriptor/openapiconfig/openapiconfig.proto
+去掉 gogo 模块，升级 grpc-gateway v2 版本
+移除了 https://github.com/gogo/protobuf 的依赖； 升级了 grpc-gateway 为 v2 版本； 重新规范公知类 proto 的文件存放目录
+更改了 https://github.com/grpc-kit/api 原先 proto 路径规范； proto/v1/example.proto proto/v1/tracing.proto 更改为以下格式：
+known/status/v1/response.proto known/example/v1/example."><meta itemprop="datePublished" content="2023-01-20T22:08:54+08:00" />
+<meta itemprop="dateModified" content="2023-03-19T22:30:44+08:00" />
+<meta itemprop="wordCount" content="150">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="CHANGELOG 0.3"/>
+<meta name="twitter:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.3.0] - 2023-03-10 Added 新增 &ldquo;组织代码&rdquo; 作为所有 proto 包名前缀
+默认 &ldquo;组织代码&rdquo; 取值为 &ldquo;grpc-kit&rdquo;
+根据规则自动生成内置变量：应用名称、服务包名、服务标题、服务代码
+APPNAME、PROTO_PACKAGE、SERVICE_TITLE、SERVICE_CODE 对 microservice.proto 文件中的功能注解分离并声明式
+分离 &ldquo;google.api.http&rdquo; 功能到文件 &ldquo;microservice.gateway.yaml&rdquo;
+文档地址：https://github.com/googleapis/googleapis/blob/master/google/api/service.proto
+分离 &ldquo;grpc.gateway.protoc_gen_openapiv2.options&rdquo; 功能到文件 &ldquo;microservice.openapiv2.yaml&rdquo;
+文档地址：https://github.com/grpc-ecosystem/grpc-gateway/internal/descriptor/openapiconfig/openapiconfig.proto
+去掉 gogo 模块，升级 grpc-gateway v2 版本
+移除了 https://github.com/gogo/protobuf 的依赖； 升级了 grpc-gateway 为 v2 版本； 重新规范公知类 proto 的文件存放目录
+更改了 https://github.com/grpc-kit/api 原先 proto 路径规范； proto/v1/example.proto proto/v1/tracing.proto 更改为以下格式：
+known/status/v1/response.proto known/example/v1/example."/>
 
 
 
@@ -71,7 +138,7 @@ if (!doNotTrack) {
 <script async src='https://www.google-analytics.com/analytics.js'></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -296,7 +363,7 @@ if (!doNotTrack) {
   
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
       <input type="checkbox" id="docsspec-cfg-check"/>
-      <label for="docsspec-cfg-check"  id="td-sidebar-nav-active-item" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">配置规范</a></label>
+      <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
@@ -784,14 +851,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
-      <input type="checkbox" id="docschangelog-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docschangelog">
+      <input type="checkbox" id="docschangelog-check" checked/>
       <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -800,10 +867,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
-                  <span >
+                <li class="without-sib active-path" id="m-docschangelogchangelog-03">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
                     
                   </span>
                   
@@ -817,7 +884,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docschangelogchangelog-02">
+                <li class="without-sib" id="m-docschangelogchangelog-02">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
@@ -834,7 +901,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docschangelogchangelog-01">
+                <li class="without-sib" id="m-docschangelogchangelog-01">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-01-a" href="/docs/changelog/changelog-0.1/">CHANGELOG 0.1</a>
@@ -891,6 +958,20 @@ if (!doNotTrack) {
             
 
 
+<h5>目录</h5>
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#changelog">Changelog</a></li>
+    <li><a href="#unreleased">[Unreleased]</a></li>
+    <li><a href="#030---2023-03-10">[0.3.0] - 2023-03-10</a>
+      <ul>
+        <li><a href="#added">Added</a></li>
+        <li><a href="#fixed">Fixed</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
 
 
 
@@ -924,15 +1005,18 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/changelog/">更新日志</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-cfg/">配置规范</a>
+    <a href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>配置规范</h1>
-  
+	<h1>CHANGELOG 0.3</h1>
+	
 	<header class="article-meta">
 		
 		
@@ -950,138 +1034,211 @@ if (!doNotTrack) {
 			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
 
 		
-	</header>
+	</header>    
+	<h2 id="changelog">Changelog</h2>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Added</td>
+<td>添加新功能</td>
+</tr>
+<tr>
+<td>Changed</td>
+<td>功能的变更</td>
+</tr>
+<tr>
+<td>Deprecated</td>
+<td>未来会删除</td>
+</tr>
+<tr>
+<td>Removed</td>
+<td>之前为Deprecated状态，此版本被移除</td>
+</tr>
+<tr>
+<td>Fixed</td>
+<td>功能的修复</td>
+</tr>
+<tr>
+<td>Security</td>
+<td>有关安全问题的修复</td>
+</tr>
+</tbody>
+</table>
+<h2 id="unreleased">[Unreleased]</h2>
+<h2 id="030---2023-03-10">[0.3.0] - 2023-03-10</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>
+<p>新增 &ldquo;组织代码&rdquo; 作为所有 proto 包名前缀</p>
+<ol>
+<li>
+<p>默认 &ldquo;组织代码&rdquo; 取值为 &ldquo;grpc-kit&rdquo;</p>
+</li>
+<li>
+<p>根据规则自动生成内置变量：应用名称、服务包名、服务标题、服务代码</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>APPNAME、PROTO_PACKAGE、SERVICE_TITLE、SERVICE_CODE
+</span></span></code></pre></div></li>
+<li>
+<p>对 microservice.proto 文件中的功能注解分离并声明式</p>
+<ol>
+<li>
+<p>分离 &ldquo;google.api.http&rdquo; 功能到文件 &ldquo;microservice.gateway.yaml&rdquo;</p>
+<p>文档地址：https://github.com/googleapis/googleapis/blob/master/google/api/service.proto</p>
+</li>
+<li>
+<p>分离 &ldquo;grpc.gateway.protoc_gen_openapiv2.options&rdquo; 功能到文件 &ldquo;microservice.openapiv2.yaml&rdquo;</p>
+<p>文档地址：https://github.com/grpc-ecosystem/grpc-gateway/internal/descriptor/openapiconfig/openapiconfig.proto</p>
+</li>
+</ol>
+</li>
+<li>
+<p>去掉 gogo 模块，升级 grpc-gateway v2 版本</p>
+<ol>
+<li>移除了 <a href="https://github.com/gogo/protobuf">https://github.com/gogo/protobuf</a> 的依赖；</li>
+<li>升级了 grpc-gateway 为 v2 版本；</li>
+</ol>
+</li>
+<li>
+<p>重新规范公知类 proto 的文件存放目录</p>
+<ol>
+<li>更改了 <a href="https://github.com/grpc-kit/api">https://github.com/grpc-kit/api</a> 原先 proto 路径规范；</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>proto/v1/example.proto
+</span></span><span style="display:flex;"><span>proto/v1/tracing.proto
+</span></span></code></pre></div><p>更改为以下格式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>known/status/v1/response.proto
+</span></span><span style="display:flex;"><span>known/example/v1/example.proto
+</span></span><span style="display:flex;"><span>known/config/v1/config.proto
+</span></span></code></pre></div><ol start="2">
+<li>更改了 proto 的包名称：</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grpc.kit.api.proto.v1
+</span></span></code></pre></div><p>更改为以下前缀：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>grpc_kit.api.known.
+</span></span></code></pre></div></li>
+<li>
+<p>更改库 &ldquo;errors&rdquo; 为 &ldquo;errs&rdquo; 防止对标准库重名</p>
+<ol>
+<li>更改 &ldquo;github.com/grpc-kit/pkg/errors&rdquo; 为 &ldquo;github.com/grpc-kit/pkg/errs&rdquo;；</li>
+<li>升级 proto 使用 &ldquo;google.golang.org/protobuf/proto&rdquo; 版本</li>
+<li>状态使用公知版本 &ldquo;grpc_kit.api.known.status.Status&rdquo; 结构体</li>
+</ol>
+</li>
+<li>
+<p>移除 pkg/api 中使用 gogo 类库</p>
+<ol>
+<li>去除由 &ldquo;protoc-gen-gogo&rdquo; 生成的 &ldquo;pb.go&rdquo; 文件</li>
+<li>统一使用新规范后的 &ldquo;grpc-kit/api proto&rdquo; 生成的 &ldquo;pb.go&rdquo; 文件</li>
+</ol>
+</li>
+<li>
+<p>使用 gitlab-ci runner 为 shell 添加默认变量</p>
+<ol>
+<li>默认模版添加以下变量；</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 默认全局变量</span>
+</span></span><span style="display:flex;"><span>variables:
+</span></span><span style="display:flex;"><span>  CGO_ENABLED: <span style="color:#4e9a06">&#34;0&#34;</span>
+</span></span><span style="display:flex;"><span>  GIT_SSL_NO_VERIFY: <span style="color:#4e9a06">&#34;true&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">#GO111MODULE: &#34;on&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">#GOPROXY: &#34;https://goproxy.cn&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">#GOSUMDB: &#34;sum.golang.google.cn&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">#GOPRIVATE: &#34;&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#8f5902;font-style:italic">#GOPATH: &#34;/home/gitlab-runner/go&#34;</span>
+</span></span></code></pre></div></li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li>
+<p>make lint 首次无法正常运行</p>
+<ol>
+<li>首次代码初始化后 &ldquo;api/&rdquo; 目录下不存在 &ldquo;*.pb.go&rdquo; 代码，导致无法引用；</li>
+<li>通过在执行 <code>make lint</code> 之前，做 &ldquo;proto&rdquo; 文件的序列化；</li>
+</ol>
+</li>
+</ul>
+
 	
-        <div class="section-index">
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/services/">基础服务</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/security/">认证鉴权</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/independent/">应用私有</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/api/"></a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/cfg/"></a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/cli/"></a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-    
+		<br /><hr />
+		<style>
+  .feedback--answer {
+    display: inline-block;
+  }
+  .feedback--answer-no {
+    margin-left: 1em;
+  }
+  .feedback--response {
+    display: none;
+    margin-top: 1em;
+  }
+  .feedback--response__visible {
+    display: block;
+  }
+</style>
+
+<div class="d-print-none">
+  <h4 class="feedback--title">希望您的反馈</h4>
+  <p class="feedback--question">该页面的内容对您有帮助吗?</p>
+  <button class="btn btn-primary mb-4 feedback--answer feedback--answer-yes">是的</button>
+  <button class="btn btn-danger mb-4 feedback--answer feedback--answer-no">没有</button>
+  <p class="feedback--response feedback--response-yes">
+    感谢您的支持! 如有其他建议，<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
+  <p class="feedback--response feedback--response-no">
+    非常抱歉，您有什么改进建议？<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
+  </p>
 </div>
 
+<script>
+  const yesButton = document.querySelector('.feedback--answer-yes');
+  const noButton = document.querySelector('.feedback--answer-no');
+  const yesResponse = document.querySelector('.feedback--response-yes');
+  const noResponse = document.querySelector('.feedback--response-no');
+  const disableButtons = () => {
+    yesButton.disabled = true;
+    noButton.disabled = true;
+  };
+  const sendFeedback = (value) => {
+    if (typeof ga !== 'function') return;
+    const args = {
+      command: 'send',
+      hitType: 'event',
+      category: 'Helpful',
+      action: 'click',
+      label: window.location.pathname,
+      value: value
+    };
+    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
+  };
+  yesButton.addEventListener('click', () => {
+    yesResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(1);
+  });
+  noButton.addEventListener('click', () => {
+    noResponse.classList.add('feedback--response__visible');
+    disableButtons();
+    sendFeedback(0);
+  });
+</script>
 
-    
-
+		<br />
+	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 12.02.2023: <a href="https://github.com/grpc-kit/doc/commit/781e64cc1d964f84d8e70bbdc71d7bd74567429f">feat: 添加配置规范文档结构 (781e64c)</a>
+  最后修改 19.03.2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
 </div>
 
 </div>
+
 
           </main>
 

@@ -15,6 +15,149 @@
     
     
     <item>
+      <title>Docs: CHANGELOG 0.3</title>
+      <link>/docs/changelog/changelog-0.3/</link>
+      <pubDate>Fri, 20 Jan 2023 22:08:54 +0800</pubDate>
+      
+      <guid>/docs/changelog/changelog-0.3/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;changelog&#34;&gt;Changelog&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;名称&lt;/th&gt;
+&lt;th&gt;说明&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;Added&lt;/td&gt;
+&lt;td&gt;添加新功能&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Changed&lt;/td&gt;
+&lt;td&gt;功能的变更&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Deprecated&lt;/td&gt;
+&lt;td&gt;未来会删除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Removed&lt;/td&gt;
+&lt;td&gt;之前为Deprecated状态，此版本被移除&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Fixed&lt;/td&gt;
+&lt;td&gt;功能的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;Security&lt;/td&gt;
+&lt;td&gt;有关安全问题的修复&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;unreleased&#34;&gt;[Unreleased]&lt;/h2&gt;
+&lt;h2 id=&#34;030---2023-03-10&#34;&gt;[0.3.0] - 2023-03-10&lt;/h2&gt;
+&lt;h3 id=&#34;added&#34;&gt;Added&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;新增 &amp;ldquo;组织代码&amp;rdquo; 作为所有 proto 包名前缀&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;默认 &amp;ldquo;组织代码&amp;rdquo; 取值为 &amp;ldquo;grpc-kit&amp;rdquo;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;根据规则自动生成内置变量：应用名称、服务包名、服务标题、服务代码&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;APPNAME、PROTO_PACKAGE、SERVICE_TITLE、SERVICE_CODE
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;对 microservice.proto 文件中的功能注解分离并声明式&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;分离 &amp;ldquo;google.api.http&amp;rdquo; 功能到文件 &amp;ldquo;microservice.gateway.yaml&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;文档地址：https://github.com/googleapis/googleapis/blob/master/google/api/service.proto&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;分离 &amp;ldquo;grpc.gateway.protoc_gen_openapiv2.options&amp;rdquo; 功能到文件 &amp;ldquo;microservice.openapiv2.yaml&amp;rdquo;&lt;/p&gt;
+&lt;p&gt;文档地址：https://github.com/grpc-ecosystem/grpc-gateway/internal/descriptor/openapiconfig/openapiconfig.proto&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;去掉 gogo 模块，升级 grpc-gateway v2 版本&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;移除了 &lt;a href=&#34;https://github.com/gogo/protobuf&#34;&gt;https://github.com/gogo/protobuf&lt;/a&gt; 的依赖；&lt;/li&gt;
+&lt;li&gt;升级了 grpc-gateway 为 v2 版本；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;重新规范公知类 proto 的文件存放目录&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;更改了 &lt;a href=&#34;https://github.com/grpc-kit/api&#34;&gt;https://github.com/grpc-kit/api&lt;/a&gt; 原先 proto 路径规范；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;proto/v1/example.proto
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;proto/v1/tracing.proto
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更改为以下格式：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;known/status/v1/response.proto
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;known/example/v1/example.proto
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;known/config/v1/config.proto
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;ol start=&#34;2&#34;&gt;
+&lt;li&gt;更改了 proto 的包名称：&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grpc.kit.api.proto.v1
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;更改为以下前缀：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;grpc_kit.api.known.
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;更改库 &amp;ldquo;errors&amp;rdquo; 为 &amp;ldquo;errs&amp;rdquo; 防止对标准库重名&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;更改 &amp;ldquo;github.com/grpc-kit/pkg/errors&amp;rdquo; 为 &amp;ldquo;github.com/grpc-kit/pkg/errs&amp;rdquo;；&lt;/li&gt;
+&lt;li&gt;升级 proto 使用 &amp;ldquo;google.golang.org/protobuf/proto&amp;rdquo; 版本&lt;/li&gt;
+&lt;li&gt;状态使用公知版本 &amp;ldquo;grpc_kit.api.known.status.Status&amp;rdquo; 结构体&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;移除 pkg/api 中使用 gogo 类库&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;去除由 &amp;ldquo;protoc-gen-gogo&amp;rdquo; 生成的 &amp;ldquo;pb.go&amp;rdquo; 文件&lt;/li&gt;
+&lt;li&gt;统一使用新规范后的 &amp;ldquo;grpc-kit/api proto&amp;rdquo; 生成的 &amp;ldquo;pb.go&amp;rdquo; 文件&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;使用 gitlab-ci runner 为 shell 添加默认变量&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;默认模版添加以下变量；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;&lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;# 默认全局变量&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;variables:
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  CGO_ENABLED: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;0&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  GIT_SSL_NO_VERIFY: &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#34;true&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#GO111MODULE: &amp;#34;on&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#GOPROXY: &amp;#34;https://goproxy.cn&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#GOSUMDB: &amp;#34;sum.golang.google.cn&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#GOPRIVATE: &amp;#34;&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;  &lt;span style=&#34;color:#8f5902;font-style:italic&#34;&gt;#GOPATH: &amp;#34;/home/gitlab-runner/go&amp;#34;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;fixed&#34;&gt;Fixed&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;make lint 首次无法正常运行&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;首次代码初始化后 &amp;ldquo;api/&amp;rdquo; 目录下不存在 &amp;ldquo;*.pb.go&amp;rdquo; 代码，导致无法引用；&lt;/li&gt;
+&lt;li&gt;通过在执行 &lt;code&gt;make lint&lt;/code&gt; 之前，做 &amp;ldquo;proto&amp;rdquo; 文件的序列化；&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: CHANGELOG 0.2</title>
       <link>/docs/changelog/changelog-0.2/</link>
       <pubDate>Fri, 20 Jan 2023 22:08:54 +0800</pubDate>

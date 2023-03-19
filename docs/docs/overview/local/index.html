@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.110.0">
+<meta name="generator" content="Hugo 0.102.3" />
 <meta name="robots" content="index, follow">
 
 
@@ -22,49 +22,50 @@
 <meta name="description" content="简要概述
 通过在本机安装 go、protoc、protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 等编译依赖的组件。
 目前推荐使用本地环境进行应用模版创建、编译。
-环境准备
+基础环境
 go 版本安装
 版本必 …">
 <meta property="og:title" content="本机环境" />
 <meta property="og:description" content="简要概述 通过在本机安装 go、protoc、protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 等编译依赖的组件。
 目前推荐使用本地环境进行应用模版创建、编译。
-环境准备 go 版本安装 版本必须大于等于1.18.x，版本检查：
+基础环境 go 版本安装 版本必须大于等于1.18.x，版本检查：
 go version centos 7 安装方式：
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式：
 brew install go 设置全局变量 应用运行均依赖 &ldquo;GOPATH&rdquo; 与 &ldquo;GO111MODULE&rdquo;，所以必须确保正确设置了该变量。
 # 开启 go mod export GO111MODULE=on # 根据实际情况是否需要设置 proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH 仅做示例，根据实际情况更改 export GOPATH=$HOME/go # 添加 $GOPATH/bin 目录下二进制文件可被 shell 查询 export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 &ldquo;&quot;$HOME/.bash_profile&rdquo; 或 &ldquo;$HOME/.zshrc&rdquo; 等。
-手工安装 protoc 或者通过通过-make-下载依赖。
-使用 protoc 版本 v21.12，根据不同系统选择下载地址：
-https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-aarch_64.zip https://github." />
+安装 grpc-kit-cli 至 https://github.com/grpc-kit/cli/releases 选择最新版本，根据目标系统架构下载。
+目前支持以下架构：
+macOS intel x86_64 macOS apple m linux x86_64 linux arm64 安装 protoc 插件 手工安装 protoc 或者通过通过-make-下载依赖。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/overview/local/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-01-13T00:00:00+08:00" />
-<meta property="article:modified_time" content="2023-02-09T10:18:38+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-03-19T22:30:44+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+
 <meta itemprop="name" content="本机环境">
 <meta itemprop="description" content="简要概述 通过在本机安装 go、protoc、protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 等编译依赖的组件。
 目前推荐使用本地环境进行应用模版创建、编译。
-环境准备 go 版本安装 版本必须大于等于1.18.x，版本检查：
+基础环境 go 版本安装 版本必须大于等于1.18.x，版本检查：
 go version centos 7 安装方式：
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式：
 brew install go 设置全局变量 应用运行均依赖 &ldquo;GOPATH&rdquo; 与 &ldquo;GO111MODULE&rdquo;，所以必须确保正确设置了该变量。
 # 开启 go mod export GO111MODULE=on # 根据实际情况是否需要设置 proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH 仅做示例，根据实际情况更改 export GOPATH=$HOME/go # 添加 $GOPATH/bin 目录下二进制文件可被 shell 查询 export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 &ldquo;&quot;$HOME/.bash_profile&rdquo; 或 &ldquo;$HOME/.zshrc&rdquo; 等。
-手工安装 protoc 或者通过通过-make-下载依赖。
-使用 protoc 版本 v21.12，根据不同系统选择下载地址：
-https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-aarch_64.zip https://github."><meta itemprop="datePublished" content="2023-01-13T00:00:00+08:00" />
-<meta itemprop="dateModified" content="2023-02-09T10:18:38+08:00" />
-<meta itemprop="wordCount" content="330">
+安装 grpc-kit-cli 至 https://github.com/grpc-kit/cli/releases 选择最新版本，根据目标系统架构下载。
+目前支持以下架构：
+macOS intel x86_64 macOS apple m linux x86_64 linux arm64 安装 protoc 插件 手工安装 protoc 或者通过通过-make-下载依赖。"><meta itemprop="datePublished" content="2023-01-13T00:00:00+08:00" />
+<meta itemprop="dateModified" content="2023-03-19T22:30:44+08:00" />
+<meta itemprop="wordCount" content="349">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="本机环境"/>
 <meta name="twitter:description" content="简要概述 通过在本机安装 go、protoc、protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 等编译依赖的组件。
 目前推荐使用本地环境进行应用模版创建、编译。
-环境准备 go 版本安装 版本必须大于等于1.18.x，版本检查：
+基础环境 go 版本安装 版本必须大于等于1.18.x，版本检查：
 go version centos 7 安装方式：
 yum install -y epel-release.noarch yum install -y golang.x86_64 macOS 安装方式：
 brew install go 设置全局变量 应用运行均依赖 &ldquo;GOPATH&rdquo; 与 &ldquo;GO111MODULE&rdquo;，所以必须确保正确设置了该变量。
 # 开启 go mod export GO111MODULE=on # 根据实际情况是否需要设置 proxy export GOPROXY=&#34;https://goproxy.cn&#34; # GOPATH 仅做示例，根据实际情况更改 export GOPATH=$HOME/go # 添加 $GOPATH/bin 目录下二进制文件可被 shell 查询 export PATH=$PATH:$HOME/bin:$GOPATH/bin 请确保以上变量在系统全局生效，可以写入 &ldquo;&quot;$HOME/.bash_profile&rdquo; 或 &ldquo;$HOME/.zshrc&rdquo; 等。
-手工安装 protoc 或者通过通过-make-下载依赖。
-使用 protoc 版本 v21.12，根据不同系统选择下载地址：
-https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-x86_64.zip https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-aarch_64.zip https://github."/>
+安装 grpc-kit-cli 至 https://github.com/grpc-kit/cli/releases 选择最新版本，根据目标系统架构下载。
+目前支持以下架构：
+macOS intel x86_64 macOS apple m linux x86_64 linux arm64 安装 protoc 插件 手工安装 protoc 或者通过通过-make-下载依赖。"/>
 
 
 
@@ -150,7 +151,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2395551bcb6fc9199f06b780bb2677bd.json"
+  data-offline-search-index-json-src="/offline-search-index.9e00a663ab46cc8b5bb58153e14862c5.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -177,7 +178,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2395551bcb6fc9199f06b780bb2677bd.json"
+  data-offline-search-index-json-src="/offline-search-index.9e00a663ab46cc8b5bb58153e14862c5.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -345,10 +346,44 @@ if (!doNotTrack) {
               
               
               
+                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
                 <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
                     
                   </span>
                   
@@ -607,6 +642,23 @@ if (!doNotTrack) {
               
               
               
+                <li class="without-sib collapsed" id="m-docsspec-apikey-terms">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apikey-terms-a" href="/docs/spec-api/key-terms/">关键术语</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
                 <li class="without-sib collapsed" id="m-docsspec-apiservice">
                   <span >
                     
@@ -667,6 +719,107 @@ if (!doNotTrack) {
 
 
   
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevops">
+      <input type="checkbox" id="docsdevops-check"/>
+      <label for="docsdevops-check" ><a href="/docs/devops/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">运维管理</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsdeploy">
+      <input type="checkbox" id="docsdevopsdeploy-check"/>
+      <label for="docsdevopsdeploy-check" ><a href="/docs/devops/deploy/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">服务部署</a></label>
+      
+        
+        
+      
+      <ul class="ul-3 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsdeploysystemd">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsdeploysystemd-a" href="/docs/devops/deploy/systemd/">Systemd</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
       <input type="checkbox" id="docschangelog-check"/>
       <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
@@ -676,6 +829,23 @@ if (!doNotTrack) {
       
       <ul class="ul-2 collapsed">
 
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
         
           
             
@@ -761,10 +931,15 @@ if (!doNotTrack) {
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
     <li><a href="#简要概述">简要概述</a></li>
-    <li><a href="#环境准备">环境准备</a>
+    <li><a href="#基础环境">基础环境</a>
       <ul>
         <li><a href="#go-版本安装">go 版本安装</a></li>
         <li><a href="#设置全局变量">设置全局变量</a></li>
+        <li><a href="#安装-grpc-kit-cli">安装 grpc-kit-cli</a></li>
+      </ul>
+    </li>
+    <li><a href="#安装-protoc-插件">安装 protoc 插件</a>
+      <ul>
         <li><a href="#手工安装-protoc">手工安装 protoc</a></li>
         <li><a href="#手工安装-protoc-gen-x">手工安装 protoc-gen-X</a></li>
         <li><a href="#手工安装依赖的-proto-文件">手工安装依赖的 proto 文件</a></li>
@@ -852,7 +1027,7 @@ if (!doNotTrack) {
 	<h2 id="简要概述">简要概述</h2>
 <p>通过在本机安装 go、protoc、protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 等编译依赖的组件。</p>
 <p>目前推荐使用本地环境进行应用模版创建、编译。</p>
-<h2 id="环境准备">环境准备</h2>
+<h2 id="基础环境">基础环境</h2>
 <h3 id="go-版本安装">go 版本安装</h3>
 <p>版本必须大于等于1.18.x，版本检查：</p>
 <pre tabindex="0"><code>go version
@@ -875,6 +1050,16 @@ if (!doNotTrack) {
 </span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 添加 $GOPATH/bin 目录下二进制文件可被 shell 查询</span>
 </span></span><span style="display:flex;"><span><span style="color:#204a87">export</span> <span style="color:#000">PATH</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">$PATH</span>:<span style="color:#000">$HOME</span>/bin:<span style="color:#000">$GOPATH</span>/bin
 </span></span></code></pre></div><p>请确保以上变量在系统全局生效，可以写入 &ldquo;&quot;$HOME/.bash_profile&rdquo; 或 &ldquo;$HOME/.zshrc&rdquo; 等。</p>
+<h3 id="安装-grpc-kit-cli">安装 grpc-kit-cli</h3>
+<p>至 <a href="https://github.com/grpc-kit/cli/releases">https://github.com/grpc-kit/cli/releases</a> 选择最新版本，根据目标系统架构下载。</p>
+<p>目前支持以下架构：</p>
+<ol>
+<li>macOS intel x86_64</li>
+<li>macOS apple m</li>
+<li>linux x86_64</li>
+<li>linux arm64</li>
+</ol>
+<h2 id="安装-protoc-插件">安装 protoc 插件</h2>
 <h3 id="手工安装-protoc">手工安装 protoc</h3>
 <p>或者通过<a href="/docs/overview/local/#%E9%80%9A%E8%BF%87-make-%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96">通过-make-下载依赖</a>。</p>
 <p>使用 protoc 版本 v21.12，根据不同系统选择下载地址：</p>
@@ -1051,7 +1236,7 @@ cp ./build/grpc-kit-cli-* /usr/local/bin/grpc-kit-cli
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 09.02.2023: <a href="https://github.com/grpc-kit/doc/commit/89e71b3aecd5a9dc8a98290ddb2597ea2a7e6c8c">feat: 添加 macOS apple 芯片的 protoc 地址 (89e71b3)</a>
+  最后修改 19.03.2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
 </div>
 
 </div>

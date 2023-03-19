@@ -15,6 +15,141 @@
     
     
     <item>
+      <title>Docs: 关键术语</title>
+      <link>/docs/spec-api/key-terms/</link>
+      <pubDate>Sun, 19 Mar 2023 15:02:36 +0800</pubDate>
+      
+      <guid>/docs/spec-api/key-terms/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;简要概述&#34;&gt;简要概述&lt;/h2&gt;
+&lt;p&gt;约束生成微服务所依赖的几个公共名称&lt;/p&gt;
+&lt;h2 id=&#34;内部变量&#34;&gt;内部变量&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;变量名&lt;/th&gt;
+&lt;th&gt;中文名&lt;/th&gt;
+&lt;th&gt;取值范围&lt;/th&gt;
+&lt;th&gt;示例&lt;/th&gt;
+&lt;th&gt;描述&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;CLI_VERSION&lt;/td&gt;
+&lt;td&gt;工具版本&lt;/td&gt;
+&lt;td&gt;[0-9].\d.\d&lt;/td&gt;
+&lt;td&gt;0.3.0&lt;/td&gt;
+&lt;td&gt;生成该模版所使用的 grpc-kit-cli 版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;ORGANIZATION&lt;/td&gt;
+&lt;td&gt;组织代码&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;grpc-kit&lt;/td&gt;
+&lt;td&gt;产品所在的公司或部门&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PRODUCT_CODE&lt;/td&gt;
+&lt;td&gt;产品代码&lt;/td&gt;
+&lt;td&gt;^([a-z0-9]){4,}$&lt;/td&gt;
+&lt;td&gt;opsaid&lt;/td&gt;
+&lt;td&gt;同一产品使用相同代码，使用单个词&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SHORT_NAME&lt;/td&gt;
+&lt;td&gt;应用短名&lt;/td&gt;
+&lt;td&gt;^([a-z0-9]){4,}$&lt;/td&gt;
+&lt;td&gt;test1&lt;/td&gt;
+&lt;td&gt;同一产品使用不同短名，使用单个词&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;API_VERSION&lt;/td&gt;
+&lt;td&gt;接口版本&lt;/td&gt;
+&lt;td&gt;v[1-9]+&lt;/td&gt;
+&lt;td&gt;v1&lt;/td&gt;
+&lt;td&gt;微服务主接口版本&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;APPNAME&lt;/td&gt;
+&lt;td&gt;应用名称&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;opsaid-test1-v1&lt;/td&gt;
+&lt;td&gt;xx&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PROTO_PACKAGE&lt;/td&gt;
+&lt;td&gt;服务包名&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;grpc_kit.api.opsaid.test1.v1&lt;/td&gt;
+&lt;td&gt;x&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_CODE&lt;/td&gt;
+&lt;td&gt;服务代码&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;test1.v1.opsaid&lt;/td&gt;
+&lt;td&gt;xx&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_TITLE&lt;/td&gt;
+&lt;td&gt;服务标题&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;OpsaidTest1&lt;/td&gt;
+&lt;td&gt;xx&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_NAME&lt;/td&gt;
+&lt;td&gt;服务全名&lt;/td&gt;
+&lt;td&gt;见变量组合&lt;/td&gt;
+&lt;td&gt;test1.v1.opsaid.api.grpc-kit.com&lt;/td&gt;
+&lt;td&gt;xx&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h2 id=&#34;变量组合&#34;&gt;变量组合&lt;/h2&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;变量名&lt;/th&gt;
+&lt;th&gt;组合格式&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;APPNAME&lt;/td&gt;
+&lt;td&gt;${PRODUCT_CODE}-${SHORT_NAME}-${API_VERSION}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;PROTO_PACKAGE&lt;/td&gt;
+&lt;td&gt;${ORGANIZATION}.api.${PRODUCT_CODE}.${SHORT_NAME}.${API_VERSION}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_CODE&lt;/td&gt;
+&lt;td&gt;${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_TITLE&lt;/td&gt;
+&lt;td&gt;${PRODUCT_CODE}${SHORT_NAME}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;SERVICE_NAME&lt;/td&gt;
+&lt;td&gt;${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE}.${API_GATEWAY}&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;注意：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;在 &amp;ldquo;PROTO_PACKAGE&amp;rdquo; 中，如果变量 &amp;ldquo;ORGANIZATION&amp;rdquo; 存在中化线&amp;quot;-&amp;quot;，则需转化为下划线&amp;quot;_&amp;quot;；&lt;/li&gt;
+&lt;li&gt;在 &amp;ldquo;SERVICE_TITLE&amp;rdquo; 中，变量 &amp;ldquo;PRODUCT_CODE&amp;rdquo; 与 &amp;ldquo;SHORT_NAME&amp;rdquo; 首字母均大写；&lt;/li&gt;
+&lt;/ol&gt;
+
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: 定义服务</title>
       <link>/docs/spec-api/service/</link>
       <pubDate>Thu, 09 Mar 2023 18:24:57 +0800</pubDate>

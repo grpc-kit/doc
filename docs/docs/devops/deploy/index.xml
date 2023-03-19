@@ -1,0 +1,60 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>gRPC Kit – 服务部署</title>
+    <link>/docs/devops/deploy/</link>
+    <description>Recent content in 服务部署 on gRPC Kit</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <lastBuildDate>Sun, 19 Mar 2023 14:56:42 +0800</lastBuildDate>
+    
+	  <atom:link href="/docs/devops/deploy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Docs: Systemd</title>
+      <link>/docs/devops/deploy/systemd/</link>
+      <pubDate>Sun, 19 Mar 2023 14:56:23 +0800</pubDate>
+      
+      <guid>/docs/devops/deploy/systemd/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;简要概述&#34;&gt;简要概述&lt;/h2&gt;
+&lt;p&gt;通过 systemd 来管理服务的生命周期。&lt;/p&gt;
+&lt;h2 id=&#34;生成配置&#34;&gt;生成配置&lt;/h2&gt;
+&lt;p&gt;在微服务代码目录，执行：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;make manifests
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;将会生成 systemd 配置在 &lt;code&gt;deploy/systemd/${APPNAME}.service&lt;/code&gt; 目录，把配置拷贝到目标主机 &lt;code&gt;/usr/lib/systemd/system/${APPNAME}.service&lt;/code&gt;，启用服务：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl &lt;span style=&#34;color:#204a87&#34;&gt;enable&lt;/span&gt; &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;APPNAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;systemctl start &lt;span style=&#34;color:#4e9a06&#34;&gt;${&lt;/span&gt;&lt;span style=&#34;color:#000&#34;&gt;APPNAME&lt;/span&gt;&lt;span style=&#34;color:#4e9a06&#34;&gt;}&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h2 id=&#34;服务模版&#34;&gt;服务模版&lt;/h2&gt;
+&lt;pre tabindex=&#34;0&#34;&gt;&lt;code&gt;[Unit]
+After=network-online.target
+Documentation=http://(app.yaml:services.http_address)/openapi-spec/
+Description=The ${SERVICE_CODE} microservice. For more API detailed, please refer to the docs
+
+[Service]
+Type=simple
+User=nobody
+Restart=always
+RestartSec=15s
+TimeoutSec=60s
+LimitNOFILE=65535
+KillMode=control-group
+MemoryLimit=2048M
+ExecStart=/usr/local/${PRODUCT_CODE}/${SHORT_NAME}/${API_VERSION}/service --config /usr/local/${PRODUCT_CODE}/${SHORT_NAME}/${API_VERSION}/config/app.yaml
+
+[Install]
+Alias=${APPNAME}.service
+WantedBy=multi-user.target
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;其中变量 &amp;ldquo;SERVICE_CODE&amp;rdquo;、&amp;ldquo;PRODUCT_CODE&amp;rdquo;、&amp;ldquo;SHORT_NAME&amp;rdquo;、&amp;ldquo;APPNAME&amp;rdquo; 依据&lt;a href=&#34;/docs/spec-api/key-terms/&#34;&gt;关键术语&lt;/a&gt;填写。&lt;/p&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>

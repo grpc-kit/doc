@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.110.0">
+<meta name="generator" content="Hugo 0.102.3" />
 <meta name="robots" content="index, follow">
 
 
@@ -34,13 +34,14 @@ message ErrorResponse {
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-api/error/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-03-08T17:29:16+08:00" />
-<meta property="article:modified_time" content="2023-03-09T15:15:30+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-03-13T16:06:51+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+
 <meta itemprop="name" content="处理错误">
 <meta itemprop="description" content="简要概述 向服务发送 API 请求，可能会产生多种不同的错误响应，以下文档将会描述数据结构以及大致的原因。
 响应体结构 查看完整的 proto 文件定义，关键部分如下：
 // ErrorResponse 用于定义统一错误响应体 message ErrorResponse { Status error = 1; } // Status 用于定义统一错误状态码 message Status { int32 code = 1; string status = 2; string message = 3; repeated google.protobuf.Any details = 4; } 一个 json 示例：
 { &#34;error&#34;: { &#34;code&#34;: 5, &#34;status&#34;: &#34;NotFound&#34;, &#34;message&#34;: &#34;unknown service&#34;, &#34;details&#34;: [ { &#34;@type&#34;: &#34;type.googleapis.com/grpc_kit.api.known.status.v1.TracingRequest&#34;, &#34;id&#34;: &#34;b17f76dc51de4098bc974e5f2009c097&#34; } ] } } 状态码说明 code status http code default message 0 OK 200 No error."><meta itemprop="datePublished" content="2023-03-08T17:29:16+08:00" />
-<meta itemprop="dateModified" content="2023-03-09T15:15:30+08:00" />
+<meta itemprop="dateModified" content="2023-03-13T16:06:51+08:00" />
 <meta itemprop="wordCount" content="244">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="处理错误"/>
@@ -133,7 +134,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2395551bcb6fc9199f06b780bb2677bd.json"
+  data-offline-search-index-json-src="/offline-search-index.9e00a663ab46cc8b5bb58153e14862c5.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -160,7 +161,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2395551bcb6fc9199f06b780bb2677bd.json"
+  data-offline-search-index-json-src="/offline-search-index.9e00a663ab46cc8b5bb58153e14862c5.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -328,10 +329,44 @@ if (!doNotTrack) {
               
               
               
+                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
                 <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
                     
                   </span>
                   
@@ -590,6 +625,23 @@ if (!doNotTrack) {
               
               
               
+                <li class="without-sib" id="m-docsspec-apikey-terms">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apikey-terms-a" href="/docs/spec-api/key-terms/">关键术语</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
                 <li class="without-sib" id="m-docsspec-apiservice">
                   <span >
                     
@@ -650,6 +702,107 @@ if (!doNotTrack) {
 
 
   
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevops">
+      <input type="checkbox" id="docsdevops-check"/>
+      <label for="docsdevops-check" ><a href="/docs/devops/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">运维管理</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsdeploy">
+      <input type="checkbox" id="docsdevopsdeploy-check"/>
+      <label for="docsdevopsdeploy-check" ><a href="/docs/devops/deploy/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">服务部署</a></label>
+      
+        
+        
+      
+      <ul class="ul-3 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsdeploysystemd">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsdeploysystemd-a" href="/docs/devops/deploy/systemd/">Systemd</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
       <input type="checkbox" id="docschangelog-check"/>
       <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
@@ -659,6 +812,23 @@ if (!doNotTrack) {
       
       <ul class="ul-2 collapsed">
 
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
         
           
             
@@ -1026,7 +1196,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 09.03.2023: <a href="https://github.com/grpc-kit/doc/commit/c866f07c1e47e4d4bfc11a3f9761d843923f5bce">feat: 新增接口错误描述 (c866f07)</a>
+  最后修改 13.03.2023: <a href="https://github.com/grpc-kit/doc/commit/6609f2c768acfa84f71062c15b007d820a3f3786">feat: 更新文档 (6609f2c)</a>
 </div>
 
 </div>

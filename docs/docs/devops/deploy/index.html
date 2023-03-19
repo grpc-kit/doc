@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.102.3" />
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/spec-cfg/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="/docs/devops/deploy/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,16 +19,16 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>配置规范 | gRPC Kit</title>
+<title>服务部署 | gRPC Kit</title>
 <meta name="description" content="">
-<meta property="og:title" content="配置规范" />
+<meta property="og:title" content="服务部署" />
 <meta property="og:description" content="gRPC Kit Docs" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/spec-cfg/" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="og:url" content="/docs/devops/deploy/" /><meta property="og:site_name" content="gRPC Kit" />
 
-<meta itemprop="name" content="配置规范">
+<meta itemprop="name" content="服务部署">
 <meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="配置规范"/>
+<meta name="twitter:title" content="服务部署"/>
 <meta name="twitter:description" content="gRPC Kit Docs"/>
 
 
@@ -296,7 +296,7 @@ if (!doNotTrack) {
   
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
       <input type="checkbox" id="docsspec-cfg-check"/>
-      <label for="docsspec-cfg-check"  id="td-sidebar-nav-active-item" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">配置规范</a></label>
+      <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
@@ -683,14 +683,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevops">
-      <input type="checkbox" id="docsdevops-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsdevops">
+      <input type="checkbox" id="docsdevops-check" checked/>
       <label for="docsdevops-check" ><a href="/docs/devops/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">运维管理</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -719,7 +719,7 @@ if (!doNotTrack) {
   
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsdeploy">
       <input type="checkbox" id="docsdevopsdeploy-check"/>
-      <label for="docsdevopsdeploy-check" ><a href="/docs/devops/deploy/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">服务部署</a></label>
+      <label for="docsdevopsdeploy-check"  id="td-sidebar-nav-active-item" ><a href="/docs/devops/deploy/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">服务部署</a></label>
       
         
         
@@ -924,14 +924,17 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/devops/">运维管理</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-cfg/">配置规范</a>
+    <a href="/docs/devops/deploy/">服务部署</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>配置规范</h1>
+	<h1>服务部署</h1>
   
 	<header class="article-meta">
 		
@@ -971,14 +974,7 @@ if (!doNotTrack) {
             
         
             
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/services/">基础服务</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
+        
             
         
             
@@ -994,33 +990,9 @@ if (!doNotTrack) {
             
         
             
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/security/">认证鉴权</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
         
             
         
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/independent/">应用私有</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
             
         
             
@@ -1039,7 +1011,7 @@ if (!doNotTrack) {
                 <div class="entry">
                     <h5>
                         
-                          <a href="/docs/spec-cfg/api/"></a>
+                          <a href="/docs/devops/deploy/systemd/">Systemd</a>
                         
                     </h5>
                     <p></p>
@@ -1047,25 +1019,11 @@ if (!doNotTrack) {
             
         
             
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/cfg/"></a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
+        
             
         
             
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-cfg/cli/"></a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
+        
             
         
             
@@ -1078,7 +1036,7 @@ if (!doNotTrack) {
 
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 12.02.2023: <a href="https://github.com/grpc-kit/doc/commit/781e64cc1d964f84d8e70bbdc71d7bd74567429f">feat: 添加配置规范文档结构 (781e64c)</a>
+  最后修改 19.03.2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
 </div>
 
 </div>
