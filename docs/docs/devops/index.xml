@@ -15,11 +15,24 @@
     
     
     <item>
+      <title>Docs: 持续集成</title>
+      <link>/docs/devops/integration/</link>
+      <pubDate>Mon, 20 Mar 2023 16:58:42 +0800</pubDate>
+      
+      <guid>/docs/devops/integration/</guid>
+      <description>
+        
+        
+        
+      </description>
+    </item>
+    
+    <item>
       <title>Docs: 服务部署</title>
-      <link>/docs/devops/deploy/</link>
+      <link>/docs/devops/deployment/</link>
       <pubDate>Sun, 19 Mar 2023 14:56:42 +0800</pubDate>
       
-      <guid>/docs/devops/deploy/</guid>
+      <guid>/docs/devops/deployment/</guid>
       <description>
         
         

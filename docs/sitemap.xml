@@ -5,11 +5,17 @@
     <loc>/docs/overview/</loc>
     <lastmod>2023-01-16T13:44:12+08:00</lastmod>
   </url><url>
+    <loc>/docs/devops/integration/gitlab/</loc>
+    <lastmod>2023-06-08T18:13:46+08:00</lastmod>
+  </url><url>
+    <loc>/docs/devops/integration/</loc>
+    <lastmod>2023-04-14T18:47:44+08:00</lastmod>
+  </url><url>
     <loc>/docs/spec-api/key-terms/</loc>
     <lastmod>2023-03-19T22:30:44+08:00</lastmod>
   </url><url>
-    <loc>/docs/devops/deploy/</loc>
-    <lastmod>2023-03-19T22:30:44+08:00</lastmod>
+    <loc>/docs/devops/deployment/</loc>
+    <lastmod>2023-04-14T18:47:44+08:00</lastmod>
   </url><url>
     <loc>/docs/spec-api/service/</loc>
     <lastmod>2023-03-13T16:06:51+08:00</lastmod>
@@ -29,6 +35,9 @@
     <loc>/docs/overview/local/</loc>
     <lastmod>2023-03-19T22:30:44+08:00</lastmod>
   </url><url>
+    <loc>/docs/devops/integration/github/</loc>
+    <lastmod>2023-04-14T18:47:44+08:00</lastmod>
+  </url><url>
     <loc>/docs/spec-dev/flows/github-flow/</loc>
     <lastmod>2023-01-27T22:53:10+08:00</lastmod>
   </url><url>
@@ -37,6 +46,9 @@
   </url><url>
     <loc>/docs/overview/docker/</loc>
     <lastmod>2023-03-13T16:06:51+08:00</lastmod>
+  </url><url>
+    <loc>/docs/devops/integration/jenkins/</loc>
+    <lastmod>2023-06-08T18:13:46+08:00</lastmod>
   </url><url>
     <loc>/docs/spec-cfg/security/</loc>
     <lastmod>2023-02-13T14:04:24+08:00</lastmod>
@@ -53,14 +65,17 @@
     <loc>/docs/devops/</loc>
     <lastmod>2023-03-19T22:30:44+08:00</lastmod>
   </url><url>
-    <loc>/docs/spec-cfg/independent/</loc>
-    <lastmod>2023-03-19T22:30:44+08:00</lastmod>
+    <loc>/docs/spec-cfg/objstore/</loc>
+    <lastmod>2023-06-11T10:24:45+08:00</lastmod>
   </url><url>
     <loc>/docs/changelog/</loc>
     <lastmod>2023-01-24T20:25:56+08:00</lastmod>
   </url><url>
+    <loc>/docs/spec-cfg/independent/</loc>
+    <lastmod>2023-03-19T23:06:01+08:00</lastmod>
+  </url><url>
     <loc>/docs/changelog/changelog-0.3/</loc>
-    <lastmod>2023-03-19T22:30:44+08:00</lastmod>
+    <lastmod>2023-06-08T18:14:21+08:00</lastmod>
   </url><url>
     <loc>/docs/changelog/changelog-0.2/</loc>
     <lastmod>2023-03-19T22:30:44+08:00</lastmod>
@@ -68,20 +83,14 @@
     <loc>/docs/changelog/changelog-0.1/</loc>
     <lastmod>2023-03-19T22:30:44+08:00</lastmod>
   </url><url>
-    <loc>/docs/devops/deploy/systemd/</loc>
-    <lastmod>2023-03-19T22:30:44+08:00</lastmod>
+    <loc>/docs/devops/deployment/systemd/</loc>
+    <lastmod>2023-04-14T18:47:44+08:00</lastmod>
   </url><url>
     <loc>/docs/spec-dev/flows/</loc>
     <lastmod>2023-01-27T22:53:10+08:00</lastmod>
   </url><url>
-    <loc>/docs/spec-cfg/api/</loc>
-    <lastmod>2023-01-16T13:44:12+08:00</lastmod>
-  </url><url>
     <loc>/docs/spec-cfg/cfg/</loc>
     <lastmod>2023-02-12T16:08:33+08:00</lastmod>
-  </url><url>
-    <loc>/docs/spec-cfg/cli/</loc>
-    <lastmod>2023-01-16T13:44:12+08:00</lastmod>
   </url><url>
     <loc>/</loc>
     <lastmod>2023-01-16T13:44:12+08:00</lastmod>

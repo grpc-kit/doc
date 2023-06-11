@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.110.0">
-<link rel="alternate" type="application/rss&#43;xml" href="/docs/spec-dev/index.xml">
+<link rel="alternate" type="application/rss&#43;xml" href="/docs/devops/integration/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,22 +19,15 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>开发规范 | gRPC Kit</title>
-<meta name="description" content="
-
-
-用于规范开发流程，关键在于工作的流程
-
-
-
-">
-<meta property="og:title" content="开发规范" />
+<title>持续集成 | gRPC Kit</title>
+<meta name="description" content="">
+<meta property="og:title" content="持续集成" />
 <meta property="og:description" content="gRPC Kit Docs" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/docs/spec-dev/" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="开发规范">
+<meta property="og:url" content="/docs/devops/integration/" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="持续集成">
 <meta itemprop="description" content="gRPC Kit Docs"><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="开发规范"/>
+<meta name="twitter:title" content="持续集成"/>
 <meta name="twitter:description" content="gRPC Kit Docs"/>
 
 
@@ -429,7 +422,7 @@ if (!doNotTrack) {
   
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-dev">
       <input type="checkbox" id="docsspec-dev-check"/>
-      <label for="docsspec-dev-check"  id="td-sidebar-nav-active-item" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">开发规范</a></label>
+      <label for="docsspec-dev-check" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">开发规范</a></label>
       
         
         
@@ -672,14 +665,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevops">
-      <input type="checkbox" id="docsdevops-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsdevops">
+      <input type="checkbox" id="docsdevops-check" checked/>
       <label for="docsdevops-check" ><a href="/docs/devops/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">运维管理</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -708,7 +701,7 @@ if (!doNotTrack) {
   
     <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsintegration">
       <input type="checkbox" id="docsdevopsintegration-check"/>
-      <label for="docsdevopsintegration-check" ><a href="/docs/devops/integration/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">持续集成</a></label>
+      <label for="docsdevopsintegration-check"  id="td-sidebar-nav-active-item" ><a href="/docs/devops/integration/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">持续集成</a></label>
       
         
         
@@ -1006,14 +999,17 @@ if (!doNotTrack) {
   <li class="breadcrumb-item">
     <a href="/docs/">Documentation</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/devops/">运维管理</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-dev/">开发规范</a>
+    <a href="/docs/devops/integration/">持续集成</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>开发规范</h1>
+	<h1>持续集成</h1>
   
 	<header class="article-meta">
 		
@@ -1034,13 +1030,6 @@ if (!doNotTrack) {
 		
 	</header>
 	
-
-<div class="pageinfo pageinfo-primary">
-<p>用于规范开发流程，关键在于工作的流程</p>
-
-</div>
-
-
         <div class="section-index">
     
     
@@ -1052,43 +1041,10 @@ if (!doNotTrack) {
             
         
             
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
-        
-            
                 <div class="entry">
                     <h5>
                         
-                          <a href="/docs/spec-dev/git-branch/">分支管理</a>
-                        
-                    </h5>
-                    <p></p>
-                </div>
-            
-        
-            
-        
-            
-        
-            
-        
-            
-                <div class="entry">
-                    <h5>
-                        
-                          <a href="/docs/spec-dev/git-commit/">提交日志</a>
+                          <a href="/docs/devops/integration/gitlab/">Gitlab</a>
                         
                     </h5>
                     <p></p>
@@ -1114,7 +1070,14 @@ if (!doNotTrack) {
             
         
             
-        
+                <div class="entry">
+                    <h5>
+                        
+                          <a href="/docs/devops/integration/github/">Github</a>
+                        
+                    </h5>
+                    <p></p>
+                </div>
             
         
             
@@ -1127,11 +1090,37 @@ if (!doNotTrack) {
                 <div class="entry">
                     <h5>
                         
-                          <a href="/docs/spec-dev/flows/">分支流程</a>
+                          <a href="/docs/devops/integration/jenkins/">Jenkins</a>
                         
                     </h5>
                     <p></p>
                 </div>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
             
         
             
@@ -1146,7 +1135,7 @@ if (!doNotTrack) {
 
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 13.03.2023: <a href="https://github.com/grpc-kit/doc/commit/6609f2c768acfa84f71062c15b007d820a3f3786">feat: 更新文档 (6609f2c)</a>
+  最后修改 14.04.2023: <a href="https://github.com/grpc-kit/doc/commit/ca26ac8ddd0a36063e1ed6710e7fe0a3e4fb8734">feat: 添加 cicd 相关内容 (ca26ac8)</a>
 </div>
 
 </div>
