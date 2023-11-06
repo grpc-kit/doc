@@ -36,12 +36,12 @@ ObjstoreBucket
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-cfg/objstore/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-06-06T11:57:47+08:00" />
-<meta property="article:modified_time" content="2023-06-11T10:51:14+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-10-30T09:15:13+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="对象存储">
 <meta itemprop="description" content="简要概述 基于 minio-go 类库，对接兼容亚马逊 S3 标准的对象存储，通过封装 ObjstoreBucket 接口，以便在应用层简化使用。
 已测试以下服务：
 腾讯云 COS 阿里云 OSS Cloudflare R2 ObjstoreBucket // ObjstoreBucket 抽象化包装，以简化使用，读写操作权限 type ObjstoreBucket interface { io.Closer ObjstoreBucketReader // Name 获取默认的 bucket 名称 Name() string // Upload 用于上传对象到默认的 bucket 里 Upload(ctx context.Context, objectKey string, r io.Reader) (ObjstoreAttributes, error) // Delete 用于删除对象在默认的 bucket 里 Delete(ctx context.Context, objectKey string) error // CopyTo 用于拷贝对象在默认 bucket 里 CopyTo(ctx context.Context, srcObjectKey, dstObjectKey string) (ObjstoreAttributes, error) } // ObjstoreBucketReader 抽象化包装，以简化使用，只读操作权限 type ObjstoreBucketReader interface { // Get 用于获取默认 bucket 的对象内容 Get(ctx context."><meta itemprop="datePublished" content="2023-06-06T11:57:47+08:00" />
-<meta itemprop="dateModified" content="2023-06-11T10:51:14+08:00" />
+<meta itemprop="dateModified" content="2023-10-30T09:15:13+08:00" />
 <meta itemprop="wordCount" content="770">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="对象存储"/>
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9d05c844cdd3d1477c754c1196f1c5af.json"
+  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -160,7 +160,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.9d05c844cdd3d1477c754c1196f1c5af.json"
+  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -366,6 +366,23 @@ if (!doNotTrack) {
                   <span  id="td-sidebar-nav-active-item" >
                     
                       <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib" id="m-docsspec-cfgobservables">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
                     
                   </span>
                   
@@ -1756,7 +1773,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 11.06.2023: <a href="https://github.com/grpc-kit/doc/commit/a154f4c3487f68f089d1a357f6180bc1b8afc1f6">docs: 对象存储功能点说明 (a154f4c)</a>
+  最后修改 30.10.2023: <a href="https://github.com/grpc-kit/doc/commit/09b9c64c3d33b1984bbba30359d7bf6f2cc0d488">chore: update objstore (09b9c64)</a>
 </div>
 
 </div>
