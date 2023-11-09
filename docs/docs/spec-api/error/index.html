@@ -34,14 +34,14 @@ message ErrorResponse {
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-api/error/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-03-08T17:29:16+08:00" />
-<meta property="article:modified_time" content="2023-03-13T16:06:51+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-11-08T14:26:05+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="处理错误">
 <meta itemprop="description" content="简要概述 向服务发送 API 请求，可能会产生多种不同的错误响应，以下文档将会描述数据结构以及大致的原因。
 响应体结构 查看完整的 proto 文件定义，关键部分如下：
 // ErrorResponse 用于定义统一错误响应体 message ErrorResponse { Status error = 1; } // Status 用于定义统一错误状态码 message Status { int32 code = 1; string status = 2; string message = 3; repeated google.protobuf.Any details = 4; } 一个 json 示例：
 { &#34;error&#34;: { &#34;code&#34;: 5, &#34;status&#34;: &#34;NotFound&#34;, &#34;message&#34;: &#34;unknown service&#34;, &#34;details&#34;: [ { &#34;@type&#34;: &#34;type.googleapis.com/grpc_kit.api.known.status.v1.TracingRequest&#34;, &#34;id&#34;: &#34;b17f76dc51de4098bc974e5f2009c097&#34; } ] } } 状态码说明 code status http code default message 0 OK 200 No error."><meta itemprop="datePublished" content="2023-03-08T17:29:16+08:00" />
-<meta itemprop="dateModified" content="2023-03-13T16:06:51+08:00" />
-<meta itemprop="wordCount" content="244">
+<meta itemprop="dateModified" content="2023-11-08T14:26:05+08:00" />
+<meta itemprop="wordCount" content="258">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="处理错误"/>
 <meta name="twitter:description" content="简要概述 向服务发送 API 请求，可能会产生多种不同的错误响应，以下文档将会描述数据结构以及大致的原因。
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
+  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -160,7 +160,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
+  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -362,10 +362,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
+                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
                   <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
                     
                   </span>
                   
@@ -379,10 +379,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
+                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
                   <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
                     
                   </span>
                   
@@ -1217,6 +1217,12 @@ if (!doNotTrack) {
 <td>401</td>
 <td>Request not authenticated due to missing, invalid, or expired OAuth token.</td>
 </tr>
+<tr>
+<td>204</td>
+<td>NoContent</td>
+<td>204</td>
+<td>Service is no additional content to send in the response content.</td>
+</tr>
 </tbody>
 </table>
 
@@ -1288,7 +1294,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 13.03.2023: <a href="https://github.com/grpc-kit/doc/commit/6609f2c768acfa84f71062c15b007d820a3f3786">feat: 更新文档 (6609f2c)</a>
+  最后修改 08.11.2023: <a href="https://github.com/grpc-kit/doc/commit/0c60495d6dde2b4fbd69e6f87edc4fcc9d699668">docs: add 204 code (0c60495)</a>
 </div>
 
 </div>

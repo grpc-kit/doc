@@ -36,13 +36,13 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-cfg/observables/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-03-19T23:00:57+08:00" />
-<meta property="article:modified_time" content="2023-11-06T17:41:34+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-11-08T17:44:03+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="可观测性">
 <meta itemprop="description" content="简要概述 用于链路跟踪、指标数据采集上报。
 配置示例 最小化配置 # 分布式链路追踪 #observables: # enable: true 可不做任何配置，默认开启可观测性指标服务，既直接对外暴露 &ldquo;/metrics&rdquo; 地址。
 导出所有项 # 可观测性配置 observables: # 全局是否启动可观测性，默认启用 enable: true # 遥测数据（指标、链路）的个性行为配置 telemetry: # 指标数据 metrics: # 为所有自定义指标添加前缀 namespace: default # 性能数据上报频率，单位：秒 push_interval: 60 # 配置启用的 exporters 插件 exporter_enable: otlp: false otlphttp: false logging: true prometheus: true # 链路数据 traces: # 给定一个 0 至 1 之间的分数决定采样频率 sample_ratio: 1 # 在网关上记录 http 请求与响应体内容，仅当为 json 结构体有效 log_fields: http_request: true http_response: true # 配置启用的 exporters 插件 exporter_enable: otlp: true otlphttp: true logging: true prometheus: false # 过滤 http 或 grpc 请求的链路数据上报 filters: - url_path: &#34;/api/demo&#34; method: POST - method: Demo # 遥测数据（指标、链路）的上报输出配置 exporters: # 通过 grpc 上报数据 otlp: endpoint: &#34;http://127."><meta itemprop="datePublished" content="2023-03-19T23:00:57+08:00" />
-<meta itemprop="dateModified" content="2023-11-06T17:41:34+08:00" />
-<meta itemprop="wordCount" content="512">
+<meta itemprop="dateModified" content="2023-11-08T17:44:03+08:00" />
+<meta itemprop="wordCount" content="580">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="可观测性"/>
 <meta name="twitter:description" content="简要概述 用于链路跟踪、指标数据采集上报。
@@ -133,7 +133,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
+  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -160,7 +160,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.c143f108853c7c21dd2578d4941cdf48.json"
+  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -362,10 +362,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgobjstore">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-cfgobservables">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
                     
                   </span>
                   
@@ -379,10 +379,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib active-path" id="m-docsspec-cfgobservables">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib" id="m-docsspec-cfgobjstore">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
                     
                   </span>
                   
@@ -1034,6 +1034,7 @@ if (!doNotTrack) {
         <li><a href="#对接私有-jaeger-服务">对接私有 jaeger 服务</a></li>
         <li><a href="#过滤特定请求的链路上报">过滤特定请求的链路上报</a></li>
         <li><a href="#更改对外暴露的-http-prometheus-性能数据地址">更改对外暴露的 http prometheus 性能数据地址</a></li>
+        <li><a href="#自定义-http-接口如何实现跟踪">自定义 http 接口如何实现跟踪</a></li>
       </ul>
     </li>
   </ul>
@@ -1161,18 +1162,18 @@ if (!doNotTrack) {
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic"># 通过 http 上报数据，避免与 oltp 配置多个，否则链路会重复</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#otlphttp:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  endpoint: &#34;http://127.0.0.1:4318&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  trace_url_path: &#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  metric_url_path: &#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  traces_url_path: &#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  metrics_url_path: &#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#  headers:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic">#    Authentication: token</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic"># 对外暴露 prometheus 风格的 http url 地址</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">prometheus</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metric_url_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/metrics&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metrics_url_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/metrics&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#8f5902;font-style:italic"># 指标与链路分布写入本地文件路径</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">logging</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">pretty_print</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">trace_file_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/tmp/traces.log&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metric_file_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/tmp/metrics.log&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">traces_file_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/tmp/traces.log&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metrics_file_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;/tmp/metrics.log&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><h2 id="参数说明">参数说明</h2>
 <h3 id="observablesconfig">ObservablesConfig</h3>
 <table>
@@ -1437,12 +1438,12 @@ if (!doNotTrack) {
 <td>有些认证需在这里添加，如：Authentication</td>
 </tr>
 <tr>
-<td>trace_url_path</td>
+<td>traces_url_path</td>
 <td>string</td>
 <td>链路上报接口地址，默认为：/v1/traces</td>
 </tr>
 <tr>
-<td>metric_url_path</td>
+<td>metrics_url_path</td>
 <td>string</td>
 <td>指标上报接口节点，默认为：/v1/metrics</td>
 </tr>
@@ -1459,7 +1460,7 @@ if (!doNotTrack) {
 </thead>
 <tbody>
 <tr>
-<td>metric_url_path</td>
+<td>metrics_url_path</td>
 <td>string</td>
 <td>对外暴露应用指标的 http url 地址，默认为：/metrics</td>
 </tr>
@@ -1481,12 +1482,12 @@ if (!doNotTrack) {
 <td>是否格式化 json 输出</td>
 </tr>
 <tr>
-<td>metric_file_path</td>
+<td>metrics_file_path</td>
 <td>string</td>
 <td>指标输出文件，为空则不启用，配置 &ldquo;stdout&rdquo; 则输出终端</td>
 </tr>
 <tr>
-<td>trace_file_path</td>
+<td>traces_file_path</td>
 <td>string</td>
 <td>链路输出文件，为空则不启用，配置 &ldquo;stdout&rdquo; 则输出终端</td>
 </tr>
@@ -1591,8 +1592,27 @@ if (!doNotTrack) {
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">observables</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">exporters</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">prometheus</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metric_url_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/v2/metrics</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">metrics_url_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/v2/metrics</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>这个时候需通过接口 &ldquo;/v2/metrics&rdquo; 来获取应用的性能数据。</p>
+<h3 id="自定义-http-接口如何实现跟踪">自定义 http 接口如何实现跟踪</h3>
+<p>默认仅针对 grpc-gateway 至 grpc 转发才会捕获链路数据上报。</p>
+<p>如果用户在 <code>handler/private.go</code> 中的 <code>privateHTTPHandle</code> 方法添加了自定义 http 接口，如：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">m</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">Microservice</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">privateHTTPHandle</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">mux</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">http</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ServeMux</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">error</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000">testHandler</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#204a87;font-weight:bold">func</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">w</span> <span style="color:#000">http</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ResponseWriter</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">r</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">http</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Request</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">_</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">_</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">fmt</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Fprintf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">w</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;test&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">// 访问 /favicon.ico 不会产生链路数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>	<span style="color:#000">mux</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HandleFunc</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/favicon.ico&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">func</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">w</span> <span style="color:#000">http</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ResponseWriter</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">r</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">http</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Request</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>		<span style="color:#000">_</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">_</span> <span style="color:#000;font-weight:bold">=</span> <span style="color:#000">fmt</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Fprintf</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">w</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#000;font-weight:bold">})</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">// 访问 /test 会产生链路数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>	<span style="color:#000">mux</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Handle</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/test&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">m</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">baseCfg</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HTTPHandlerFunc</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">testHandler</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><p>这里定义了两个接口 <code>/favicon.ico</code>（不会产生链路数据） 与 <code>/test</code>（会产生链路数据），如需捕获数据，可通过内置函数 <code>m.baseCfg.HTTPHandlerFunc</code> 或 <code>m.baseCfg.HTTPHandler</code> 实现。</p>
 
 	
 		<br /><hr />
@@ -1662,7 +1682,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 06.11.2023: <a href="https://github.com/grpc-kit/doc/commit/878308a8b876ece4dc876a22b5a02a8fe3a29638">docs: 客观性文档添加配置案例 (878308a)</a>
+  最后修改 08.11.2023: <a href="https://github.com/grpc-kit/doc/commit/8948b74feff217c734e318644677990cfc0225b6">docs: 更改 trace_url_path 为 traces_url_path (8948b74)</a>
 </div>
 
 </div>

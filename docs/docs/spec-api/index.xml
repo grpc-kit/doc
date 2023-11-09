@@ -425,6 +425,12 @@
 &lt;td&gt;401&lt;/td&gt;
 &lt;td&gt;Request not authenticated due to missing, invalid, or expired OAuth token.&lt;/td&gt;
 &lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;204&lt;/td&gt;
+&lt;td&gt;NoContent&lt;/td&gt;
+&lt;td&gt;204&lt;/td&gt;
+&lt;td&gt;Service is no additional content to send in the response content.&lt;/td&gt;
+&lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
 
