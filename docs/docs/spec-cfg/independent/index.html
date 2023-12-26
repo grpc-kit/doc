@@ -35,14 +35,14 @@ package modeler // IndependentCfg 个性配置 type IndependentCfg struct { Name
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-cfg/independent/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-02-12T11:14:26+08:00" />
-<meta property="article:modified_time" content="2023-03-19T23:06:01+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2023-12-26T13:44:53+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="应用私有">
 <meta itemprop="description" content="简要概述 对于通过 grpc-kit-cli 生成的每个微服务模版，如果它们存在需要个性化配置与数据结构，那么可以在这里定义。
 配置示例 independent: name: grpc-kit 数据结构 在 github.com/grpc-kit/pkg/cfg 中内置的数据结构，这个由框架管理，用户无法自定义：
 type LocalConfig struct { ...... Independent interface{} `json:&#34;,omitempty&#34;` // 应用私有配置 ...... } 在生成各服务模版的结构，这个由用户自定义：
 package modeler // IndependentCfg 个性配置 type IndependentCfg struct { Name string `mapstructure:&#34;name&#34;` } // Init 用于初始化实例 func (i *IndependentCfg) Init() error { // 业务代码 return nil } 应用场景 一个自定义服务 生成以下 app.yaml 配置项：
 # 应用私有配置 independent: # 消息数据写入kafka的topic message: cmdb: # 资产类信息 topic: uptime-alertmanager metric: # 性能指标类 topic: uptime # 主机注册的相关配置 registry: default: host_ttl: 60 heartbeat: 10 在对应的 modeler/independent_cfg."><meta itemprop="datePublished" content="2023-02-12T11:14:26+08:00" />
-<meta itemprop="dateModified" content="2023-03-19T23:06:01+08:00" />
+<meta itemprop="dateModified" content="2023-12-26T13:44:53+08:00" />
 <meta itemprop="wordCount" content="161">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="应用私有"/>
@@ -77,6 +77,16 @@ var _hmt = _hmt || [];
 })();
 </script>
 
+
+
+
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "kbt19rpuvm");
+</script>
 
 
 
@@ -136,7 +146,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
+  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -163,7 +173,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.5f6c76778469c3d61e3f9a34ab0ba93e.json"
+  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -386,6 +396,23 @@ if (!doNotTrack) {
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib" id="m-docsspec-cfgfrontend">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
                     
                   </span>
                   
@@ -1229,7 +1256,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 19.03.2023: <a href="https://github.com/grpc-kit/doc/commit/dcd6d949ac9086bf6493d1ab167fe0efd13abc50">feat: 添加可观测性 (dcd6d94)</a>
+  最后修改 26.12.2023: <a href="https://github.com/grpc-kit/doc/commit/2fdddb585d9f7bb3c95ac6170414a8806c676acf">feat: 添加前端静态托管文档 (2fdddb5)</a>
 </div>
 
 </div>

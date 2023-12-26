@@ -18,50 +18,45 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>关键术语 | gRPC Kit</title>
+<title>前端托管 | gRPC Kit</title>
 <meta name="description" content="简要概述
-约束生成微服务所依赖的几个公共名称
-内部变量
+支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
+一般常见可通过以下框架生成：
+
+Hugo
+Next.js
+
+在使用托管服务时，需按照以下规范使用：
 
 
 
-变量名
-中文名
-取值范围
-示例
-描述
-
-
-
-
-CLI_VERSION
-工具版本
-[0-9].\d.\d
-0.3.0
-生成该模版所使用的 grpc-kit-cli 版本
-
-
-ORGANIZATION
-组织代码
-见变量组合
-grpc-kit
- …">
-<meta property="og:title" content="关键术语" />
-<meta property="og:description" content="简要概述 约束生成微服务所依赖的几个公共名称
-内部变量 变量名 中文名 取值范围 示例 描述 CLI_VERSION 工具版本 [0-9].\d.\d 0.3.0 生成该模版所使用的 grpc-kit-cli 版本 ORGANIZATION 组织代码 见变量组合 grpc-kit 产品所在的公司或部门 PRODUCT_CODE 产品代码 ^([a-z0-9]){4,}$ opsaid 同一产品使用相同代码，使用单个词 SHORT_NAME 应用短名 ^([a-z0-9]){4,}$ test1 同一产品使用不同短名，使用单个词 API_VERSION 接口版本 v[1-9]&#43; v1 微服务主接口版本 APPNAME 应用名称 见变量组合 opsaid-test1-v1 xx PROTO_PACKAGE 服务包名 见变量组合 grpc_kit.api.opsaid.test1.v1 x SERVICE_CODE 服务代码 见变量组合 test1.v1.opsaid xx SERVICE_TITLE 服务标题 见变量组合 OpsaidTest1 xx SERVICE_NAME 服务全名 见变量组合 test1.v1.opsaid.api.grpc-kit.com xx 变量组合 变量名 组合格式 APPNAME ${PRODUCT_CODE}-${SHORT_NAME}-${API_VERSION} PROTO_PACKAGE ${ORGANIZATION}.api.${PRODUCT_CODE}.${SHORT_NAME}.${API_VERSION} SERVICE_CODE ${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE} SERVICE_TITLE ${PRODUCT_CODE}${SHORT_NAME} SERVICE_NAME ${SHORT_NAME}." />
+前端类型
+默认 URL 地 …">
+<meta property="og:title" content="前端托管" />
+<meta property="og:description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
+一般常见可通过以下框架生成：
+Hugo Next.js 在使用托管服务时，需按照以下规范使用：
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置：" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/spec-api/key-terms/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2023-03-19T15:02:36+08:00" />
-<meta property="article:modified_time" content="2023-03-19T22:30:44+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="关键术语">
-<meta itemprop="description" content="简要概述 约束生成微服务所依赖的几个公共名称
-内部变量 变量名 中文名 取值范围 示例 描述 CLI_VERSION 工具版本 [0-9].\d.\d 0.3.0 生成该模版所使用的 grpc-kit-cli 版本 ORGANIZATION 组织代码 见变量组合 grpc-kit 产品所在的公司或部门 PRODUCT_CODE 产品代码 ^([a-z0-9]){4,}$ opsaid 同一产品使用相同代码，使用单个词 SHORT_NAME 应用短名 ^([a-z0-9]){4,}$ test1 同一产品使用不同短名，使用单个词 API_VERSION 接口版本 v[1-9]&#43; v1 微服务主接口版本 APPNAME 应用名称 见变量组合 opsaid-test1-v1 xx PROTO_PACKAGE 服务包名 见变量组合 grpc_kit.api.opsaid.test1.v1 x SERVICE_CODE 服务代码 见变量组合 test1.v1.opsaid xx SERVICE_TITLE 服务标题 见变量组合 OpsaidTest1 xx SERVICE_NAME 服务全名 见变量组合 test1.v1.opsaid.api.grpc-kit.com xx 变量组合 变量名 组合格式 APPNAME ${PRODUCT_CODE}-${SHORT_NAME}-${API_VERSION} PROTO_PACKAGE ${ORGANIZATION}.api.${PRODUCT_CODE}.${SHORT_NAME}.${API_VERSION} SERVICE_CODE ${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE} SERVICE_TITLE ${PRODUCT_CODE}${SHORT_NAME} SERVICE_NAME ${SHORT_NAME}."><meta itemprop="datePublished" content="2023-03-19T15:02:36+08:00" />
-<meta itemprop="dateModified" content="2023-03-19T22:30:44+08:00" />
-<meta itemprop="wordCount" content="86">
+<meta property="og:url" content="/docs/spec-cfg/frontend/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-12-25T10:18:41+08:00" />
+<meta property="article:modified_time" content="2023-12-26T13:44:53+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="前端托管">
+<meta itemprop="description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
+一般常见可通过以下框架生成：
+Hugo Next.js 在使用托管服务时，需按照以下规范使用：
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置："><meta itemprop="datePublished" content="2023-12-25T10:18:41+08:00" />
+<meta itemprop="dateModified" content="2023-12-26T13:44:53+08:00" />
+<meta itemprop="wordCount" content="213">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="关键术语"/>
-<meta name="twitter:description" content="简要概述 约束生成微服务所依赖的几个公共名称
-内部变量 变量名 中文名 取值范围 示例 描述 CLI_VERSION 工具版本 [0-9].\d.\d 0.3.0 生成该模版所使用的 grpc-kit-cli 版本 ORGANIZATION 组织代码 见变量组合 grpc-kit 产品所在的公司或部门 PRODUCT_CODE 产品代码 ^([a-z0-9]){4,}$ opsaid 同一产品使用相同代码，使用单个词 SHORT_NAME 应用短名 ^([a-z0-9]){4,}$ test1 同一产品使用不同短名，使用单个词 API_VERSION 接口版本 v[1-9]&#43; v1 微服务主接口版本 APPNAME 应用名称 见变量组合 opsaid-test1-v1 xx PROTO_PACKAGE 服务包名 见变量组合 grpc_kit.api.opsaid.test1.v1 x SERVICE_CODE 服务代码 见变量组合 test1.v1.opsaid xx SERVICE_TITLE 服务标题 见变量组合 OpsaidTest1 xx SERVICE_NAME 服务全名 见变量组合 test1.v1.opsaid.api.grpc-kit.com xx 变量组合 变量名 组合格式 APPNAME ${PRODUCT_CODE}-${SHORT_NAME}-${API_VERSION} PROTO_PACKAGE ${ORGANIZATION}.api.${PRODUCT_CODE}.${SHORT_NAME}.${API_VERSION} SERVICE_CODE ${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE} SERVICE_TITLE ${PRODUCT_CODE}${SHORT_NAME} SERVICE_NAME ${SHORT_NAME}."/>
+<meta name="twitter:title" content="前端托管"/>
+<meta name="twitter:description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
+一般常见可通过以下框架生成：
+Hugo Next.js 在使用托管服务时，需按照以下规范使用：
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置："/>
 
 
 
@@ -336,14 +331,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
-      <input type="checkbox" id="docsspec-cfg-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check" checked/>
       <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -352,7 +347,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                <li class="without-sib" id="m-docsspec-cfgservices">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
@@ -369,7 +364,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                <li class="without-sib" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
@@ -386,7 +381,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
+                <li class="without-sib" id="m-docsspec-cfgobservables">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
@@ -403,7 +398,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
+                <li class="without-sib" id="m-docsspec-cfgobjstore">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
@@ -420,10 +415,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgfrontend">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-cfgfrontend">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
                     
                   </span>
                   
@@ -437,7 +432,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                <li class="without-sib" id="m-docsspec-cfgindependent">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
@@ -454,7 +449,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                <li class="without-sib" id="m-docsspec-cfgcfg">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
@@ -649,14 +644,14 @@ if (!doNotTrack) {
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-api">
-      <input type="checkbox" id="docsspec-api-check" checked/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-api">
+      <input type="checkbox" id="docsspec-api-check"/>
       <label for="docsspec-api-check" ><a href="/docs/spec-api/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">接口规范</a></label>
       
         
         
       
-      <ul class="ul-2">
+      <ul class="ul-2 collapsed">
 
         
           
@@ -665,10 +660,10 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib active-path" id="m-docsspec-apikey-terms">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib collapsed" id="m-docsspec-apikey-terms">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-apikey-terms-a" href="/docs/spec-api/key-terms/">关键术语</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apikey-terms-a" href="/docs/spec-api/key-terms/">关键术语</a>
                     
                   </span>
                   
@@ -682,7 +677,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-apiservice">
+                <li class="without-sib collapsed" id="m-docsspec-apiservice">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apiservice-a" href="/docs/spec-api/service/">定义服务</a>
@@ -699,7 +694,7 @@ if (!doNotTrack) {
               
               
               
-                <li class="without-sib" id="m-docsspec-apierror">
+                <li class="without-sib collapsed" id="m-docsspec-apierror">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apierror-a" href="/docs/spec-api/error/">处理错误</a>
@@ -1047,8 +1042,27 @@ if (!doNotTrack) {
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
     <li><a href="#简要概述">简要概述</a></li>
-    <li><a href="#内部变量">内部变量</a></li>
-    <li><a href="#变量组合">变量组合</a></li>
+    <li><a href="#配置示例">配置示例</a>
+      <ul>
+        <li><a href="#最小化配置">最小化配置</a></li>
+        <li><a href="#导出默认值">导出默认值</a></li>
+      </ul>
+    </li>
+    <li><a href="#配置说明">配置说明</a>
+      <ul>
+        <li><a href="#frontendinterface">FrontendInterface</a></li>
+        <li><a href="#webinterfaceconfig">WebInterfaceConfig</a></li>
+      </ul>
+    </li>
+    <li><a href="#应用场景">应用场景</a>
+      <ul>
+        <li><a href="#禁止目录列出">禁止目录列出</a></li>
+        <li><a href="#自定义-404-页面">自定义 404 页面</a></li>
+        <li><a href="#取消内嵌静态文件">取消内嵌静态文件</a></li>
+        <li><a href="#开启链路跟踪">开启链路跟踪</a></li>
+        <li><a href="#使用-nextjs-生成模版">使用 next.js 生成模版</a></li>
+      </ul>
+    </li>
   </ul>
 </nav></div>
 
@@ -1086,16 +1100,16 @@ if (!doNotTrack) {
     <a href="/docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="/docs/spec-api/">接口规范</a>
+    <a href="/docs/spec-cfg/">配置规范</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-api/key-terms/">关键术语</a>
+    <a href="/docs/spec-cfg/frontend/">前端托管</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>关键术语</h1>
+	<h1>前端托管</h1>
 	
 	<header class="article-meta">
 		
@@ -1116,128 +1130,182 @@ if (!doNotTrack) {
 		
 	</header>    
 	<h2 id="简要概述">简要概述</h2>
-<p>约束生成微服务所依赖的几个公共名称</p>
-<h2 id="内部变量">内部变量</h2>
-<table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>中文名</th>
-<th>取值范围</th>
-<th>示例</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>CLI_VERSION</td>
-<td>工具版本</td>
-<td>[0-9].\d.\d</td>
-<td>0.3.0</td>
-<td>生成该模版所使用的 grpc-kit-cli 版本</td>
-</tr>
-<tr>
-<td>ORGANIZATION</td>
-<td>组织代码</td>
-<td>见变量组合</td>
-<td>grpc-kit</td>
-<td>产品所在的公司或部门</td>
-</tr>
-<tr>
-<td>PRODUCT_CODE</td>
-<td>产品代码</td>
-<td>^([a-z0-9]){4,}$</td>
-<td>opsaid</td>
-<td>同一产品使用相同代码，使用单个词</td>
-</tr>
-<tr>
-<td>SHORT_NAME</td>
-<td>应用短名</td>
-<td>^([a-z0-9]){4,}$</td>
-<td>test1</td>
-<td>同一产品使用不同短名，使用单个词</td>
-</tr>
-<tr>
-<td>API_VERSION</td>
-<td>接口版本</td>
-<td>v[1-9]+</td>
-<td>v1</td>
-<td>微服务主接口版本</td>
-</tr>
-<tr>
-<td>APPNAME</td>
-<td>应用名称</td>
-<td>见变量组合</td>
-<td>opsaid-test1-v1</td>
-<td>xx</td>
-</tr>
-<tr>
-<td>PROTO_PACKAGE</td>
-<td>服务包名</td>
-<td>见变量组合</td>
-<td>grpc_kit.api.opsaid.test1.v1</td>
-<td>x</td>
-</tr>
-<tr>
-<td>SERVICE_CODE</td>
-<td>服务代码</td>
-<td>见变量组合</td>
-<td>test1.v1.opsaid</td>
-<td>xx</td>
-</tr>
-<tr>
-<td>SERVICE_TITLE</td>
-<td>服务标题</td>
-<td>见变量组合</td>
-<td>OpsaidTest1</td>
-<td>xx</td>
-</tr>
-<tr>
-<td>SERVICE_NAME</td>
-<td>服务全名</td>
-<td>见变量组合</td>
-<td>test1.v1.opsaid.api.grpc-kit.com</td>
-<td>xx</td>
-</tr>
-</tbody>
-</table>
-<h2 id="变量组合">变量组合</h2>
-<table>
-<thead>
-<tr>
-<th>变量名</th>
-<th>组合格式</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>APPNAME</td>
-<td>${PRODUCT_CODE}-${SHORT_NAME}-${API_VERSION}</td>
-</tr>
-<tr>
-<td>PROTO_PACKAGE</td>
-<td>${ORGANIZATION}.api.${PRODUCT_CODE}.${SHORT_NAME}.${API_VERSION}</td>
-</tr>
-<tr>
-<td>SERVICE_CODE</td>
-<td>${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE}</td>
-</tr>
-<tr>
-<td>SERVICE_TITLE</td>
-<td>${PRODUCT_CODE}${SHORT_NAME}</td>
-</tr>
-<tr>
-<td>SERVICE_NAME</td>
-<td>${SHORT_NAME}.${API_VERSION}.${PRODUCT_CODE}.${API_GATEWAY}</td>
-</tr>
-</tbody>
-</table>
-<p>注意：</p>
+<p>支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。</p>
+<p>一般常见可通过以下框架生成：</p>
 <ol>
-<li>在 &ldquo;PROTO_PACKAGE&rdquo; 中，如果变量 &ldquo;ORGANIZATION&rdquo; 存在中化线&quot;-&quot;，则需转化为下划线&quot;_&quot;；</li>
-<li>在 &ldquo;SERVICE_TITLE&rdquo; 中，变量 &ldquo;PRODUCT_CODE&rdquo; 与 &ldquo;SHORT_NAME&rdquo; 首字母均大写；</li>
+<li><a href="https://gohugo.io/">Hugo</a></li>
+<li><a href="https://nextjs.org/">Next.js</a></li>
 </ol>
-
+<p>在使用托管服务时，需按照以下规范使用：</p>
+<table>
+<thead>
+<tr>
+<th>前端类型</th>
+<th>默认 URL 地址</th>
+<th>前端源代码路径</th>
+<th>前端编译后路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="/docs/spec-cfg/frontend/#frontendinterface">admin</a></td>
+<td>/admin/</td>
+<td>./web/admin/</td>
+<td>./public/admin/</td>
+</tr>
+<tr>
+<td><a href="/docs/spec-cfg/frontend/#frontendinterface">openapi</a></td>
+<td>/openspec-api/</td>
+<td>./api/${}/microservice.openapiv2.yaml</td>
+<td>./public/openapi/</td>
+</tr>
+<tr>
+<td><a href="/docs/spec-cfg/frontend/#frontendinterface">webroot</a></td>
+<td>/</td>
+<td>./web/webroot/</td>
+<td>./public/webroot/</td>
+</tr>
+</tbody>
+</table>
+<h2 id="配置示例">配置示例</h2>
+<h3 id="最小化配置">最小化配置</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 前端托管配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#8f5902;font-style:italic">#frontend:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#8f5902;font-style:italic">#  enable: true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>可不做任何配置，默认开启：openapi 接口文档。</p>
+<h3 id="导出默认值">导出默认值</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 前端托管配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">frontend</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">interface</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">admin</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">tracing</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">embedded</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">handle_url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/admin</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">openapi</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">tracing</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">embedded</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">handle_url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/openapi-spec</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">webroot</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">tracing</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">embedded</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">handle_url</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">/</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h2 id="配置说明">配置说明</h2>
+<h3 id="frontendinterface">FrontendInterface</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>admin</td>
+<td>WebInterfaceConfig</td>
+<td>面向管理员后台</td>
+</tr>
+<tr>
+<td>openapi</td>
+<td>WebInterfaceConfig</td>
+<td>基于 protoc 服务定义转换为 http 接口文档</td>
+</tr>
+<tr>
+<td>webroot</td>
+<td>WebInterfaceConfig</td>
+<td>面向普通用户所使用的前端页面</td>
+</tr>
+</tbody>
+</table>
+<h3 id="webinterfaceconfig">WebInterfaceConfig</h3>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>enabled</td>
+<td>bool</td>
+<td>是否启用该前端托管</td>
+</tr>
+<tr>
+<td>tracing</td>
+<td>bool</td>
+<td>是否启用该托管的链路跟踪</td>
+</tr>
+<tr>
+<td>embedded</td>
+<td>bool</td>
+<td>是否把该前端静态文件在编译时嵌入二进制文件中</td>
+</tr>
+<tr>
+<td>handle_url</td>
+<td>string</td>
+<td>注册到微服务上 http url 服务的地址</td>
+</tr>
+</tbody>
+</table>
+<h2 id="应用场景">应用场景</h2>
+<h3 id="禁止目录列出">禁止目录列出</h3>
+<p>应用配置：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 前端托管配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">frontend</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">interface</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">admin</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>静态目录：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>hello1.txt
+</span></span><span style="display:flex;"><span>dir1/dir2/hello2.txt
+</span></span></code></pre></div><p>使用以上配置，开启 &ldquo;./public/admin/&rdquo; 静态文件托管，此时在浏览器上访问将会以目录列表输出，这在某些情况下存在安全风险，可通过以下两种方式禁止目录列出。</p>
+<p>方式一：为各目录下添加 &ldquo;index.html&rdquo; 文件</p>
+<p>在浏览器访问时自动会把 &ldquo;index.html&rdquo; 内容输出，但此种方式仅影响当前文件夹。</p>
+<p>方式二：在根目录下添加 &ldquo;404.html&rdquo; 文件</p>
+<p>当请求的 &ldquo;*.html&rdquo; 或者 请求无后缀 文件时，如果不存在文件则会重定向到根的 &ldquo;404.html&rdquo; 内容。</p>
+<h3 id="自定义-404-页面">自定义 404 页面</h3>
+<p>如上，在根目录更改 &ldquo;404.html&rdquo; 文件即可。</p>
+<h3 id="取消内嵌静态文件">取消内嵌静态文件</h3>
+<p>应用配置：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 前端托管配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">frontend</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">interface</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">admin</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">enabled</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">embedded</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>使用以上配置，开启 &ldquo;./public/admin/&rdquo; 静态文件托管，此时目录下内容更改可实时生效并影响到用户前端访问。</p>
+<h3 id="开启链路跟踪">开启链路跟踪</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 前端托管配置</span>
+</span></span><span style="display:flex;"><span>frontend:
+</span></span><span style="display:flex;"><span>  interface:
+</span></span><span style="display:flex;"><span>    admin:
+</span></span><span style="display:flex;"><span>      enabled: <span style="color:#204a87">true</span>
+</span></span><span style="display:flex;"><span>      tracing: <span style="color:#204a87">true</span>
+</span></span></code></pre></div><p>使用以上配置，开启 &ldquo;./public/admin/&rdquo; 静态文件托管，用户访问 &ldquo;/admin&rdquo; 后台时，将会把相关链路数据上报至已配置的<a href="/docs/spec-cfg/observables/">可观测性</a>服务。</p>
+<h3 id="使用-nextjs-生成模版">使用 next.js 生成模版</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>npx create-next-app@latest <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--typescript <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--tailwind <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--eslint <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--app <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--use-npm <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span>	--import-alias <span style="color:#4e9a06">&#34;@/*&#34;</span> webroot
+</span></span></code></pre></div><p>更改配置 next.config.js</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>/** @type {import(&#39;next&#39;).NextConfig} */
+</span></span><span style="display:flex;"><span>const nextConfig = {
+</span></span><span style="display:flex;"><span>  output: &#39;export&#39;,
+</span></span><span style="display:flex;"><span>  distDir: &#39;../../public/webroot&#39;,
+</span></span><span style="display:flex;"><span>  trailingSlash: true,
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>module.exports = nextConfig
+</span></span></code></pre></div>
 	
 		<br /><hr />
 		<style>
@@ -1306,7 +1374,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 19.03.2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
+  最后修改 26.12.2023: <a href="https://github.com/grpc-kit/doc/commit/2fdddb585d9f7bb3c95ac6170414a8806c676acf">feat: 添加前端静态托管文档 (2fdddb5)</a>
 </div>
 
 </div>
