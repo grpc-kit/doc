@@ -33,12 +33,12 @@ services:
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-cfg/services/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-02-12T11:06:45+08:00" />
-<meta property="article:modified_time" content="2023-11-20T17:59:37+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2024-01-02T11:04:45+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="基础服务">
 <meta itemprop="description" content="简要概述 描述服务的基础信息。
 配置示例 services: root_path: grpc-kit namespace: example service_code: test1.v1.opsaid api_endpoint: api.grpc-kit.com grpc_address: 0.0.0.0:10081 http_address: 0.0.0.0:10080 数据结构 // ServicesConfig 基础服务配置，用于设定命名空间、注册的路径、监听的地址等 type ServicesConfig struct { RootPath string `mapstructure:&#34;root_path&#34;` Namespace string `mapstructure:&#34;namespace&#34;` ServiceCode string `mapstructure:&#34;service_code&#34;` APIEndpoint string `mapstructure:&#34;api_endpoint&#34;` GRPCAddress string `mapstructure:&#34;grpc_address&#34;` HTTPAddress string `mapstructure:&#34;http_address&#34;` PublicAddress string `mapstructure:&#34;public_address&#34;` } 配置参数 名称 类型 说明 root_path string 服务注册的前缀，全局统一，一般同组织代码 namespace string 服务注册的空间，全局统一 service_code string 服务的代码，名称唯一且必填，格式：应用短名.接口版本.产品代码 api_endpoint string 接口网关的地址 grpc_address string 服务所监听的grpc地址（如未设置，自动监听在127.0.0.1的随机端口） http_address string 服务所监听的http地址（如未设置，则不开启gateway服务） public_address string 服务注册，外部网络可连接的grpc地址（一般等同于grpc-address） 应用场景 开启 http 监听 services: service_code: test1."><meta itemprop="datePublished" content="2023-02-12T11:06:45+08:00" />
-<meta itemprop="dateModified" content="2023-11-20T17:59:37+08:00" />
-<meta itemprop="wordCount" content="256">
+<meta itemprop="dateModified" content="2024-01-02T11:04:45+08:00" />
+<meta itemprop="wordCount" content="428">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="基础服务"/>
 <meta name="twitter:description" content="简要概述 描述服务的基础信息。
@@ -138,7 +138,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
+  data-offline-search-index-json-src="/offline-search-index.50485a137bb11f2bf5fdc00b34a46ae8.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -165,7 +165,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
+  data-offline-search-index-json-src="/offline-search-index.50485a137bb11f2bf5fdc00b34a46ae8.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -1036,6 +1036,7 @@ if (!doNotTrack) {
         <li><a href="#开启-http-监听">开启 http 监听</a></li>
         <li><a href="#关闭-http-监听">关闭 http 监听</a></li>
         <li><a href="#使用-tls-加密-grpc-或-http-连接">使用 TLS 加密 gRPC 或 HTTP 连接</a></li>
+        <li><a href="#通过-openssl-生成证书">通过 openssl 生成证书</a></li>
       </ul>
     </li>
   </ul>
@@ -1100,7 +1101,7 @@ if (!doNotTrack) {
 			
 		
 		
-			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 2 分钟阅读 &nbsp;</p>
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 3 分钟阅读 &nbsp;</p>
 
 		
 	</header>    
@@ -1262,6 +1263,63 @@ if (!doNotTrack) {
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">cert_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;./config/tls/grpc-client.crt&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">key_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;./config/tls/grpc-client.key&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span></code></pre></div><p>对于使用 mTLS 两边的证书可以来不不同的 ca 签发。</p>
+<h3 id="通过-openssl-生成证书">通过 openssl 生成证书</h3>
+<ol>
+<li>创建 ca</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>cat &gt; ca-csr.conf &lt;&lt; EOF
+</span></span><span style="display:flex;"><span>[ req ]
+</span></span><span style="display:flex;"><span>default_bits = 2048
+</span></span><span style="display:flex;"><span>prompt = no
+</span></span><span style="display:flex;"><span>default_md = sha256
+</span></span><span style="display:flex;"><span>distinguished_name = dn
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ dn ]
+</span></span><span style="display:flex;"><span>C = CN
+</span></span><span style="display:flex;"><span>CN = demo-ca
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ v3_ext ]
+</span></span><span style="display:flex;"><span>basicConstraints=critical,CA:true,pathlen:1
+</span></span><span style="display:flex;"><span>keyUsage=critical,digitalSignature,keyCertSign,cRLSign
+</span></span><span style="display:flex;"><span>EOF
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>openssl genrsa -out ca.key <span style="color:#0000cf;font-weight:bold">2048</span>
+</span></span><span style="display:flex;"><span>openssl req -new -key ca.key -out ca.csr -config ca-csr.conf
+</span></span><span style="display:flex;"><span>openssl x509 -req -in ca.csr -signkey ca.key -out ca.crt -days <span style="color:#0000cf;font-weight:bold">3650</span> -extensions v3_ext -extfile ca-csr.conf
+</span></span></code></pre></div><ol start="2">
+<li>创建 http 服务证书</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>cat &gt; ca-csr.conf &lt;&lt; EOF
+</span></span><span style="display:flex;"><span>[ req ]
+</span></span><span style="display:flex;"><span>default_bits = 2048
+</span></span><span style="display:flex;"><span>prompt = no
+</span></span><span style="display:flex;"><span>default_md = sha256
+</span></span><span style="display:flex;"><span>req_extensions = req_ext
+</span></span><span style="display:flex;"><span>distinguished_name = dn
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ dn ]
+</span></span><span style="display:flex;"><span>C = CN
+</span></span><span style="display:flex;"><span>CN = http
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ req_ext ]
+</span></span><span style="display:flex;"><span>subjectAltName = @alt_names
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ alt_names ]
+</span></span><span style="display:flex;"><span>IP.1 = 127.0.0.1
+</span></span><span style="display:flex;"><span>IP.2 = 10.5.39.39
+</span></span><span style="display:flex;"><span>DNS.1 = localhost
+</span></span><span style="display:flex;"><span>DNS.2 = opsaid-test6-v1.default.svc
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>[ v3_ext ]
+</span></span><span style="display:flex;"><span>authorityKeyIdentifier=keyid,issuer:always
+</span></span><span style="display:flex;"><span>basicConstraints=CA:FALSE
+</span></span><span style="display:flex;"><span>keyUsage=critical,digitalSignature,keyEncipherment
+</span></span><span style="display:flex;"><span>extendedKeyUsage=serverAuth
+</span></span><span style="display:flex;"><span>subjectAltName=@alt_names
+</span></span><span style="display:flex;"><span>EOF
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-shell" data-lang="shell"><span style="display:flex;"><span>openssl genrsa -out http.key <span style="color:#0000cf;font-weight:bold">2048</span>
+</span></span><span style="display:flex;"><span>openssl req -new -key http.key -out http.csr -config http-csr.conf
+</span></span><span style="display:flex;"><span>openssl x509 -req -in http.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out http.crt -days <span style="color:#0000cf;font-weight:bold">3650</span> -extensions v3_ext -extfile http-csr.conf
+</span></span></code></pre></div><p>其中 grpc 服务证书方法同 http，以上 &ldquo;*-csr.conf&rdquo; 文件内容根据实际情况做更改。</p>
 
 	
 		<br /><hr />
@@ -1331,7 +1389,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 20.11.2023: <a href="https://github.com/grpc-kit/doc/commit/51d5952ebe328b9d40093f27662c887855fd8a3b">feat: 添加 tls 配置示例 (51d5952)</a>
+  最后修改 02.01.2024: <a href="https://github.com/grpc-kit/doc/commit/be6fdfa5342a5419e07a43858809afcf15d73b77">docs: 添加 openssl 示例 (be6fdfa)</a>
 </div>
 
 </div>
@@ -1381,7 +1439,7 @@ if (!doNotTrack) {
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2023 The gRPC Kit Authors. 保留所有权利</small>
+        <small class="text-white">&copy; 2024 The gRPC Kit Authors. 保留所有权利</small>
         <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">隐私政策</a></small>
 
 	

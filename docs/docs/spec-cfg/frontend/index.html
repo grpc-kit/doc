@@ -36,26 +36,26 @@ Next.js
 <meta property="og:description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
 一般常见可通过以下框架生成：
 Hugo Next.js 在使用托管服务时，需按照以下规范使用：
-前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openapi-spec/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
 导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置：" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="/docs/spec-cfg/frontend/" /><meta property="article:section" content="docs" />
 <meta property="article:published_time" content="2023-12-25T10:18:41+08:00" />
-<meta property="article:modified_time" content="2023-12-26T13:44:53+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta property="article:modified_time" content="2024-02-08T15:06:50+08:00" /><meta property="og:site_name" content="gRPC Kit" />
 <meta itemprop="name" content="前端托管">
 <meta itemprop="description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
 一般常见可通过以下框架生成：
 Hugo Next.js 在使用托管服务时，需按照以下规范使用：
-前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openapi-spec/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
 导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置："><meta itemprop="datePublished" content="2023-12-25T10:18:41+08:00" />
-<meta itemprop="dateModified" content="2023-12-26T13:44:53+08:00" />
+<meta itemprop="dateModified" content="2024-02-08T15:06:50+08:00" />
 <meta itemprop="wordCount" content="213">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="前端托管"/>
 <meta name="twitter:description" content="简要概述 支持托管静态文件，例如编写 HTML、CSS、JAVASCRIPT 部署到指定目录下，既可在前端浏览器打开展示，同时也支持这些静态文件在编译时嵌入二进制中。
 一般常见可通过以下框架生成：
 Hugo Next.js 在使用托管服务时，需按照以下规范使用：
-前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openspec-api/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
+前端类型 默认 URL 地址 前端源代码路径 前端编译后路径 admin /admin/ ./web/admin/ ./public/admin/ openapi /openapi-spec/ ./api/${}/microservice.openapiv2.yaml ./public/openapi/ webroot / ./web/webroot/ ./public/webroot/ 配置示例 最小化配置 # 前端托管配置 #frontend: # enable: true 可不做任何配置，默认开启：openapi 接口文档。
 导出默认值 # 前端托管配置 frontend: enable: true interface: admin: enabled: false tracing: false embedded: true handle_url: /admin openapi: enabled: true tracing: false embedded: true handle_url: /openapi-spec webroot: enabled: false tracing: false embedded: true handle_url: / 配置说明 FrontendInterface 名称 类型 说明 admin WebInterfaceConfig 面向管理员后台 openapi WebInterfaceConfig 基于 protoc 服务定义转换为 http 接口文档 webroot WebInterfaceConfig 面向普通用户所使用的前端页面 WebInterfaceConfig 名称 类型 说明 enabled bool 是否启用该前端托管 tracing bool 是否启用该托管的链路跟踪 embedded bool 是否把该前端静态文件在编译时嵌入二进制文件中 handle_url string 注册到微服务上 http url 服务的地址 应用场景 禁止目录列出 应用配置："/>
 
 
@@ -152,7 +152,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
+  data-offline-search-index-json-src="/offline-search-index.50485a137bb11f2bf5fdc00b34a46ae8.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -179,7 +179,7 @@ if (!doNotTrack) {
   aria-label="站内搜索…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2fbb45c4f86f098b182555230f7fa49a.json"
+  data-offline-search-index-json-src="/offline-search-index.50485a137bb11f2bf5fdc00b34a46ae8.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -1155,7 +1155,7 @@ if (!doNotTrack) {
 </tr>
 <tr>
 <td><a href="/docs/spec-cfg/frontend/#frontendinterface">openapi</a></td>
-<td>/openspec-api/</td>
+<td>/openapi-spec/</td>
 <td>./api/${}/microservice.openapiv2.yaml</td>
 <td>./public/openapi/</td>
 </tr>
@@ -1374,7 +1374,7 @@ if (!doNotTrack) {
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 26.12.2023: <a href="https://github.com/grpc-kit/doc/commit/2fdddb585d9f7bb3c95ac6170414a8806c676acf">feat: 添加前端静态托管文档 (2fdddb5)</a>
+  最后修改 08.02.2024: <a href="https://github.com/grpc-kit/doc/commit/9a7b68eb307b9049f83029403a3ea32371fb1e06">fix: 修复默认 openapi url 地址错误 (9a7b68e)</a>
 </div>
 
 </div>
@@ -1424,7 +1424,7 @@ if (!doNotTrack) {
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2023 The gRPC Kit Authors. 保留所有权利</small>
+        <small class="text-white">&copy; 2024 The gRPC Kit Authors. 保留所有权利</small>
         <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">隐私政策</a></small>
 
 	
