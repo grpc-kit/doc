@@ -1,0 +1,2459 @@
+<!doctype html>
+<html lang="zh-cn" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.110.0">
+<meta name="robots" content="index, follow">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>RPC 简介 | gRPC Kit</title>
+<meta name="description" content="简要概述
+gRPC 的优势
+核心应用场景
+
+
+高性能分布式系统
+
+低延迟 &amp; 高吞吐：基于 HTTP/2 协议的多路复用和二进制编码，显著减少网络开销，适合微服务间高频通信。
+强扩展性：支持每秒数万级 RPC 调用，满足高并发需求（如电商大促、游戏服务器）。
+
+
+
+移动端与云端通信
+
+弱网优 …">
+<meta property="og:title" content="RPC 简介" />
+<meta property="og:description" content="简要概述 gRPC 的优势 核心应用场景
+高性能分布式系统
+低延迟 &amp; 高吞吐：基于 HTTP/2 协议的多路复用和二进制编码，显著减少网络开销，适合微服务间高频通信。 强扩展性：支持每秒数万级 RPC 调用，满足高并发需求（如电商大促、游戏服务器）。 移动端与云端通信
+弱网优化：二进制传输比 REST/JSON 更省带宽，提升移动端响应速度。 跨平台兼容：自动生成 iOS/Android 客户端 SDK 代码，确保多端行为一致。 定制化协议设计
+精准高效：通过 Protocol Buffers 定义严格的接口和数据结构，避免手动解析错误。 语言无关：一套 .proto 文件生成 Java/Python/Go 等多语言代码，解决异构系统协作问题。 可扩展的中间件支持
+分层架构：原生支持或通过拦截器（Interceptor）扩展以下功能： 认证：集成 JWT、OAuth2 等。 负载均衡：内置客户端负载均衡（如 gRPC-LB）。 可观测性：无缝对接 Prometheus、OpenTelemetry 实现监控和日志。 对比 REST 的优势
+维度 gRPC REST/JSON 传输效率 二进制编码，体积小、解析快 文本传输，冗余度高 协议灵活性 支持流式通信（单/双向流） 通常限于请求-响应模式 开发体验 自动生成强类型代码，减少手写错误 需手动处理序列化/反序列化 何时不推荐使用？
+浏览器直接调用：需依赖 grpc-web、grpc-gateway 转译（部分功能受限）。 简单读操作为主：如公开 API，REST 的易调试性可能更优。 如何建立连接 在 grpc 中，客户端与服务端可以是异构语言编写，比如服务端使用 go，客户端可分别是 nodejs、python 等语言编写。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/docs/concepts/grpc/grpc/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2025-05-15T15:13:10+08:00" />
+<meta property="article:modified_time" content="2025-05-19T15:43:45+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="RPC 简介">
+<meta itemprop="description" content="简要概述 gRPC 的优势 核心应用场景
+高性能分布式系统
+低延迟 &amp; 高吞吐：基于 HTTP/2 协议的多路复用和二进制编码，显著减少网络开销，适合微服务间高频通信。 强扩展性：支持每秒数万级 RPC 调用，满足高并发需求（如电商大促、游戏服务器）。 移动端与云端通信
+弱网优化：二进制传输比 REST/JSON 更省带宽，提升移动端响应速度。 跨平台兼容：自动生成 iOS/Android 客户端 SDK 代码，确保多端行为一致。 定制化协议设计
+精准高效：通过 Protocol Buffers 定义严格的接口和数据结构，避免手动解析错误。 语言无关：一套 .proto 文件生成 Java/Python/Go 等多语言代码，解决异构系统协作问题。 可扩展的中间件支持
+分层架构：原生支持或通过拦截器（Interceptor）扩展以下功能： 认证：集成 JWT、OAuth2 等。 负载均衡：内置客户端负载均衡（如 gRPC-LB）。 可观测性：无缝对接 Prometheus、OpenTelemetry 实现监控和日志。 对比 REST 的优势
+维度 gRPC REST/JSON 传输效率 二进制编码，体积小、解析快 文本传输，冗余度高 协议灵活性 支持流式通信（单/双向流） 通常限于请求-响应模式 开发体验 自动生成强类型代码，减少手写错误 需手动处理序列化/反序列化 何时不推荐使用？
+浏览器直接调用：需依赖 grpc-web、grpc-gateway 转译（部分功能受限）。 简单读操作为主：如公开 API，REST 的易调试性可能更优。 如何建立连接 在 grpc 中，客户端与服务端可以是异构语言编写，比如服务端使用 go，客户端可分别是 nodejs、python 等语言编写。"><meta itemprop="datePublished" content="2025-05-15T15:13:10+08:00" />
+<meta itemprop="dateModified" content="2025-05-19T15:43:45+08:00" />
+<meta itemprop="wordCount" content="1375">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="RPC 简介"/>
+<meta name="twitter:description" content="简要概述 gRPC 的优势 核心应用场景
+高性能分布式系统
+低延迟 &amp; 高吞吐：基于 HTTP/2 协议的多路复用和二进制编码，显著减少网络开销，适合微服务间高频通信。 强扩展性：支持每秒数万级 RPC 调用，满足高并发需求（如电商大促、游戏服务器）。 移动端与云端通信
+弱网优化：二进制传输比 REST/JSON 更省带宽，提升移动端响应速度。 跨平台兼容：自动生成 iOS/Android 客户端 SDK 代码，确保多端行为一致。 定制化协议设计
+精准高效：通过 Protocol Buffers 定义严格的接口和数据结构，避免手动解析错误。 语言无关：一套 .proto 文件生成 Java/Python/Go 等多语言代码，解决异构系统协作问题。 可扩展的中间件支持
+分层架构：原生支持或通过拦截器（Interceptor）扩展以下功能： 认证：集成 JWT、OAuth2 等。 负载均衡：内置客户端负载均衡（如 gRPC-LB）。 可观测性：无缝对接 Prometheus、OpenTelemetry 实现监控和日志。 对比 REST 的优势
+维度 gRPC REST/JSON 传输效率 二进制编码，体积小、解析快 文本传输，冗余度高 协议灵活性 支持流式通信（单/双向流） 通常限于请求-响应模式 开发体验 自动生成强类型代码，减少手写错误 需手动处理序列化/反序列化 何时不推荐使用？
+浏览器直接调用：需依赖 grpc-web、grpc-gateway 转译（部分功能受限）。 简单读操作为主：如公开 API，REST 的易调试性可能更优。 如何建立连接 在 grpc 中，客户端与服务端可以是异构语言编写，比如服务端使用 go，客户端可分别是 nodejs、python 等语言编写。"/>
+
+
+
+
+<link rel="preload" href="/scss/main.min.160c35b68fbbaa95622a5ede5ac5a5e9d8f0254623d9c75160f67634306c3593.css" as="style">
+<link href="/scss/main.min.160c35b68fbbaa95622a5ede5ac5a5e9d8f0254623d9c75160f67634306c3593.css" rel="stylesheet" integrity="">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?29e809336f76b78232deae2a6d1857ba";
+  var s = document.getElementsByTagName("script")[0];
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+
+  </head>
+  <body class="td-page">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"><svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 500 500" style="enable-background:new 0 0 500 500"><g><path style="fill:#fff" d="M116.8525 421.9722c-5.7041.0-10.3442-4.3127-10.3442-9.6129V88.183c0-5.3002 4.6401-9.6117 10.3442-9.6117H320.858c3.0347.0 9.3959.5498 11.7506 2.6302l.3545.3442 58.905 63.2912c2.3101 2.491 2.9202 8.4928 2.9202 11.3184v256.2039c0 5.3002-4.6407 9.6129-10.3436 9.6129H116.8525z"/><g><g><g><path style="fill:#767676" d="M384.4445 423.2066H116.852c-6.3839.0-11.5786-4.8658-11.5786-10.8474V88.1831c0-5.9804 5.1947-10.8461 11.5786-10.8461h204.0062c.377.0 9.2786.0329 12.568 2.9389l.3947.3833 58.9508 63.337c3.2135 3.4652 3.2514 11.7924 3.2514 12.1593v256.2036C396.0231 418.3408 390.8284 423.2066 384.4445 423.2066zM116.5079 411.9189c.0848.0278.1999.0531.3441.0531h267.5925c.1442.0.2581-.0253.3441-.0531V156.1556c-.0076-.9033-.3593-3.7347-.7034-5.0037l-57.6527-61.9416c-1.4651-.3176-4.4533-.6389-5.5742-.6389H116.852c-.143.0-.2594.024-.3441.0531V411.9189zm267.4533-261.149zM327.0321 89.371v.0013V89.371z"/></g></g></g><g><g><path style="fill:#5b7fc0" d="M189.0874 210.1754l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4473C177.5953 212.627 183.0601 210.1742 189.0874 210.1754zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 234.1722 197.0804 232.033z"/><path style="opacity:.3;fill:#fff" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/><g><defs><path id="SVGID_1_" d="M194.7376 237.6875c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 234.2399 196.1861 236.239 194.7376 237.6875z"/></defs><clipPath id="SVGID_2_"><use xlink:href="#SVGID_1_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_2_);fill:#fff" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/><path style="opacity:.13;clip-path:url(#SVGID_2_);fill:#020202" d="M190.0704 225.0237c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 225.7247 191.9774 225.0237 190.0704 225.0237z"/></g><g><defs><path id="SVGID_3_" d="M189.0898 210.176c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 212.6276 183.0612 210.176 189.0898 210.176zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 236.239 197.0839 234.2399 197.0839 232.0372z"/></defs><clipPath id="SVGID_4_"><use xlink:href="#SVGID_3_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_4_);fill:#5b7fc0" d="M172.6595 215.6045c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8475-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 209.1953 176.6171 211.647 172.6595 215.6045z"/></g></g><rect x="198.8952" y="225.1043" style="fill:#5b7fc0" width="122.6266" height="13.8671"/></g><g><path style="fill:#d95140" d="M189.0874 155.7611l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.0249 2.454-11.4897 6.4116-15.4473C177.5953 158.2128 183.0601 155.7599 189.0874 155.7611zm7.993 21.8577c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.2508 181.7667 197.0816 179.758 197.0804 177.6188z"/><path style="opacity:.3;fill:#fff" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/><g><defs><path id="SVGID_5_" d="M194.7376 183.2733c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 179.8256 196.1861 181.8248 194.7376 183.2733z"/></defs><clipPath id="SVGID_6_"><use xlink:href="#SVGID_5_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_6_);fill:#fff" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/><path style="opacity:.13;clip-path:url(#SVGID_6_);fill:#020202" d="M190.0704 170.6095c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9546.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.663-2.8588-6.116.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C193.7885 171.3104 191.9774 170.6095 190.0704 170.6095z"/></g><g><defs><path id="SVGID_7_" d="M189.0898 155.7617c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8066-21.8612-21.8613.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 158.2134 183.0612 155.7617 189.0898 155.7617zm7.9941 21.8613c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 181.8248 197.0839 179.8256 197.0839 177.623z"/></defs><clipPath id="SVGID_8_"><use xlink:href="#SVGID_7_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_8_);fill:#d95140" d="M172.6595 161.1903c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 154.7811 176.6171 157.2327 172.6595 161.1903z"/></g><rect x="198.8952" y="170.69" style="fill:#d95140" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#56a55c" d="M189.5379 264.6147l.0012-.0012c7.7751.0012 15.0294 4.1862 18.932 10.9235 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3304-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032-5.8394.0-11.3281-2.2733-15.458-6.4032-4.13-4.13-6.4032-9.6186-6.4056-15.4628.0012-6.0249 2.454-11.4897 6.4116-15.4472C178.0458 267.0663 183.5105 264.6135 189.5379 264.6147zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6538 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403C196.7013 290.6202 197.5321 288.6115 197.5309 286.4723z"/><path style="opacity:.3;fill:#fff" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/><g><defs><path id="SVGID_9_" d="M195.1881 292.1268c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.9989 7.9942-7.9941 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.5344 288.6792 196.6366 290.6783 195.1881 292.1268z"/></defs><clipPath id="SVGID_10_"><use xlink:href="#SVGID_9_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_10_);fill:#fff" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/><path style="opacity:.13;clip-path:url(#SVGID_10_);fill:#020202" d="M190.5209 279.463c-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7446-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9941 2.3802-1e-4 4.616 1.0833 6.1218 2.8788C194.239 280.164 192.4279 279.463 190.5209 279.463z"/></g><g><defs><path id="SVGID_11_" d="M189.5403 264.6153c7.7763.0 15.0283 4.1826 18.926 10.9151 1.9201 3.3135 2.9377 7.0987 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8613-12.0547.0024-21.8636-9.8065-21.8612-21.8613.0-6.0285 2.4516-11.492 6.4116-15.452C178.0482 267.0669 183.5117 264.6153 189.5403 264.6153zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9941.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.6366 290.6783 197.5344 288.6792 197.5344 286.4765z"/></defs><clipPath id="SVGID_12_"><use xlink:href="#SVGID_11_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_12_);fill:#56a55c" d="M173.11 270.0439c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8613 12.0547.0024 21.8636-9.797 21.8613-21.8613.0024-3.8474-1.0151-7.6326-2.9353-10.9462-3.8977-6.7325-11.1497-10.9151-18.926-10.9151C182.5311 263.6346 177.0676 266.0863 173.11 270.0439z"/></g></g><rect x="199.3456" y="279.5436" style="fill:#56a55c" width="122.6266" height="13.8671"/></g><g><g><path style="fill:#f1bc42" d="M189.0874 318.7208l.0012-.0012c7.7751.0012 15.0295 4.1862 18.932 10.9234 1.9177 3.3159 2.9305 7.1011 2.9293 10.9378.0 5.8394-2.2733 11.3305-6.4032 15.4604-4.1288 4.1288-9.6186 6.4032-15.458 6.4032s-11.328-2.2733-15.458-6.4032-6.4032-9.6186-6.4056-15.4628c.0012-6.025 2.454-11.4897 6.4116-15.4472C177.5953 321.1724 183.0601 318.7196 189.0874 318.7208zm7.993 21.8576c.0012-1.4042-.3687-2.7868-1.063-3.9887-1.4293-2.4684-4.0833-3.9995-6.9299-4.0019-4.4077.0024-7.993 3.5877-7.993 7.993.0 2.1356.832 4.1431 2.3427 5.6539 1.5083 1.5083 3.5159 2.3403 5.6503 2.3415 2.1356.0 4.1443-.8308 5.6539-2.3403S197.0816 342.7176 197.0804 340.5784z"/><path style="opacity:.3;fill:#fff" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/><g><defs><path id="SVGID_13_" d="M194.7376 346.2329c-1.4461 1.4461-3.4452 2.3439-5.6479 2.3439-4.4077-.0024-7.9918-3.5865-7.9942-7.9942.0024-4.4125 3.5937-7.999 7.9942-7.9942 2.8443.0 5.497 1.5323 6.924 3.9983.6991 1.2067 1.0702 2.5881 1.0702 3.9959C197.0839 342.7853 196.1861 344.7844 194.7376 346.2329z"/></defs><clipPath id="SVGID_14_"><use xlink:href="#SVGID_13_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_14_);fill:#fff" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/><path style="opacity:.13;clip-path:url(#SVGID_14_);fill:#020202" d="M190.0704 333.5691c-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0011 1.9547.7088 3.7452 1.8782 5.1354-1.7447-1.4674-2.8575-3.6631-2.8588-6.1161.0024-4.4125 3.5936-7.999 7.9942-7.9942 2.3802-1e-4 4.616 1.0834 6.1218 2.8788C193.7885 334.2701 191.9774 333.5691 190.0704 333.5691z"/></g><g><defs><path id="SVGID_15_" d="M189.0898 318.7214c7.7763.0 15.0283 4.1826 18.926 10.915 1.9201 3.3136 2.9377 7.0988 2.9353 10.9462.0024 12.0643-9.8065 21.8636-21.8613 21.8612-12.0547.0024-21.8636-9.8065-21.8612-21.8612.0-6.0285 2.4516-11.4921 6.4116-15.452C177.5977 321.173 183.0612 318.7214 189.0898 318.7214zm7.9941 21.8612c0-1.4078-.3711-2.7892-1.0702-3.9959-1.4269-2.466-4.0797-3.9983-6.924-3.9983-4.4005-.0048-7.9918 3.5817-7.9942 7.9942.0024 4.4077 3.5865 7.9918 7.9942 7.9942 2.2027.0 4.2018-.8978 5.6479-2.3439C196.1861 344.7844 197.0839 342.7853 197.0839 340.5826z"/></defs><clipPath id="SVGID_16_"><use xlink:href="#SVGID_15_" style="overflow:visible"/></clipPath><path style="clip-path:url(#SVGID_16_);fill:#f1bc42" d="M172.6595 324.15c-3.96 3.96-6.4116 9.4235-6.4116 15.452-.0024 12.0547 9.8066 21.8636 21.8613 21.8612 12.0547.0024 21.8636-9.797 21.8613-21.8612.0024-3.8474-1.0151-7.6327-2.9353-10.9462-3.8977-6.7324-11.1497-10.9151-18.926-10.9151C182.0806 317.7407 176.6171 320.1924 172.6595 324.15z"/></g></g><rect x="198.8952" y="333.6497" style="fill:#f1bc42" width="122.6266" height="13.8671"/></g></g></svg></span><span class="font-weight-bold">gRPC Kit</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+        <a  class="nav-link" href="/docs/" ><span>Documentation</span></a>
+				
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+        <a  class="nav-link" href="https://github.com/grpc-kit/" target="_blank" ><span>GitHub</span></a>
+				
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block"><input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; 站内搜索…"
+  aria-label="站内搜索…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.8fb4a72ec8903350556ef6c76a4fb639.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+            
+
+  
+
+<div id="td-sidebar-menu" class="td-sidebar__inner">
+  
+  <div id="content-mobile">
+  <form class="td-sidebar__search d-flex align-items-center">
+    <input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; 站内搜索…"
+  aria-label="站内搜索…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.8fb4a72ec8903350556ef6c76a4fb639.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-docs-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    </button>
+  </form>
+  </div>
+  <div id="content-desktop"></div>
+  
+
+  <nav class="collapse td-sidebar-nav foldable-menu" id="td-section-nav">
+    
+    
+    
+    
+    
+
+    <ul class="td-sidebar-nav__section pr-md-3 ul-0">
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docs">
+      <input type="checkbox" id="docs-check" checked/>
+      <label for="docs-check" ><a href="/docs/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section tree-root">Documentation</a></label>
+      
+        
+        
+      
+      <ul class="ul-1">
+
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsoverview">
+      <input type="checkbox" id="docsoverview-check"/>
+      <label for="docsoverview-check" ><a href="/docs/overview/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">快速开始</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsoverviewlocal">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewlocal-a" href="/docs/overview/local/">本机环境</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsoverviewdocker">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsoverviewdocker-a" href="/docs/overview/docker/">容器环境</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsconcepts">
+      <input type="checkbox" id="docsconcepts-check" checked/>
+      <label for="docsconcepts-check" ><a href="/docs/concepts/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">核心组件</a></label>
+      
+        
+        
+      
+      <ul class="ul-2">
+
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsconceptsgrpc">
+      <input type="checkbox" id="docsconceptsgrpc-check" checked/>
+      <label for="docsconceptsgrpc-check" ><a href="/docs/concepts/grpc/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">gRPC</a></label>
+      
+        
+        
+      
+      <ul class="ul-3">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib active-path" id="m-docsconceptsgrpcgrpc">
+                  <span  id="td-sidebar-nav-active-item" >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsconceptsgrpcgrpc-a" href="/docs/concepts/grpc/grpc/">RPC 简介</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib" id="m-docsconceptsgrpclanguage-go">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsconceptsgrpclanguage-go-a" href="/docs/concepts/grpc/language-go/">示例：go</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check"/>
+      <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcachebox">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcachebox-a" href="/docs/spec-cfg/cachebox/">缓存服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgautomations">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgautomations-a" href="/docs/spec-cfg/automations/">流程编排</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgfrontend">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-dev">
+      <input type="checkbox" id="docsspec-dev-check"/>
+      <label for="docsspec-dev-check" ><a href="/docs/spec-dev/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">开发规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-devgit-branch">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-branch-a" href="/docs/spec-dev/git-branch/">分支管理</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-devgit-commit">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devgit-commit-a" href="/docs/spec-dev/git-commit/">提交日志</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-devflows">
+      <input type="checkbox" id="docsspec-devflows-check"/>
+      <label for="docsspec-devflows-check" ><a href="/docs/spec-dev/flows/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">分支流程</a></label>
+      
+        
+        
+      
+      <ul class="ul-3 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-devflowsgit-flow">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devflowsgit-flow-a" href="/docs/spec-dev/flows/git-flow/">Git Flow</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-devflowsgithub-flow">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-devflowsgithub-flow-a" href="/docs/spec-dev/flows/github-flow/">Github Flow</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-api">
+      <input type="checkbox" id="docsspec-api-check"/>
+      <label for="docsspec-api-check" ><a href="/docs/spec-api/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">接口规范</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-apikey-terms">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apikey-terms-a" href="/docs/spec-api/key-terms/">关键术语</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-apiservice">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apiservice-a" href="/docs/spec-api/service/">定义服务</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsspec-apierror">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-apierror-a" href="/docs/spec-api/error/">处理错误</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevops">
+      <input type="checkbox" id="docsdevops-check"/>
+      <label for="docsdevops-check" ><a href="/docs/devops/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">运维管理</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsintegration">
+      <input type="checkbox" id="docsdevopsintegration-check"/>
+      <label for="docsdevopsintegration-check" ><a href="/docs/devops/integration/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">持续集成</a></label>
+      
+        
+        
+      
+      <ul class="ul-3 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsintegrationgitlab">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsintegrationgitlab-a" href="/docs/devops/integration/gitlab/">Gitlab</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsintegrationgithub">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsintegrationgithub-a" href="/docs/devops/integration/github/">Github</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsintegrationjenkins">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsintegrationjenkins-a" href="/docs/devops/integration/jenkins/">Jenkins</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsdevopsdeployment">
+      <input type="checkbox" id="docsdevopsdeployment-check"/>
+      <label for="docsdevopsdeployment-check" ><a href="/docs/devops/deployment/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">服务部署</a></label>
+      
+        
+        
+      
+      <ul class="ul-3 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docsdevopsdeploymentsystemd">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsdevopsdeploymentsystemd-a" href="/docs/devops/deployment/systemd/">Systemd</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+          
+            
+              
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
+      <input type="checkbox" id="docschangelog-check"/>
+      <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
+      
+        
+        
+      
+      <ul class="ul-2 collapsed">
+
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-02">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+          
+            
+              
+              
+              
+              
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-01">
+                  <span >
+                    
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-01-a" href="/docs/changelog/changelog-0.1/">CHANGELOG 0.1</a>
+                    
+                  </span>
+                  
+                </li>
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+            
+          
+        
+
+      </ul>
+    </li>
+  
+
+    </ul>
+  </nav>
+</div>
+
+
+
+<script>
+  var activeElement = document.getElementById('td-sidebar-nav-active-item');
+  var topPos = activeElement.offsetTop;
+  var scrollElement = document.getElementById('td-section-nav');
+  var topCor = scrollElement.offsetTop;
+  var heightCor = scrollElement.clientHeight;
+  var scrollValue = topPos-topCor-heightCor/2;
+  scrollElement.scrollTop = scrollValue;
+</script>
+
+
+
+          </aside>
+
+
+          <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
+            
+<div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
+
+
+
+
+</div>
+
+            
+
+
+<h5>目录</h5>
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#简要概述">简要概述</a>
+      <ul>
+        <li><a href="#grpc-的优势">gRPC 的优势</a></li>
+        <li><a href="#如何建立连接">如何建立连接</a></li>
+        <li><a href="#protocol-buffers">Protocol Buffers</a></li>
+      </ul>
+    </li>
+    <li><a href="#rpc-服务类型">RPC 服务类型</a>
+      <ul>
+        <li><a href="#单次-rpc-unary-rpc">单次 RPC （Unary RPC）</a></li>
+        <li><a href="#服务端流式-rpc-server-streaming-rpc">服务端流式 RPC （Server streaming RPC）</a></li>
+        <li><a href="#客户端流式-rpcclient-streaming-rpc">客户端流式 RPC（Client streaming RPC）</a></li>
+        <li><a href="#双向流式-rpcbidirectional-streaming-rpc">双向流式 RPC（Bidirectional streaming RPC）</a></li>
+      </ul>
+    </li>
+    <li><a href="#超时与截止时间">超时与截止时间</a>
+      <ul>
+        <li><a href="#连接时长限制">连接时长限制</a></li>
+        <li><a href="#超时核心机制">超时核心机制</a></li>
+        <li><a href="#典型应用场景">典型应用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#请求的终止机制">请求的终止机制</a>
+      <ul>
+        <li><a href="#四类终止情况">四类终止情况</a></li>
+        <li><a href="#显式取消">显式取消</a></li>
+        <li><a href="#最佳实践">最佳实践</a></li>
+      </ul>
+    </li>
+    <li><a href="#metadata">Metadata</a>
+      <ul>
+        <li><a href="#设计解析">设计解析</a></li>
+        <li><a href="#跨语言实现">跨语言实现</a></li>
+        <li><a href="#调试与监控">调试与监控</a></li>
+        <li><a href="#应用场景">应用场景</a></li>
+      </ul>
+    </li>
+    <li><a href="#channels">Channels</a>
+      <ul>
+        <li><a href="#设计理念">设计理念</a></li>
+        <li><a href="#生命周期">生命周期</a></li>
+        <li><a href="#跨语言差异对比">跨语言差异对比</a></li>
+        <li><a href="#最佳实践指南">最佳实践指南</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav></div>
+
+
+
+
+            
+
+	
+		
+
+
+
+  
+  
+
+	
+		
+
+
+
+  
+  
+
+	
+
+          </aside>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+  
+
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
+  <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="/docs/">Documentation</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/concepts/">核心组件</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="/docs/concepts/grpc/">gRPC</a>
+  </li>
+  <li class="breadcrumb-item active" aria-current="page">
+    <a href="/docs/concepts/grpc/grpc/">RPC 简介</a>
+  </li>
+  </ol>
+</nav>
+            
+<div class="td-content">
+	<h1>RPC 简介</h1>
+	
+	<header class="article-meta">
+		
+		
+			
+				
+
+
+			
+				
+
+
+			
+		
+		
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 7 分钟阅读 &nbsp;</p>
+
+		
+	</header>    
+	<h2 id="简要概述">简要概述</h2>
+<h3 id="grpc-的优势">gRPC 的优势</h3>
+<p><strong>核心应用场景</strong></p>
+<ol>
+<li>
+<p>高性能分布式系统</p>
+<ul>
+<li>低延迟 &amp; 高吞吐：基于 HTTP/2 协议的多路复用和二进制编码，显著减少网络开销，适合微服务间高频通信。</li>
+<li>强扩展性：支持每秒数万级 RPC 调用，满足高并发需求（如电商大促、游戏服务器）。</li>
+</ul>
+</li>
+<li>
+<p>移动端与云端通信</p>
+<ul>
+<li>弱网优化：二进制传输比 REST/JSON 更省带宽，提升移动端响应速度。</li>
+<li>跨平台兼容：自动生成 iOS/Android 客户端 SDK 代码，确保多端行为一致。</li>
+</ul>
+</li>
+<li>
+<p>定制化协议设计</p>
+<ul>
+<li>精准高效：通过 Protocol Buffers 定义严格的接口和数据结构，避免手动解析错误。</li>
+<li>语言无关：一套 <code>.proto</code> 文件生成 Java/Python/Go 等多语言代码，解决异构系统协作问题。</li>
+</ul>
+</li>
+<li>
+<p>可扩展的中间件支持</p>
+<ul>
+<li>分层架构：原生支持或通过拦截器（Interceptor）扩展以下功能：
+<ol>
+<li>认证：集成 JWT、OAuth2 等。</li>
+<li>负载均衡：内置客户端负载均衡（如 gRPC-LB）。</li>
+<li>可观测性：无缝对接 Prometheus、OpenTelemetry 实现监控和日志。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>对比 REST 的优势</strong></p>
+<table>
+<thead>
+<tr>
+<th>维度</th>
+<th>gRPC</th>
+<th>REST/JSON</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>传输效率</td>
+<td>二进制编码，体积小、解析快</td>
+<td>文本传输，冗余度高</td>
+</tr>
+<tr>
+<td>协议灵活性</td>
+<td>支持流式通信（单/双向流）</td>
+<td>通常限于请求-响应模式</td>
+</tr>
+<tr>
+<td>开发体验</td>
+<td>自动生成强类型代码，减少手写错误</td>
+<td>需手动处理序列化/反序列化</td>
+</tr>
+</tbody>
+</table>
+<p><strong>何时不推荐使用？</strong></p>
+<ul>
+<li>浏览器直接调用：需依赖 grpc-web、grpc-gateway 转译（部分功能受限）。</li>
+<li>简单读操作为主：如公开 API，REST 的易调试性可能更优。</li>
+</ul>
+<h3 id="如何建立连接">如何建立连接</h3>
+<p>在 grpc 中，客户端与服务端可以是异构语言编写，比如服务端使用 go，客户端可分别是 nodejs、python 等语言编写。</p>
+<p>服务端均使用 <a href="/docs/concepts/grpc/grpc/#protocol-buffers">Protocol Buffers</a> 语言定义，但客户端依赖服务端提供 stub（存根，编译的时候根据客户端目标语言生成，类似 sdk），才可以发起连接并建立请求解析服务端响应。</p>
+<p>以下是服务端与多个客户端之间示例流程图：</p>
+<div class="mermaid">sequenceDiagram
+	gRPC Stub (nodejs client)->>gRPC Server (go server): Proto Request
+	gRPC Server (go server)->>gRPC Stub (nodejs client): Proto Response
+	gRPC Stub (python client)->>gRPC Server (go server): Proto Request
+	gRPC Server (go server)->>gRPC Stub (python client): Proto Response
+</div>
+
+<h3 id="protocol-buffers">Protocol Buffers</h3>
+<p>在 grpc 系统中是使用 protocol buffer 进行序列化的（对比 http 协议下常用的 json 数据结构）。</p>
+<p>protocol buffers 存在两种版本，proto2 与 proto3，一般现在使用均建议使用版本3。</p>
+<h2 id="rpc-服务类型">RPC 服务类型</h2>
+<h3 id="单次-rpc-unary-rpc">单次 RPC （Unary RPC）</h3>
+<p><strong>客户端发送单个请求并接收单个响应，也就是“一问一答”。</strong></p>
+<p>当客户端调用存根方法时：</p>
+<ol>
+<li>
+<p>RPC调用通知</p>
+<ul>
+<li>服务端立即收到调用通知，包含：<br>
+✓ 客户端元数据（metadata）<br>
+✓ 调用的方法名<br>
+✓ 可选的超时截止时间（deadline）</li>
+</ul>
+</li>
+<li>
+<p>服务端响应流程</p>
+<ul>
+<li><strong>初始元数据阶段</strong>：<br>
+服务端可选择立即发送初始元数据（必须在响应体之前发送），或等待客户端请求消息。具体顺序由业务逻辑决定。</li>
+<li><strong>请求处理阶段</strong>：<br>
+服务端获取客户端请求消息后，执行业务逻辑并生成响应。</li>
+</ul>
+</li>
+<li>
+<p>服务端响应返回</p>
+<ul>
+<li>响应包含：<br>
+✓ 响应体（业务数据）<br>
+✓ 状态详情（状态码 + 可选状态信息）<br>
+✓ 可选的尾部元数据（trailing metadata）</li>
+<li>若状态为<strong>OK</strong>，客户端将成功接收响应，完成本次调用。</li>
+</ul>
+</li>
+</ol>
+<p><strong>示例流程图</strong></p>
+<div class="mermaid">sequenceDiagram
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response
+</div>
+
+<h3 id="服务端流式-rpc-server-streaming-rpc">服务端流式 RPC （Server streaming RPC）</h3>
+<p>与单次 RPC（Unary RPC）类似，不同之处在于：<strong>服务端在响应客户端请求时，会返回一个消息流</strong>。</p>
+<p><strong>核心流程</strong></p>
+<ol>
+<li>客户端发送单个请求（与单次 RPC 相同）。</li>
+<li>服务端返回消息流：
+<ul>
+<li>服务端可以<strong>持续发送多个消息</strong>（而非单个响应）。</li>
+<li>消息流传输完成后，服务端会附带<strong>状态信息</strong>（状态码 + 可选的状态消息）和<strong>尾部元数据</strong>（trailing metadata），以标志本次 RPC 处理完成。</li>
+</ul>
+</li>
+<li>客户端接收完整消息流：
+<ul>
+<li>客户端会持续接收服务端返回的消息，直到获取所有数据后，本次 RPC 调用才正式完成。</li>
+</ul>
+</li>
+</ol>
+<p><strong>对比单次 RPC（Unary RPC）</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单次 RPC</th>
+<th>服务端流式 RPC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求方式</td>
+<td>单次请求</td>
+<td>单次请求</td>
+</tr>
+<tr>
+<td>响应方式</td>
+<td>单次响应</td>
+<td>消息流（多次响应）</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>简单查询</td>
+<td>大数据分批传输、实时推送</td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型应用</strong></p>
+<ul>
+<li>数据分块传输（如大文件下载）</li>
+<li>实时数据推送（如股票行情、日志流）</li>
+<li>长任务分阶段返回（如机器学习模型推理）</li>
+</ul>
+<p><strong>示例流程图</strong></p>
+<div class="mermaid">sequenceDiagram
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request (1)
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response (1)
+	gRPC Server (go server)->>gRPC Stub (go client): ......
+	gRPC Server (go server)->>gRPC Stub (go client): ......
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response (n)
+</div>
+
+<h3 id="客户端流式-rpcclient-streaming-rpc">客户端流式 RPC（Client streaming RPC）</h3>
+<p>与单次 RPC（Unary RPC）类似，但区别在于：<strong>客户端会向服务端发送一个消息流</strong>（而非单个请求），而服务端最终返回<strong>单个响应</strong>（附带状态信息和可选的尾部元数据）。</p>
+<p><strong>核心流程</strong></p>
+<ol>
+<li>客户端发送消息流：
+<ul>
+<li>客户端通过<strong>持久化连接</strong>持续发送多个请求消息（如分批上传数据）。</li>
+</ul>
+</li>
+<li>服务端处理并返回响应：
+<ul>
+<li>服务端可以<strong>边接收边处理</strong>，但通常会在接收完所有客户端消息后，再返回最终响应（包含状态码、状态消息和尾部元数据）。</li>
+</ul>
+</li>
+<li>调用完成：
+<ul>
+<li>客户端收到服务端的最终响应后，本次 RPC 调用结束。</li>
+</ul>
+</li>
+</ol>
+<p><strong>对比单次 RPC（Unary RPC）</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单次 RPC</th>
+<th>客户端流式 RPC</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求方式</td>
+<td>单次请求</td>
+<td>消息流（多次请求）</td>
+</tr>
+<tr>
+<td>响应方式</td>
+<td>单次响应</td>
+<td>单次响应</td>
+</tr>
+<tr>
+<td>适用场景</td>
+<td>简单操作</td>
+<td>数据分批上传、长请求</td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型应用</strong></p>
+<ul>
+<li>大数据上传（如日志批量采集）</li>
+<li>聚合计算（如客户端发送多个数据点，服务端汇总后返回结果）</li>
+<li>长请求处理（如流式语音识别，客户端持续发送音频片段）</li>
+</ul>
+<p><strong>示例流程图</strong></p>
+<div class="mermaid">sequenceDiagram
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request (1)
+	gRPC Stub (go client)->>gRPC Server (go server): ......
+	gRPC Stub (go client)->>gRPC Server (go server): ......
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request (n)
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response (1)
+</div>
+
+<h3 id="双向流式-rpcbidirectional-streaming-rpc">双向流式 RPC（Bidirectional streaming RPC）</h3>
+<p>由客户端发起调用，服务端接收客户端元数据、方法名和截止时间后，可选择立即返回初始元数据，或等待客户端开始发送消息流。</p>
+<p><strong>核心特点</strong></p>
+<ol>
+<li>
+<p>独立双工通信</p>
+<ul>
+<li>客户端和服务端可同时发送消息流，两者完全独立，没有固定顺序约束。</li>
+<li>支持灵活交互模式，例如：
+<ul>
+<li><strong>顺序处理</strong>：服务端收齐所有客户端消息后再响应。</li>
+<li><strong>实时交互</strong>：类似“乒乓模式”（请求-响应-再请求-再响应）。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>动态控制流</p>
+<ul>
+<li>服务端可在连接期间任意时机发送初始元数据或消息。</li>
+<li>客户端和服务端可自主决定读写时序，无需严格同步。</li>
+</ul>
+</li>
+</ol>
+<p><strong>对比其他 RPC 模式</strong></p>
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>单次 RPC</th>
+<th>服务端流式</th>
+<th>客户端流式</th>
+<th>双向流式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>请求流</td>
+<td>单次</td>
+<td>单次</td>
+<td>消息流</td>
+<td>消息流</td>
+</tr>
+<tr>
+<td>响应流</td>
+<td>单次</td>
+<td>消息流</td>
+<td>单次</td>
+<td>消息流</td>
+</tr>
+<tr>
+<td>交互自由度</td>
+<td>低</td>
+<td>中</td>
+<td>中</td>
+<td><strong>高</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>典型应用场景</strong></p>
+<ul>
+<li>实时对话系统（如聊天应用，双方随时发送消息）</li>
+<li>双向数据同步（如游戏状态同步）</li>
+<li>复杂协作流程（如客户端与服务端分阶段交换计算中间结果）</li>
+</ul>
+<p><strong>示例流程图</strong></p>
+<div class="mermaid">sequenceDiagram
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request (1)
+	gRPC Stub (go client)->>gRPC Server (go server): ......
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response (1)
+	gRPC Stub (go client)->>gRPC Server (go server): ......
+	gRPC Stub (go client)->>gRPC Server (go server): Proto Request (n)
+	gRPC Server (go server)->>gRPC Stub (go client): ......
+	gRPC Server (go server)->>gRPC Stub (go client): Proto Response (n)
+</div>
+
+<h2 id="超时与截止时间">超时与截止时间</h2>
+<h3 id="连接时长限制">连接时长限制</h3>
+<p>在建立连接时，允许客户端为每次 RPC 调用设置<strong>截止时间（Deadline）<strong>或</strong>超时时长（Timeout）</strong>。若请求未在指定时间内完成，RPC 将自动终止并返回 <code>DEADLINE_EXCEEDED</code> 错误，当然服务端也可主动检查当前请求是否已超时或剩余可用时间还剩多少。</p>
+<h3 id="超时核心机制">超时核心机制</h3>
+<p><strong>客户端设置</strong></p>
+<ul>
+<li>截止时间（Deadline）：指定一个绝对时间点（如 <code>2025-05-16 15:26:38</code>）。</li>
+<li>超时时长（Timeout）：指定相对时间长度（如 <code>5秒</code>）。</li>
+</ul>
+<p>不同编程语言的 API 可能仅支持以上其中一种形式，如下两种语言的实现差异：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># python 示例（使用相对 timeout）</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">response</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">stub</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">SayHello</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">hello_pb2</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">HelloRequest</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">name</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#4e9a06">&#39;grpc-kit&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">timeout</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// go 示例（使用绝对 deadline）
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">cancel</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">WithDeadline</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Background</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000">time</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Now</span><span style="color:#000;font-weight:bold">().</span><span style="color:#000">Add</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">time</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Second</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">defer</span> <span style="color:#000">cancel</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">response</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">err</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SayHello</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#ce5c00;font-weight:bold">&amp;</span><span style="color:#000">pb</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HelloRequest</span><span style="color:#000;font-weight:bold">{</span><span style="color:#000">Name</span><span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;grpc-kit&#34;</span><span style="color:#000;font-weight:bold">})</span>
+</span></span></code></pre></div><p><strong>服务端处理</strong></p>
+<ul>
+<li>服务端可通过 API 查询：
+<ol>
+<li>当前 RPC 是否已超时；</li>
+<li>剩余可用的处理时间（用于动态调整任务优先级）。</li>
+</ol>
+</li>
+<li>网络延迟不计入超时，RPC 的截止时间涵盖：
+<ol>
+<li>请求传输；</li>
+<li>服务端处理；</li>
+<li>响应返回的全流程。</li>
+</ol>
+</li>
+<li>在 “客户端x1-&gt;服务端y1/客户端x2-&gt;服务端y2“ 之间的级联传递：
+<ol>
+<li>若服务端作为其他 RPC 服务的客户端，需手动传递或重新设置截止时间，避免上游超时未触发下游终止；</li>
+<li>通过 metadata 将 deadline 传递给下游服务，保持调用链超时一致性。</li>
+</ol>
+</li>
+<li>底层实现中，gRPC 最终都会将 timeout 转换为 deadline 进行计算</li>
+</ul>
+<p>在使用 go 语言实现的服务端，可以通过 <code>context.Context</code> 检查超时状态：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">m</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">Microservice</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">SayHello</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Context</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">req</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">pb</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HelloRequest</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">pb</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">HelloResponse</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">error</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Err</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">DeadlineExceeded</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#8f5902;font-style:italic">// 清理已进行的操作
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>       <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">nil</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">status</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Error</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">codes</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">DeadlineExceeded</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;client deadline exceeded&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>       
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 获取剩余时间
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">deadline</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ok</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Deadline</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">remaining</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">time</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Until</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">deadline</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>       
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 根据剩余时间调整处理逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h3 id="典型应用场景">典型应用场景</h3>
+<p>一般在以下场景下使用：</p>
+<ol>
+<li>快速失败（Fail Fast）：避免长时间阻塞的调用拖慢系统。</li>
+<li>资源优化：服务端通过剩余时间决定是否执行耗时操作。</li>
+</ol>
+<p>建议通过实际压测确定最佳超时值，通常建议：</p>
+<ul>
+<li>服务间调用：500ms-5s；</li>
+<li>用户直接请求：1-30s；</li>
+<li>后台作业：可适当延长但必须显式设置上限。</li>
+</ul>
+<p>最后提醒 <strong>deadline 不是精确的时间保证</strong>，实际触发时间可能会有数百毫秒的误差，不能依赖其实现精确的定时功能。</p>
+<h2 id="请求的终止机制">请求的终止机制</h2>
+<h3 id="四类终止情况">四类终止情况</h3>
+<p>在 RPC 调用可能因以下情况终止：</p>
+<ol>
+<li>
+<p>超时终止（Deadline Exceeded）</p>
+<ul>
+<li>客户端设置的截止时间（Deadline）或超时（Timeout）到期，RPC 自动终止，并返回 <code>DEADLINE_EXCEEDED</code> 错误。</li>
+<li><strong>适用场景</strong>：防止长时间阻塞，确保系统响应能力。</li>
+</ul>
+</li>
+<li>
+<p>显式取消（Cancellation）</p>
+<ul>
+<li>客户端或服务端可<strong>主动取消</strong>正在进行的 RPC，终止未完成的请求。</li>
+<li><strong>适用场景</strong>：用户取消操作、服务端资源不足等。</li>
+</ul>
+</li>
+<li>
+<p>错误终止（Error Termination）</p>
+<ul>
+<li>若 RPC 执行过程中发生错误（如网络中断、服务不可用），会自动终止并返回对应的错误状态码（如 <code>UNAVAILABLE</code>）。</li>
+</ul>
+</li>
+<li>
+<p>正常完成（Normal Completion）</p>
+<ul>
+<li>RPC 成功执行并返回预期结果后，连接正常关闭。</li>
+</ul>
+</li>
+</ol>
+<p>关键区别：</p>
+<table>
+<thead>
+<tr>
+<th>终止类型</th>
+<th>触发方式</th>
+<th>典型错误码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>超时终止</td>
+<td>客户端设置的时间到期</td>
+<td><code>DEADLINE_EXCEEDED</code></td>
+</tr>
+<tr>
+<td>显式取消</td>
+<td>手动调用取消方法</td>
+<td><code>CANCELLED</code></td>
+</tr>
+<tr>
+<td>错误终止</td>
+<td>网络/服务端异常</td>
+<td><code>UNAVAILABLE</code>、<code>ABORTED</code></td>
+</tr>
+<tr>
+<td>正常完成</td>
+<td>请求成功处理完毕</td>
+<td><code>OK</code>（无错误）</td>
+</tr>
+</tbody>
+</table>
+<h3 id="显式取消">显式取消</h3>
+<p>在请求建立完成后，客户端或服务端均可随时取消正在进行的 RPC，取消操作会立即终止连接，后续所有相关处理均被中断。</p>
+<p>存在以下核心特性：</p>
+<ol>
+<li>即时生效</li>
+</ol>
+<ul>
+<li>取消请求一旦触发，RPC 会<strong>立刻停止</strong>，不再执行任何后续逻辑（包括网络传输和服务端处理）。</li>
+<li>客户端和服务端会收到 <code>CANCELLED</code> 状态码（错误码 <code>1</code>）。</li>
+</ul>
+<ol start="2">
+<li>双向能力</li>
+</ol>
+<ul>
+<li>客户端取消：例如用户主动取消请求或前端页面关闭。</li>
+<li>服务端取消：例如服务端资源不足或检测到无效请求时主动终止。</li>
+</ul>
+<ol start="3">
+<li>资源释放</li>
+</ol>
+<ul>
+<li>取消后，双方应释放已占用的连接、线程等资源，避免内存泄漏。</li>
+</ul>
+<p>典型应用场景：</p>
+<ul>
+<li>客户端侧：用户中断长时间等待的请求。</li>
+<li>服务端侧：
+<ul>
+<li>检测到恶意请求或参数错误时主动取消。</li>
+<li>负载过高时终止低优先级 RPC。</li>
+</ul>
+</li>
+</ul>
+<p>与超时终止的区别：</p>
+<table>
+<thead>
+<tr>
+<th>行为</th>
+<th>取消（Cancellation）</th>
+<th>超时（Deadline）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>触发方</td>
+<td>客户端或服务端手动调用</td>
+<td>客户端设置的计时器自动触发</td>
+</tr>
+<tr>
+<td>错误码</td>
+<td><code>CANCELLED</code> (1)</td>
+<td><code>DEADLINE_EXCEEDED</code> (4)</td>
+</tr>
+<tr>
+<td>控制粒度</td>
+<td>精确到单次 RPC 调用</td>
+<td>依赖全局 Deadline 设置</td>
+</tr>
+</tbody>
+</table>
+<h3 id="最佳实践">最佳实践</h3>
+<ul>
+<li>
+<p>客户端：</p>
+<ul>
+<li>提供显式的取消按钮或超时逻辑。</li>
+<li>捕获 <code>CANCELLED</code> 错误并记录日志（非必要不重试）。</li>
+<li>错误恢复策略：客户端应处理 <code>DEADLINE_EXCEEDED</code> 和 <code>CANCELLED</code>，考虑重试或降级逻辑。</li>
+</ul>
+</li>
+<li>
+<p>服务端：</p>
+<ul>
+<li>监听取消信号，及时回滚事务或清理临时数据。</li>
+<li>避免在取消后继续写入响应流。</li>
+<li>合理设置 Deadline：避免过长（浪费资源）或过短（频繁超时）。</li>
+<li>资源清理：监听取消信号，及时释放占用的资源。</li>
+</ul>
+</li>
+</ul>
+<h2 id="metadata">Metadata</h2>
+<h3 id="设计解析">设计解析</h3>
+<ul>
+<li>通信信封：类似 HTTP Headers，但专为 gRPC 优化设计</li>
+<li>双向流动：
+<div class="mermaid">graph LR
+  Client-->|Request Metadata|Server
+  Server-->|Response Metadata|Client
+</div>
+
+</li>
+<li>生命周期：仅存在于单个 RPC 调用上下文</li>
+<li>传输载体：底层通过 HTTP/2 HEADERS 帧传输</li>
+</ul>
+<p>键命名规范：</p>
+<table>
+<thead>
+<tr>
+<th>关键规则</th>
+<th>合法示例</th>
+<th>非法示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>禁止 <code>grpc-</code> 前缀</td>
+<td><code>app-version</code></td>
+<td><code>grpc-token</code></td>
+</tr>
+<tr>
+<td>允许字符：<code>a-z</code>,<code>0-9</code>,<code>-</code>,<code>_</code>,<code>.</code></td>
+<td><code>x-b3-traceid</code></td>
+<td><code>user@info</code></td>
+</tr>
+<tr>
+<td>二进制键必须<code>-bin</code>结尾</td>
+<td><code>auth-token-bin</code></td>
+<td><code>image_data</code></td>
+</tr>
+<tr>
+<td>大小写不敏感</td>
+<td><code>CLIENT-ID</code>与<code>client-id</code>等价</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p>性能关键点：</p>
+<ul>
+<li>大小限制：建议单个元数据不超过4KB（受HTTP/2规范限制）</li>
+<li>压缩策略：对于重复键值建议使用HPACK压缩</li>
+<li>缓存机制：高频使用的元数据应复用Metadata对象</li>
+<li>二进制优化：二进制数据建议使用Base64编码（某些语言实现需要）</li>
+</ul>
+<h3 id="跨语言实现">跨语言实现</h3>
+<p>语言特性注意事项</p>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>关键特性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python</td>
+<td>使用元组列表表示，二进制值需转换为bytes</td>
+</tr>
+<tr>
+<td>Go</td>
+<td>通过context传递，区分header/trailer</td>
+</tr>
+<tr>
+<td>Java</td>
+<td>需要ASCII_STRING_MARSHALLER处理非ASCII字符</td>
+</tr>
+<tr>
+<td>C++</td>
+<td>使用MetadataMap容器类，支持直接内存访问</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td>通过Metadata类管理，二进制值需Buffer类型</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>客户端发送元数据</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Python示例</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">from</span> <span style="color:#000">grpc</span> <span style="color:#204a87;font-weight:bold">import</span> <span style="color:#000">Metadata</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#000">metadata</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Metadata</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;client-id&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#39;python-app&#39;</span><span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;auth-token-bin&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">b</span><span style="color:#4e9a06">&#39;</span><span style="color:#4e9a06">\x89</span><span style="color:#4e9a06">PNG</span><span style="color:#4e9a06">\r\n\x1a\n</span><span style="color:#4e9a06">&#39;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">response</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">stub</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">UnaryCall</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">request</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">metadata</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Go示例
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">md</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Pairs</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">&#34;client-id&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;go-service&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">&#34;auth-token-bin&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87">string</span><span style="color:#000;font-weight:bold">([]</span><span style="color:#204a87;font-weight:bold">byte</span><span style="color:#000;font-weight:bold">{</span><span style="color:#0000cf;font-weight:bold">0x89</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0x50</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0x4E</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#0000cf;font-weight:bold">0x47</span><span style="color:#000;font-weight:bold">}),</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">ctx</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">NewOutgoingContext</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Background</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000">md</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">resp</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">err</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SomeMethod</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">req</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><ul>
+<li>服务端读取元数据</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Java服务端
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">someMethod</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">HelloRequest</span> <span style="color:#000">request</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">StreamObserver</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">HelloResponse</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">responseObserver</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">Metadata</span> <span style="color:#000">headers</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">MetadataUtils</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">headersFrom</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">request</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">String</span> <span style="color:#000">clientId</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">headers</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">get</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Metadata</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">Key</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">of</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;client-id&#34;</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">Metadata</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">ASCII_STRING_MARSHALLER</span><span style="color:#ce5c00;font-weight:bold">));</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 添加响应元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">Metadata</span> <span style="color:#000">trailingHeaders</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">Metadata</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">trailingHeaders</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">put</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">Metadata</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">Key</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">of</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;server-load&#34;</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">Metadata</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">ASCII_STRING_MARSHALLER</span><span style="color:#ce5c00;font-weight:bold">),</span> <span style="color:#4e9a06">&#34;0.75&#34;</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">responseObserver</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">onNext</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">response</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">responseObserver</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">onCompleted</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">trailingHeaders</span><span style="color:#ce5c00;font-weight:bold">);</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><p>流式RPC元数据交互</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 客户端流式发送元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">s</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">server</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">ClientStreaming</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stream</span> <span style="color:#000">pb</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Service_ClientStreamingServer</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">error</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 读取初始元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">md</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">_</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">FromIncomingContext</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Context</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 流处理中发送响应元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">header</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Pairs</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;stream-status&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;processing&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">stream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SendHeader</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">header</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 流结束时发送尾部元数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#000">trailer</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Pairs</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;processed-count&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;1234&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">stream</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">SetTrailer</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">trailer</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h3 id="调试与监控">调试与监控</h3>
+<p>可通过 Wireshark 抓包分析，选择条目右击 &ldquo;Decode As&hellip;&quot;，对 &ldquo;Current&rdquo; 更改为 &ldquo;HTTP2&rdquo; 类型。</p>
+<p>HEADERS 帧示例：</p>
+<pre tabindex="0"><code class="language-http2" data-lang="http2">:path: /default.api.oneops.netdev.v1.OneopsNetdev/CreateDeviceNetconfStream
+:authority: 127.0.0.1:10081
+:method: POST
+:scheme: http
+content-type: application/grpc
+te: trailers
+grpc-accept-encoding: identity, deflate, gzip
+grpc-timeout: 4990m
+user-agent: grpc-python-asyncio/1.71.0 grpc-c/46.0.0 (osx; chttp2)
+authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9
+</code></pre><h3 id="应用场景">应用场景</h3>
+<table>
+<thead>
+<tr>
+<th>场景类型</th>
+<th>元数据示例</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>认证鉴权</td>
+<td><code>authorization: Bearer xxxx</code></td>
+<td>携带JWT/OAuth2 token</td>
+</tr>
+<tr>
+<td>链路追踪</td>
+<td><code>x-b3-traceid: 463ac35c9f6413ad</code></td>
+<td>分布式追踪上下文</td>
+</tr>
+<tr>
+<td>流量控制</td>
+<td><code>canary-flag: true</code></td>
+<td>灰度发布标识</td>
+</tr>
+<tr>
+<td>内容协商</td>
+<td><code>content-encoding: snappy</code></td>
+<td>数据压缩格式</td>
+</tr>
+<tr>
+<td>调试信息</td>
+<td><code>debug-mode: verbose</code></td>
+<td>开启服务端详细日志</td>
+</tr>
+<tr>
+<td>二进制传输</td>
+<td><code>image-data-bin: &lt;binary&gt;</code></td>
+<td>传输小尺寸二进制载荷</td>
+</tr>
+</tbody>
+</table>
+<p>最佳实践清单</p>
+<ol>
+<li>
+<p>命名规范：</p>
+<ul>
+<li>使用kebab-case命名风格（如<code>api-version</code>）</li>
+<li>业务自定义键添加项目前缀（如<code>myapp-feature-flag</code>）</li>
+</ul>
+</li>
+<li>
+<p>生命周期管理：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>Request Metadata → 服务端处理 → Response Metadata
+</span></span><span style="display:flex;"><span>                       ↓
+</span></span><span style="display:flex;"><span>                  Trailing Metadata
+</span></span></code></pre></div></li>
+<li>
+<p>使用上安全实践：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 不安全示例（明文传输敏感信息）</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">metadata</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Metadata</span><span style="color:#000;font-weight:bold">((</span><span style="color:#4e9a06">&#39;password&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#39;qwerty123&#39;</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 安全实践</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">metadata</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">Metadata</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;authorization&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">f</span><span style="color:#4e9a06">&#39;Bearer </span><span style="color:#4e9a06">{</span><span style="color:#000">jwt_token</span><span style="color:#4e9a06">}</span><span style="color:#4e9a06">&#39;</span><span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;x-encrypted-data-bin&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">encrypt</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">payload</span><span style="color:#000;font-weight:bold">))</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div></li>
+<li>
+<p>错误处理模式：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000">validateMetadata</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">md</span> <span style="color:#000">metadata</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">MD</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">error</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">md</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;authorization&#34;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#204a87;font-weight:bold">nil</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">status</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Error</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">codes</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Unauthenticated</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;missing auth&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#8f5902;font-style:italic">// 验证二进制数据
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">token</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">md</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Get</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;signature-bin&#34;</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#204a87">len</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">token</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">!=</span> <span style="color:#0000cf;font-weight:bold">64</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">status</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Error</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">codes</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">InvalidArgument</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;invalid signature&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#204a87;font-weight:bold">nil</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div></li>
+</ol>
+<p>关键结论：</p>
+<p>Metadata 机制是 gRPC 实现<strong>可观察性</strong>和<strong>上下文传递</strong>的核心设计，其灵活性与性能需要开发者通过以下平衡：</p>
+<ul>
+<li>信息密度 vs 传输效率</li>
+<li>开发便利性 vs 类型安全</li>
+<li>业务扩展性 vs 协议稳定性</li>
+</ul>
+<p>正确使用 Metadata 可以使分布式系统获得以下能力：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[上下文传递] → [认证鉴权] → [链路追踪] → [流量控制]
+</span></span><span style="display:flex;"><span>       ↓            ↓             ↓           ↓
+</span></span><span style="display:flex;"><span>   事务关联      安全边界      性能分析      系统弹性
+</span></span></code></pre></div><h2 id="channels">Channels</h2>
+<h3 id="设计理念">设计理念</h3>
+<p>Channel 是 gRPC 客户端的<strong>战略资源</strong>，其正确使用直接影响：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>系统可靠性 ←→ 资源利用率 ←→ 运维复杂度
+</span></span></code></pre></div><p>开发者需要重点把握：</p>
+<ol>
+<li><strong>生命周期管理</strong>：创建、重用、关闭的规范</li>
+<li><strong>状态感知</strong>：实时监控连接健康度</li>
+<li><strong>配置调优</strong>：根据业务场景调整参数</li>
+<li><strong>跨语言一致性</strong>：理解不同实现的细微差异</li>
+</ol>
+<p>通过合理设计 Channel 使用策略，可实现：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>[高性能连接池] → [智能负载均衡] → [弹性容错机制]
+</span></span><span style="display:flex;"><span>       ↓                ↓               ↓
+</span></span><span style="display:flex;"><span>   高吞吐量         流量最优分配     自动故障恢复
+</span></span></code></pre></div><p>面向客户端应用，它有以下特点：</p>
+<ul>
+<li>客户端入口点：所有 RPC 调用的起点</li>
+<li>资源管理器：统一管理连接池、负载均衡策略、压缩设置等</li>
+<li>虚拟连接抽象：一个 Channel 代表到目标主机的逻辑连接</li>
+</ul>
+<div class="mermaid">graph TD
+    Client[客户端应用] --> Channel
+    Channel --> LB[负载均衡策略]
+    Channel --> CP[连接池]
+    Channel --> Compress[压缩配置]
+    Channel --> TLS[安全配置]
+</div>
+
+<h3 id="生命周期">生命周期</h3>
+<p>状态机模型</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>CREATED → CONNECTING → READY → TRANSIENT_FAILURE → (重试)→ READY 
+</span></span><span style="display:flex;"><span>                ↓               ↓
+</span></span><span style="display:flex;"><span>                IDLE          SHUTDOWN
+</span></span></code></pre></div><p>状态转换触发条件</p>
+<table>
+<thead>
+<tr>
+<th>状态</th>
+<th>触发场景</th>
+<th>典型持续时间</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>CONNECTING</td>
+<td>首次建立连接</td>
+<td>网络RTT时间</td>
+</tr>
+<tr>
+<td>READY</td>
+<td>成功建立至少一个连接</td>
+<td>长期保持</td>
+</tr>
+<tr>
+<td>TRANSIENT_FAILURE</td>
+<td>连接中断但可恢复（如临时网络故障）</td>
+<td>指数退避重试期间</td>
+</tr>
+<tr>
+<td>IDLE</td>
+<td>无活动RPC超过keepalive时间</td>
+<td>直到新请求触发重连</td>
+</tr>
+<tr>
+<td>SHUTDOWN</td>
+<td>显式关闭Channel</td>
+<td>永久状态</td>
+</tr>
+</tbody>
+</table>
+<h3 id="跨语言差异对比">跨语言差异对比</h3>
+<table>
+<thead>
+<tr>
+<th>语言</th>
+<th>Channel创建</th>
+<th>状态查询API</th>
+<th>关闭行为</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Go</td>
+<td><code>grpc.Dial(&quot;host:port&quot;, opts...)</code></td>
+<td><code>conn.GetState()</code></td>
+<td>必须显式Close()</td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>grpc.insecure_channel(...)</code></td>
+<td><code>channel._channel.check_connectivity_state()</code></td>
+<td>自动GC回收</td>
+</tr>
+<tr>
+<td>Java</td>
+<td><code>ManagedChannelBuilder</code></td>
+<td><code>getState(true)</code></td>
+<td>shutdown() + awaitTermination()</td>
+</tr>
+<tr>
+<td>C++</td>
+<td><code>CreateChannel()</code></td>
+<td><code>GetState()</code></td>
+<td>引用计数控制</td>
+</tr>
+<tr>
+<td>Node.js</td>
+<td><code>new Client('host:port', creds)</code></td>
+<td>无直接API</td>
+<td>自动关闭</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>性能相关</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-protobuf" data-lang="protobuf"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Go示例
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">conn</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">err</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">grpc.Dial</span><span style="color:#000;font-weight:bold">(</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>    <span style="color:#4e9a06">&#34;service.example.com:443&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>    <span style="color:#000">grpc.WithDefaultServiceConfig</span><span style="color:#000;font-weight:bold">(</span><span style="color:#a40000">`</span><span style="color:#000;font-weight:bold">{</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>        <span style="color:#4e9a06">&#34;loadBalancingConfig&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;round_robin&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span><span style="color:#000;font-weight:bold">{}}],</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>        <span style="color:#4e9a06">&#34;methodConfig&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[{</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>            <span style="color:#4e9a06">&#34;name&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[{</span><span style="color:#4e9a06">&#34;service&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;echo.Echo&#34;</span><span style="color:#000;font-weight:bold">}],</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>            <span style="color:#4e9a06">&#34;retryPolicy&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>                <span style="color:#4e9a06">&#34;maxAttempts&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">3</span><span style="color:#000;font-weight:bold">,</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>                <span style="color:#4e9a06">&#34;initialBackoff&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;0.1s&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>                <span style="color:#4e9a06">&#34;maxBackoff&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;1s&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>                <span style="color:#4e9a06">&#34;backoffMultiplier&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">2</span><span style="color:#000;font-weight:bold">,</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>                <span style="color:#4e9a06">&#34;retryableStatusCodes&#34;</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span><span style="color:#4e9a06">&#34;UNAVAILABLE&#34;</span><span style="color:#000;font-weight:bold">]</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>            <span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>        <span style="color:#000;font-weight:bold">}]</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>    <span style="color:#000;font-weight:bold">}</span><span style="color:#a40000">`</span><span style="color:#000;font-weight:bold">),</span><span style="color:#a40000">
+</span></span></span><span style="display:flex;"><span><span style="color:#a40000"></span>    <span style="color:#000">grpc.WithTransportCredentials</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">credentials.NewTLS</span><span style="color:#000;font-weight:bold">(</span><span style="color:#a40000">&amp;</span><span style="color:#000">tls.Config</span><span style="color:#000;font-weight:bold">{})))</span><span style="color:#a40000">
+</span></span></span></code></pre></div><ul>
+<li>安全相关</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Python安全配置示例</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">channel</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">secure_channel</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#4e9a06">&#39;api.example.com:50051&#39;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">composite_channel_credentials</span><span style="color:#000;font-weight:bold">(</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">ssl_channel_credentials</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">root_certificates</span><span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">access_token_call_credentials</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;Bearer &#39;</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#000">token</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">),</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">options</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#000;font-weight:bold">((</span><span style="color:#4e9a06">&#39;grpc.primary_user_agent&#39;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#39;myapp/1.0&#39;</span><span style="color:#000;font-weight:bold">),)</span>
+</span></span></code></pre></div><h3 id="最佳实践指南">最佳实践指南</h3>
+<ol>
+<li>Channel 复用策略</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>+----------------+          +-----------------+
+</span></span><span style="display:flex;"><span>| 客户端进程     |          | 服务端集群      |
+</span></span><span style="display:flex;"><span>|                |          |                 |
+</span></span><span style="display:flex;"><span>|  [Channel A]   |---LB----&gt;| Instance1:50051 |
+</span></span><span style="display:flex;"><span>|  (单例)        |          | Instance2:50051 |
+</span></span><span style="display:flex;"><span>|                |          | Instance3:50051 |
+</span></span><span style="display:flex;"><span>+----------------+          +-----------------+
+</span></span></code></pre></div><ul>
+<li>每个服务端点维护一个Channel单例</li>
+<li>避免为每个RPC创建新Channel（高开销）</li>
+<li>多线程环境下保证线程安全</li>
+</ul>
+<ol start="2">
+<li>优雅关闭模式</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-java" data-lang="java"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Java正确关闭示例
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">ManagedChannel</span> <span style="color:#000">channel</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">ManagedChannelBuilder</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">forTarget</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;localhost:50051&#34;</span><span style="color:#ce5c00;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">usePlaintext</span><span style="color:#ce5c00;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">build</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 使用channel...
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>
+</span></span><span style="display:flex;"><span><span style="color:#000">channel</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">shutdown</span><span style="color:#ce5c00;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">// 启动关闭流程
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">try</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(!</span><span style="color:#000">channel</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">awaitTermination</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">5</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">TimeUnit</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">SECONDS</span><span style="color:#ce5c00;font-weight:bold">))</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">channel</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">shutdownNow</span><span style="color:#ce5c00;font-weight:bold">();</span> <span style="color:#8f5902;font-style:italic">// 强制关闭
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>    <span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#204a87;font-weight:bold">catch</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">InterruptedException</span> <span style="color:#000">e</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000">channel</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">shutdownNow</span><span style="color:#ce5c00;font-weight:bold">();</span>
+</span></span><span style="display:flex;"><span><span style="color:#ce5c00;font-weight:bold">}</span>
+</span></span></code></pre></div><ol start="3">
+<li>状态监控集成</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// Go状态监控示例
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">go</span> <span style="color:#204a87;font-weight:bold">func</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">state</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">conn</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">GetState</span><span style="color:#000;font-weight:bold">()</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">metrics</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">RecordChannelState</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">state</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">String</span><span style="color:#000;font-weight:bold">())</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000;font-weight:bold">!</span><span style="color:#000">conn</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">WaitForStateChange</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">state</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>            <span style="color:#204a87;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}()</span>
+</span></span></code></pre></div><ol start="4">
+<li>性能优化要点</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>参数</th>
+<th>推荐值</th>
+<th>影响维度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>keepalive_time</td>
+<td>60s</td>
+<td>连接保活频率</td>
+</tr>
+<tr>
+<td>keepalive_timeout</td>
+<td>20s</td>
+<td>保活响应等待</td>
+</tr>
+<tr>
+<td>max_concurrent_streams</td>
+<td>100</td>
+<td>HTTP/2流并发数</td>
+</tr>
+<tr>
+<td>initial_window_size</td>
+<td>1MB</td>
+<td>流控窗口初始值</td>
+</tr>
+<tr>
+<td>max_connection_age</td>
+<td>30min</td>
+<td>连接最大生命周期</td>
+</tr>
+</tbody>
+</table>
+<ol start="5">
+<li>避免每次新建 Channel</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-python" data-lang="python"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 错误示例（Python）</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">def</span> <span style="color:#000">make_request</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">request</span><span style="color:#000;font-weight:bold">):</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">with</span> <span style="color:#000">grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">insecure_channel</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;localhost:50051&#39;</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">as</span> <span style="color:#000">channel</span><span style="color:#000;font-weight:bold">:</span>  <span style="color:#8f5902;font-style:italic"># 频繁创建销毁</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">stub</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">service_pb2_grpc</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">MyServiceStub</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">channel</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">stub</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#000">Call</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">request</span><span style="color:#000;font-weight:bold">)</span>
+</span></span></code></pre></div><ol start="6">
+<li>忽略 TRANSIENT_FAILURE 状态</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-go" data-lang="go"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// 错误处理方式
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#000">conn</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">_</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">grpc</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Dial</span><span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">...</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">for</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#000">resp</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">err</span> <span style="color:#ce5c00;font-weight:bold">:=</span> <span style="color:#000">client</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Call</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">req</span><span style="color:#000;font-weight:bold">);</span> <span style="color:#000">err</span> <span style="color:#ce5c00;font-weight:bold">!=</span> <span style="color:#204a87;font-weight:bold">nil</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#000">time</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Sleep</span><span style="color:#000;font-weight:bold">(</span><span style="color:#0000cf;font-weight:bold">1</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#000">time</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Second</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#8f5902;font-style:italic">// 未检测连接状态
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>        <span style="color:#204a87;font-weight:bold">continue</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">break</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><ol start="7">
+<li>客户端负载均衡配置</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>                            [Channel]
+</span></span><span style="display:flex;"><span>                               |
+</span></span><span style="display:flex;"><span>                   +-----------+-----------+
+</span></span><span style="display:flex;"><span>                   |                       |
+</span></span><span style="display:flex;"><span>               DNS-based              ServiceConfig-based
+</span></span><span style="display:flex;"><span>             (简单轮询)              (高级策略)
+</span></span><span style="display:flex;"><span>                   |                       |
+</span></span><span style="display:flex;"><span>               grpclb                  xDS配置
+</span></span><span style="display:flex;"><span>                   |                       |
+</span></span><span style="display:flex;"><span>           +-------+-------+       +-------+-------+
+</span></span><span style="display:flex;"><span>           |               |       |               |
+</span></span><span style="display:flex;"><span>       后端实例1        后端实例2   CDN节点1      CDN节点2
+</span></span></code></pre></div>
+	
+	
+	<div class="text-muted mt-5 pt-3 border-top">
+  最后修改 May 19, 2025: <a href="https://github.com/grpc-kit/doc/commit/21f985a0e9ad641e85493899d1f36b263aabb7bf">chore: 添加 go 语言 grpc 示例 (21f985a)</a>
+</div>
+
+</div>
+
+
+          </main>
+
+
+        </div>
+      </div>
+      
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-0 col-sm-0 text-xs-center order-sm-2">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="联系我们" aria-label="联系我们">
+    <a class="text-white" target="_blank" rel="noopener" href="https://github.com/grpc-kit/doc/issues/new" aria-label="联系我们">
+      <i class="fa fa-envelope"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-0 col-sm-0 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
+    <a class="text-white" target="_blank" rel="noopener" href="https://github.com/grpc-kit" aria-label="GitHub">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col- col-sm-12 text-center py-2 order-sm-2">
+        <p class="mt-2">
+          <small class="text-white">&copy; 2025 The gRPC Kit Authors. 保留所有权利</small>
+          <small class="ml-1"><a href="https://policies.google.com/privacy" target="_blank" rel="noopener">隐私政策</a></small>
+
+	
+		
+	
+
+          <small>|</small>
+
+          
+          <small>
+            <img style="width:16px;" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAKTWlDQ1BQaG90b3Nob3AgSUNDIHByb2ZpbGUAAHjanVN3WJP3Fj7f92UPVkLY8LGXbIEAIiOsCMgQWaIQkgBhhBASQMWFiApWFBURnEhVxILVCkidiOKgKLhnQYqIWotVXDjuH9yntX167+3t+9f7vOec5/zOec8PgBESJpHmomoAOVKFPDrYH49PSMTJvYACFUjgBCAQ5svCZwXFAADwA3l4fnSwP/wBr28AAgBw1S4kEsfh/4O6UCZXACCRAOAiEucLAZBSAMguVMgUAMgYALBTs2QKAJQAAGx5fEIiAKoNAOz0ST4FANipk9wXANiiHKkIAI0BAJkoRyQCQLsAYFWBUiwCwMIAoKxAIi4EwK4BgFm2MkcCgL0FAHaOWJAPQGAAgJlCLMwAIDgCAEMeE80DIEwDoDDSv+CpX3CFuEgBAMDLlc2XS9IzFLiV0Bp38vDg4iHiwmyxQmEXKRBmCeQinJebIxNI5wNMzgwAABr50cH+OD+Q5+bk4eZm52zv9MWi/mvwbyI+IfHf/ryMAgQAEE7P79pf5eXWA3DHAbB1v2upWwDaVgBo3/ldM9sJoFoK0Hr5i3k4/EAenqFQyDwdHAoLC+0lYqG9MOOLPv8z4W/gi372/EAe/tt68ABxmkCZrcCjg/1xYW52rlKO58sEQjFu9+cj/seFf/2OKdHiNLFcLBWK8ViJuFAiTcd5uVKRRCHJleIS6X8y8R+W/QmTdw0ArIZPwE62B7XLbMB+7gECiw5Y0nYAQH7zLYwaC5EAEGc0Mnn3AACTv/mPQCsBAM2XpOMAALzoGFyolBdMxggAAESggSqwQQcMwRSswA6cwR28wBcCYQZEQAwkwDwQQgbkgBwKoRiWQRlUwDrYBLWwAxqgEZrhELTBMTgN5+ASXIHrcBcGYBiewhi8hgkEQcgIE2EhOogRYo7YIs4IF5mOBCJhSDSSgKQg6YgUUSLFyHKkAqlCapFdSCPyLXIUOY1cQPqQ28ggMor8irxHMZSBslED1AJ1QLmoHxqKxqBz0XQ0D12AlqJr0Rq0Hj2AtqKn0UvodXQAfYqOY4DRMQ5mjNlhXIyHRWCJWBomxxZj5Vg1Vo81Yx1YN3YVG8CeYe8IJAKLgBPsCF6EEMJsgpCQR1hMWEOoJewjtBK6CFcJg4Qxwicik6hPtCV6EvnEeGI6sZBYRqwm7iEeIZ4lXicOE1+TSCQOyZLkTgohJZAySQtJa0jbSC2kU6Q+0hBpnEwm65Btyd7kCLKArCCXkbeQD5BPkvvJw+S3FDrFiOJMCaIkUqSUEko1ZT/lBKWfMkKZoKpRzame1AiqiDqfWkltoHZQL1OHqRM0dZolzZsWQ8ukLaPV0JppZ2n3aC/pdLoJ3YMeRZfQl9Jr6Afp5+mD9HcMDYYNg8dIYigZaxl7GacYtxkvmUymBdOXmchUMNcyG5lnmA+Yb1VYKvYqfBWRyhKVOpVWlX6V56pUVXNVP9V5qgtUq1UPq15WfaZGVbNQ46kJ1Bar1akdVbupNq7OUndSj1DPUV+jvl/9gvpjDbKGhUaghkijVGO3xhmNIRbGMmXxWELWclYD6yxrmE1iW7L57Ex2Bfsbdi97TFNDc6pmrGaRZp3mcc0BDsax4PA52ZxKziHODc57LQMtPy2x1mqtZq1+rTfaetq+2mLtcu0W7eva73VwnUCdLJ31Om0693UJuja6UbqFutt1z+o+02PreekJ9cr1Dund0Uf1bfSj9Rfq79bv0R83MDQINpAZbDE4Y/DMkGPoa5hpuNHwhOGoEctoupHEaKPRSaMnuCbuh2fjNXgXPmasbxxirDTeZdxrPGFiaTLbpMSkxeS+Kc2Ua5pmutG003TMzMgs3KzYrMnsjjnVnGueYb7ZvNv8jYWlRZzFSos2i8eW2pZ8ywWWTZb3rJhWPlZ5VvVW16xJ1lzrLOtt1ldsUBtXmwybOpvLtqitm63Edptt3xTiFI8p0in1U27aMez87ArsmuwG7Tn2YfYl9m32zx3MHBId1jt0O3xydHXMdmxwvOuk4TTDqcSpw+lXZxtnoXOd8zUXpkuQyxKXdpcXU22niqdun3rLleUa7rrStdP1o5u7m9yt2W3U3cw9xX2r+00umxvJXcM970H08PdY4nHM452nm6fC85DnL152Xlle+70eT7OcJp7WMG3I28Rb4L3Le2A6Pj1l+s7pAz7GPgKfep+Hvqa+It89viN+1n6Zfgf8nvs7+sv9j/i/4XnyFvFOBWABwQHlAb2BGoGzA2sDHwSZBKUHNQWNBbsGLww+FUIMCQ1ZH3KTb8AX8hv5YzPcZyya0RXKCJ0VWhv6MMwmTB7WEY6GzwjfEH5vpvlM6cy2CIjgR2yIuB9pGZkX+X0UKSoyqi7qUbRTdHF09yzWrORZ+2e9jvGPqYy5O9tqtnJ2Z6xqbFJsY+ybuIC4qriBeIf4RfGXEnQTJAntieTE2MQ9ieNzAudsmjOc5JpUlnRjruXcorkX5unOy553PFk1WZB8OIWYEpeyP+WDIEJQLxhP5aduTR0T8oSbhU9FvqKNolGxt7hKPJLmnVaV9jjdO31D+miGT0Z1xjMJT1IreZEZkrkj801WRNberM/ZcdktOZSclJyjUg1plrQr1zC3KLdPZisrkw3keeZtyhuTh8r35CP5c/PbFWyFTNGjtFKuUA4WTC+oK3hbGFt4uEi9SFrUM99m/ur5IwuCFny9kLBQuLCz2Lh4WfHgIr9FuxYji1MXdy4xXVK6ZHhp8NJ9y2jLspb9UOJYUlXyannc8o5Sg9KlpUMrglc0lamUycturvRauWMVYZVkVe9ql9VbVn8qF5VfrHCsqK74sEa45uJXTl/VfPV5bdra3kq3yu3rSOuk626s91m/r0q9akHV0IbwDa0b8Y3lG19tSt50oXpq9Y7NtM3KzQM1YTXtW8y2rNvyoTaj9nqdf13LVv2tq7e+2Sba1r/dd3vzDoMdFTve75TsvLUreFdrvUV99W7S7oLdjxpiG7q/5n7duEd3T8Wej3ulewf2Re/ranRvbNyvv7+yCW1SNo0eSDpw5ZuAb9qb7Zp3tXBaKg7CQeXBJ9+mfHvjUOihzsPcw83fmX+39QjrSHkr0jq/dawto22gPaG97+iMo50dXh1Hvrf/fu8x42N1xzWPV56gnSg98fnkgpPjp2Snnp1OPz3Umdx590z8mWtdUV29Z0PPnj8XdO5Mt1/3yfPe549d8Lxw9CL3Ytslt0utPa49R35w/eFIr1tv62X3y+1XPK509E3rO9Hv03/6asDVc9f41y5dn3m978bsG7duJt0cuCW69fh29u0XdwruTNxdeo94r/y+2v3qB/oP6n+0/rFlwG3g+GDAYM/DWQ/vDgmHnv6U/9OH4dJHzEfVI0YjjY+dHx8bDRq98mTOk+GnsqcTz8p+Vv9563Or59/94vtLz1j82PAL+YvPv655qfNy76uprzrHI8cfvM55PfGm/K3O233vuO+638e9H5ko/ED+UPPR+mPHp9BP9z7nfP78L/eE8/sl0p8zAAA7SGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4KPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS41LWMwMjEgNzkuMTU1NzcyLCAyMDE0LzAxLzEzLTE5OjQ0OjAwICAgICAgICAiPgogICA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPgogICAgICA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIgogICAgICAgICAgICB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIgogICAgICAgICAgICB4bWxuczpzdEV2dD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlRXZlbnQjIgogICAgICAgICAgICB4bWxuczpwaG90b3Nob3A9Imh0dHA6Ly9ucy5hZG9iZS5jb20vcGhvdG9zaG9wLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIKICAgICAgICAgICAgeG1sbnM6dGlmZj0iaHR0cDovL25zLmFkb2JlLmNvbS90aWZmLzEuMC8iCiAgICAgICAgICAgIHhtbG5zOmV4aWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20vZXhpZi8xLjAvIj4KICAgICAgICAgPHhtcDpDcmVhdG9yVG9vbD5BZG9iZSBQaG90b3Nob3AgQ0MgMjAxNCAoV2luZG93cyk8L3htcDpDcmVhdG9yVG9vbD4KICAgICAgICAgPHhtcDpDcmVhdGVEYXRlPjIwMTUtMTEtMTBUMTQ6MDQ6NTArMDg6MDA8L3htcDpDcmVhdGVEYXRlPgogICAgICAgICA8eG1wOk1ldGFkYXRhRGF0ZT4yMDE1LTExLTEwVDE0OjA0OjUwKzA4OjAwPC94bXA6TWV0YWRhdGFEYXRlPgogICAgICAgICA8eG1wOk1vZGlmeURhdGU+MjAxNS0xMS0xMFQxNDowNDo1MCswODowMDwveG1wOk1vZGlmeURhdGU+CiAgICAgICAgIDx4bXBNTTpJbnN0YW5jZUlEPnhtcC5paWQ6ODBiY2E5ODUtNGY5Yi02ZTRkLTlmYzktZThmNDkyNjdkZjRlPC94bXBNTTpJbnN0YW5jZUlEPgogICAgICAgICA8eG1wTU06RG9jdW1lbnRJRD5hZG9iZTpkb2NpZDpwaG90b3Nob3A6ZWRkYWU4MGMtODc3MC0xMWU1LTg0OWEtYmNmZGE2MDI4ZjJlPC94bXBNTTpEb2N1bWVudElEPgogICAgICAgICA8eG1wTU06T3JpZ2luYWxEb2N1bWVudElEPnhtcC5kaWQ6ZDAxN2I5NGUtOTRiZC0yNjQxLThmZjktYmY3YTBhMzY3N2IxPC94bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ+CiAgICAgICAgIDx4bXBNTTpIaXN0b3J5PgogICAgICAgICAgICA8cmRmOlNlcT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+Y3JlYXRlZDwvc3RFdnQ6YWN0aW9uPgogICAgICAgICAgICAgICAgICA8c3RFdnQ6aW5zdGFuY2VJRD54bXAuaWlkOmQwMTdiOTRlLTk0YmQtMjY0MS04ZmY5LWJmN2EwYTM2NzdiMTwvc3RFdnQ6aW5zdGFuY2VJRD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OndoZW4+MjAxNS0xMS0xMFQxNDowNDo1MCswODowMDwvc3RFdnQ6d2hlbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OnNvZnR3YXJlQWdlbnQ+QWRvYmUgUGhvdG9zaG9wIENDIDIwMTQgKFdpbmRvd3MpPC9zdEV2dDpzb2Z0d2FyZUFnZW50PgogICAgICAgICAgICAgICA8L3JkZjpsaT4KICAgICAgICAgICAgICAgPHJkZjpsaSByZGY6cGFyc2VUeXBlPSJSZXNvdXJjZSI+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDphY3Rpb24+c2F2ZWQ8L3N0RXZ0OmFjdGlvbj4KICAgICAgICAgICAgICAgICAgPHN0RXZ0Omluc3RhbmNlSUQ+eG1wLmlpZDo4MGJjYTk4NS00ZjliLTZlNGQtOWZjOS1lOGY0OTI2N2RmNGU8L3N0RXZ0Omluc3RhbmNlSUQ+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDp3aGVuPjIwMTUtMTEtMTBUMTQ6MDQ6NTArMDg6MDA8L3N0RXZ0OndoZW4+CiAgICAgICAgICAgICAgICAgIDxzdEV2dDpzb2Z0d2FyZUFnZW50PkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE0IChXaW5kb3dzKTwvc3RFdnQ6c29mdHdhcmVBZ2VudD4KICAgICAgICAgICAgICAgICAgPHN0RXZ0OmNoYW5nZWQ+Lzwvc3RFdnQ6Y2hhbmdlZD4KICAgICAgICAgICAgICAgPC9yZGY6bGk+CiAgICAgICAgICAgIDwvcmRmOlNlcT4KICAgICAgICAgPC94bXBNTTpIaXN0b3J5PgogICAgICAgICA8cGhvdG9zaG9wOkRvY3VtZW50QW5jZXN0b3JzPgogICAgICAgICAgICA8cmRmOkJhZz4KICAgICAgICAgICAgICAgPHJkZjpsaT4zQ0I4RkVFOEMyRUJFNkU1QTREQTk3MzI4MzU0MTI0RTwvcmRmOmxpPgogICAgICAgICAgICAgICA8cmRmOmxpPmFkb2JlOmRvY2lkOnBob3Rvc2hvcDpiZGRmY2Y2Zi04NzcwLTExZTUtODQ5YS1iY2ZkYTYwMjhmMmU8L3JkZjpsaT4KICAgICAgICAgICAgPC9yZGY6QmFnPgogICAgICAgICA8L3Bob3Rvc2hvcDpEb2N1bWVudEFuY2VzdG9ycz4KICAgICAgICAgPHBob3Rvc2hvcDpDb2xvck1vZGU+MzwvcGhvdG9zaG9wOkNvbG9yTW9kZT4KICAgICAgICAgPHBob3Rvc2hvcDpJQ0NQcm9maWxlPnNSR0IgSUVDNjE5NjYtMi4xPC9waG90b3Nob3A6SUNDUHJvZmlsZT4KICAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9wbmc8L2RjOmZvcm1hdD4KICAgICAgICAgPHRpZmY6T3JpZW50YXRpb24+MTwvdGlmZjpPcmllbnRhdGlvbj4KICAgICAgICAgPHRpZmY6WFJlc29sdXRpb24+NzIwMDAwLzEwMDAwPC90aWZmOlhSZXNvbHV0aW9uPgogICAgICAgICA8dGlmZjpZUmVzb2x1dGlvbj43MjAwMDAvMTAwMDA8L3RpZmY6WVJlc29sdXRpb24+CiAgICAgICAgIDx0aWZmOlJlc29sdXRpb25Vbml0PjI8L3RpZmY6UmVzb2x1dGlvblVuaXQ+CiAgICAgICAgIDxleGlmOkNvbG9yU3BhY2U+MTwvZXhpZjpDb2xvclNwYWNlPgogICAgICAgICA8ZXhpZjpQaXhlbFhEaW1lbnNpb24+MjA8L2V4aWY6UGl4ZWxYRGltZW5zaW9uPgogICAgICAgICA8ZXhpZjpQaXhlbFlEaW1lbnNpb24+MjA8L2V4aWY6UGl4ZWxZRGltZW5zaW9uPgogICAgICA8L3JkZjpEZXNjcmlwdGlvbj4KICAgPC9yZGY6UkRGPgo8L3g6eG1wbWV0YT4KICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAKICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIAogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAKPD94cGFja2V0IGVuZD0idyI/Pu6JurQAAAAgY0hSTQAAeiUAAICDAAD5/wAAgOkAAHUwAADqYAAAOpgAABdvkl/FRgAABRFJREFUeNpE1OtvW/Udx/H3ufj4+Ph2nDh2vLgrTSPaFNqGtd0Gy9LRTVymNoNM6ihCaEwdQ5sYAo0HTOwBYg/Yk0pDiG3qmLSiPtjGJERbdZSQaUArykXt1la9hDRNY6dpYsexj30uPj7ntwcVyT/w0ucrfT5fSQgBdguAEBlZhDhaiVikF2j22lfPjP77+Kc/9ZyO9p37th7s2rLlbegveZ4g6jggS4AMAKkkkhAC366DJJADgaJlgA/unTx+4qmT/7oyKpxJfdYzUDIma7M6TsXoDH+3/8jgnrG/iOC2o8JrIiQJECjpvlt0Q7JoimWEkQHN1Sf+8MbE40+O7226M/rtCYX9+k2e0me55+48XXfn1f1PvvfwiVdfOSLFlKitSbh8hq9+DitZFRlZSaHK1aJ35uV3f3+4zr79/fy42CD9pwtULwdUpwLqu//ID4JzPHPoEQ7+00dc/vM/Eoary3oCPR5dBROeRTxaH7x+9MWpkd3nRsyBPL/InmP6cAN5jUlgtcELkXpMTj19kr3GGfLfuovv7T62Z/GjN67aM2c3XHz/nVUw6jmo7ruJI5eT2idz23lwu0XzbAP5eh3JjBJdCnBP3iSyrhu96VD562nG7m8z8cUm3vwwKCSkVgx5aBWsL1aK4cfvHwilGKg2KWuOxjxEAh+WXKT1Bto2E/lGC42QyrRDX5cHkkStKRPtUQ9sHB5btwLOXHrvh+1yeTiT0KATRRQKZId7aSKw7ukm2Fck8dIQxjNbkHsMctuytOw2CEEhZ0Dp7L1Ls6d+sgIaicxgw/Lp73FB7+bEaQN1V4rqnrUEZQvpfy3sYzfxp5fRnh+m69mtvHWoBsQZ2qzSmlrALU0VV8BwaW5Po6ZyZ9Gi+HWN19+M859XSgztKJA2ktgXaoQLHu65GsnyMudfvsKrh6Lkh0w299WplD38pUvDK6CstkyrIZNavMLe+wM6fgL/6Dzdf/scuS9Cu0chzKlkdxUoTFylcvA8rbbC2GiEZHUSq6GiJuUIgAoQM746Lm+4Nhrk+3jiGxYH+np4vTyIP3uB7uokcjqGc6GGNZCjnCnwdzkGKZMnvrlAJ1nEvEPCyKw5tgKCnBMNwdyUxZ2D0/z2V9t48fkRjlqboeEzalfpMmXeOpakiQFkeO7nOjsGJpmbBFybsGNtXQFVs729k8zjz/uUFi7yy+EoY+NxJo7bXJK38MCmLyjEKnSO9NGuOazZaPDrB65x89Q1bF9Hz2qoprYRuPUcvOYnj1ZP/+6wM9/Gq/hQmmH9Q0NE8zoEVYKqSnPBIb2uC9Z2Q6nC9NuXcZJZEv0JYr0G6YF9O7XM9z+QhBAAdFr/fWzp/IHXAtdJVz6cR40LencOEiw5+HYL2dDRu+JIWoTqqSk6gUp6+3p8l2p6w8gjcTM1Lmn33TrZd2ZwFp2yOx9z9HyYzu8aIKi3CKwGGBqKZqLFoL3cpFWqoa/tRi/m8ZZt3LIlYmuaKKkUsS9rI9pXUfjohdzXkr2RTAGvHhIGKmGg4C5aIELa1TrNyUUkJQKShHujQiQmk/92IasZ1s9Ch9Uta0qKaPeOhyw7/ZpdKrU0ZZlUrkNEstEkH8VbRjgOyY1ZUgMpZK2JmtaQMr3XO+pdv1GN23+kaIus1kb4SBHVblTjTzsX8y859cUHPX9251c29WwKLSmhm3KXGkti3eB6rMe01dzI2aWphXFnpnaib2culBQFEbgA/H8ALiI3EysggNoAAAAASUVORK5CYII="></img>
+            <a href="http://www.beian.gov.cn">闽公网安备 35092202000170号</a>
+          </small>
+          <small>|</small>
+          <small>
+            <a href="https://beian.miit.gov.cn/#/Integrated/recordQuery" target="_blank" rel="noopener">闽ICP备2022001029号</a>
+          </small>
+          
+        </p>
+
+        
+        <p class="mt-2">
+          <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">
+            <img alt="知识共享许可协议" style="border-width:0" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAAAPCAMAAABEF7i9AAAABGdBTUEAANbY1E9YMgAAAJZQTFRFAAAARERE7u7ud3d3lJmTDg4OERERZmZmMzMzDQ4NW15bDQ0NfYJ9cnZx3d3dMTMxhoaGJygnZ2tnOz07ISEhOTs5QUJBGRkZQkJCJCUjICAgDQ0MxsrGs7iyh4eHLjAuQ0NDxcbFj5CPS0xLyMzIgICADxAPur+6ys7KmZmZqqqqu7u7VVVVIiIiiIiIzMzMq7Gq////+Wgu+gAAANlJREFUeNqtVNcShCAMDKBe77335lmS//+5E4fAjOPTyepLlp11TQDwD/IKbYgaU8gMJcIA8f2Ev2ANgzAjhpggvh4NDWdzssihi3i/NTPsZJSnIKSANCcxQnxfTX+NyOk1Y0qroKphH76UJqRUJD8xqQ7i61Kum5dYbypHsKpiOIBc6qkkbSqgQsTD3nzfythMP26tZAvUJxStSKoPqZ5L6H6Ya05oubqE2MsojqAlBbSHdD5xD13Cmh6yoNZwsfU85WB3JMZ603wf6rGMjd9y1fSkeIX/u+YHU7FSLRX36oMAAAAASUVORK5CYII=" />
+          </a>
+          <small>本作品采用 <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a> 进行许可。</small>
+        </p>
+        
+
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+    integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+    crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+    integrity="sha512-UR25UO94eTnCVwjbXozyeVd6ZqpaAE9naiEUBK/A+QDbfSTQFhPGj5lOR6d8tsgbBk84Ggb5A3EkjsOgPRPcKA=="
+    crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@8.13.4/dist/mermaid.min.js" integrity="sha512-JERecFUBbsm75UpkVheAuDOE8NdHjQBrPACfEQYPwvPG+fjgCpHAz1Jw2ci9EXmd3DdfiWth3O3CQvcfEg8gsA==" crossorigin="anonymous"></script>
+
+
+
+<script src='/js/tabpane-persist.js'></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.91798a335c881f1b6b805085ba4aa22d1dbd2b0b18d105d05189fa104ddae350.js" integrity="sha256-kXmKM1yIHxtrgFCFukqiLR29KwsY0QXQUYn6EE3a41A=" crossorigin="anonymous"></script>
+
+
+
+
+  </body>
+</html>

@@ -83,6 +83,8 @@
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;特别的，对于 macOS apple 芯片选择 v21.12 的 aarch 架构版本，如：&lt;/p&gt;
 &lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-shell&#34; data-lang=&#34;shell&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;protoc-3.19.3-linux-aarch_64.zip
 &lt;/span&gt;&lt;/span&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;curl -L -O &lt;span style=&#34;color:#4e9a06&#34;&gt;&amp;#39;https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-osx-aarch_64.zip&amp;#39;&lt;/span&gt;
+&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;对于 linux arm 选择 v21.12 的 aarch 架构版本，如：&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; style=&#34;background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;&#34;&gt;&lt;code class=&#34;language-text&#34; data-lang=&#34;text&#34;&gt;&lt;span style=&#34;display:flex;&#34;&gt;&lt;span&gt;https://github.com/protocolbuffers/protobuf/releases/download/v21.12/protoc-21.12-linux-aarch_64.zip
 &lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h3 id=&#34;手工安装-protoc-gen-x&#34;&gt;手工安装 protoc-gen-X&lt;/h3&gt;
 &lt;p&gt;或者通过&lt;a href=&#34;/docs/overview/local/#%E9%80%9A%E8%BF%87-make-%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96&#34;&gt;通过-make-下载依赖&lt;/a&gt;。&lt;/p&gt;
 &lt;p&gt;protoc-gen-go、protoc-gen-go-grpc、protoc-gen-grpc-gateway、protoc-gen-openapiv2 各版本安装，会自动拷贝二进制至 &amp;ldquo;$GOPATH/bin&amp;rdquo; 下面：&lt;/p&gt;

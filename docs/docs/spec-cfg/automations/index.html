@@ -18,57 +18,37 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>CHANGELOG 0.2 | gRPC Kit</title>
-<meta name="description" content="Changelog
-
-
-
-名称
-说明
-
-
-
-
-Added
-添加新功能
-
-
-Changed
-功能的变更
-
-
-Deprecated
-未来会删除
-
-
-Removed
-之前为Deprecated状态，此版本被移除
-
-
-Fixed
-功能的修复
-
-
-Security …">
-<meta property="og:title" content="CHANGELOG 0.2" />
-<meta property="og:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0." />
+<title>流程编排 | gRPC Kit</title>
+<meta name="description" content="简要概述
+基于 argo workflow 实现对各个原子接口编排完成较复杂的任务流程。
+引入改模块后对编译后的二进制增加大约 4M 大小。
+配置示例
+最小化配置
+# 流程编排配置
+automations:
+  enable: true
+导出默认值
+# 流程编排配置
+automations: …">
+<meta property="og:title" content="流程编排" />
+<meta property="og:description" content="简要概述 基于 argo workflow 实现对各个原子接口编排完成较复杂的任务流程。
+引入改模块后对编译后的二进制增加大约 4M 大小。
+配置示例 最小化配置 # 流程编排配置 automations: enable: true 导出默认值 # 流程编排配置 automations: enable: false kubernetes: config_path: &#34;&#34; rest_config: host: &#34;&#34; bearer_token: &#34;&#34; bearer_token_file: &#34;&#34; tls_client_config: insecure: false 配置说明 KubernetesConfig 名称 类型 说明 config_path string 连接 k8s 的 kubeconfig 配置文件地址 rest_config RestConfig 连接 k8s 的 rest config 配置参数，优先级低于 config_path RestConfig 名称 类型 说明 host string kube-apiserver 地址，如 1.1.1.1:6443 bearer_token string 访问 apiserver 的 token bearer_token_file string 访问 apiserver 的 token 文件，优先级低于 bearer_token tls_client_config TLSClientConfig 连接 apiserver tls 配置 TLSClientConfig 名称 类型 说明 insecure bool 是否忽略 ca 证书验证 应用场景 在集群内连接 apiserver 配置 app." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/changelog/changelog-0.2/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2023-01-20T22:08:54+08:00" />
-<meta property="article:modified_time" content="2023-03-19T22:30:44+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="CHANGELOG 0.2">
-<meta itemprop="description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0."><meta itemprop="datePublished" content="2023-01-20T22:08:54+08:00" />
-<meta itemprop="dateModified" content="2023-03-19T22:30:44+08:00" />
-<meta itemprop="wordCount" content="105">
+<meta property="og:url" content="/docs/spec-cfg/automations/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2024-11-15T13:47:15+08:00" />
+<meta property="article:modified_time" content="2024-11-22T15:26:54+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="流程编排">
+<meta itemprop="description" content="简要概述 基于 argo workflow 实现对各个原子接口编排完成较复杂的任务流程。
+引入改模块后对编译后的二进制增加大约 4M 大小。
+配置示例 最小化配置 # 流程编排配置 automations: enable: true 导出默认值 # 流程编排配置 automations: enable: false kubernetes: config_path: &#34;&#34; rest_config: host: &#34;&#34; bearer_token: &#34;&#34; bearer_token_file: &#34;&#34; tls_client_config: insecure: false 配置说明 KubernetesConfig 名称 类型 说明 config_path string 连接 k8s 的 kubeconfig 配置文件地址 rest_config RestConfig 连接 k8s 的 rest config 配置参数，优先级低于 config_path RestConfig 名称 类型 说明 host string kube-apiserver 地址，如 1.1.1.1:6443 bearer_token string 访问 apiserver 的 token bearer_token_file string 访问 apiserver 的 token 文件，优先级低于 bearer_token tls_client_config TLSClientConfig 连接 apiserver tls 配置 TLSClientConfig 名称 类型 说明 insecure bool 是否忽略 ca 证书验证 应用场景 在集群内连接 apiserver 配置 app."><meta itemprop="datePublished" content="2024-11-15T13:47:15+08:00" />
+<meta itemprop="dateModified" content="2024-11-22T15:26:54+08:00" />
+<meta itemprop="wordCount" content="231">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CHANGELOG 0.2"/>
-<meta name="twitter:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0."/>
+<meta name="twitter:title" content="流程编排"/>
+<meta name="twitter:description" content="简要概述 基于 argo workflow 实现对各个原子接口编排完成较复杂的任务流程。
+引入改模块后对编译后的二进制增加大约 4M 大小。
+配置示例 最小化配置 # 流程编排配置 automations: enable: true 导出默认值 # 流程编排配置 automations: enable: false kubernetes: config_path: &#34;&#34; rest_config: host: &#34;&#34; bearer_token: &#34;&#34; bearer_token_file: &#34;&#34; tls_client_config: insecure: false 配置说明 KubernetesConfig 名称 类型 说明 config_path string 连接 k8s 的 kubeconfig 配置文件地址 rest_config RestConfig 连接 k8s 的 rest config 配置参数，优先级低于 config_path RestConfig 名称 类型 说明 host string kube-apiserver 地址，如 1.1.1.1:6443 bearer_token string 访问 apiserver 的 token bearer_token_file string 访问 apiserver 的 token 文件，优先级低于 bearer_token tls_client_config TLSClientConfig 连接 apiserver tls 配置 TLSClientConfig 名称 类型 说明 insecure bool 是否忽略 ca 证书验证 应用场景 在集群内连接 apiserver 配置 app."/>
 
 
 
@@ -434,14 +414,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
-      <input type="checkbox" id="docsspec-cfg-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check" checked/>
       <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -450,7 +430,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                <li class="without-sib" id="m-docsspec-cfgservices">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
@@ -467,7 +447,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                <li class="without-sib" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
@@ -484,7 +464,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgcachebox">
+                <li class="without-sib" id="m-docsspec-cfgcachebox">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcachebox-a" href="/docs/spec-cfg/cachebox/">缓存服务</a>
@@ -501,7 +481,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
+                <li class="without-sib" id="m-docsspec-cfgobservables">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
@@ -518,7 +498,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
+                <li class="without-sib" id="m-docsspec-cfgobjstore">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
@@ -535,10 +515,10 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgautomations">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-cfgautomations">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgautomations-a" href="/docs/spec-cfg/automations/">流程编排</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgautomations-a" href="/docs/spec-cfg/automations/">流程编排</a>
                     
                   </span>
                   
@@ -552,7 +532,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgfrontend">
+                <li class="without-sib" id="m-docsspec-cfgfrontend">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
@@ -569,7 +549,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                <li class="without-sib" id="m-docsspec-cfgindependent">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
@@ -586,7 +566,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                <li class="without-sib" id="m-docsspec-cfgcfg">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
@@ -1068,14 +1048,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docschangelog">
-      <input type="checkbox" id="docschangelog-check" checked/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
+      <input type="checkbox" id="docschangelog-check"/>
       <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
       
         
         
       
-      <ul class="ul-2">
+      <ul class="ul-2 collapsed">
 
         
           
@@ -1084,7 +1064,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docschangelogchangelog-03">
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
@@ -1101,10 +1081,10 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib active-path" id="m-docschangelogchangelog-02">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-02">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
                     
                   </span>
                   
@@ -1118,7 +1098,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docschangelogchangelog-01">
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-01">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-01-a" href="/docs/changelog/changelog-0.1/">CHANGELOG 0.1</a>
@@ -1178,22 +1158,21 @@ var _hmt = _hmt || [];
 <h5>目录</h5>
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#changelog">Changelog</a></li>
-    <li><a href="#unreleased">[Unreleased]</a></li>
-    <li><a href="#023---2022-11-28">[0.2.3] - 2022-11-28</a>
+    <li><a href="#简要概述">简要概述</a></li>
+    <li><a href="#配置示例">配置示例</a>
       <ul>
-        <li><a href="#added">Added</a></li>
+        <li><a href="#最小化配置">最小化配置</a></li>
+        <li><a href="#导出默认值">导出默认值</a></li>
       </ul>
     </li>
-    <li><a href="#022---2022-06-30">[0.2.2] - 2022-06-30</a>
+    <li><a href="#配置说明">配置说明</a>
       <ul>
-        <li><a href="#changed">Changed</a></li>
-        <li><a href="#added-1">Added</a></li>
+        <li><a href="#kubernetesconfig">KubernetesConfig</a></li>
       </ul>
     </li>
-    <li><a href="#021---2022-06-09">[0.2.1] - 2022-06-09</a>
+    <li><a href="#应用场景">应用场景</a>
       <ul>
-        <li><a href="#added-2">Added</a></li>
+        <li><a href="#在集群内连接-apiserver">在集群内连接 apiserver</a></li>
       </ul>
     </li>
   </ul>
@@ -1233,16 +1212,16 @@ var _hmt = _hmt || [];
     <a href="/docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="/docs/changelog/">更新日志</a>
+    <a href="/docs/spec-cfg/">配置规范</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
+    <a href="/docs/spec-cfg/automations/">流程编排</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>CHANGELOG 0.2</h1>
+	<h1>流程编排</h1>
 	
 	<header class="article-meta">
 		
@@ -1258,131 +1237,186 @@ var _hmt = _hmt || [];
 			
 		
 		
-			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 2 分钟阅读 &nbsp;</p>
 
 		
 	</header>    
-	<h2 id="changelog">Changelog</h2>
+	<h2 id="简要概述">简要概述</h2>
+<p>基于 argo workflow 实现对各个原子接口编排完成较复杂的任务流程。</p>
+<p>引入改模块后对编译后的二进制增加大约 4M 大小。</p>
+<h2 id="配置示例">配置示例</h2>
+<h3 id="最小化配置">最小化配置</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 流程编排配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">automations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h3 id="导出默认值">导出默认值</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 流程编排配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">automations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kubernetes</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">config_path</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">rest_config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">host</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">bearer_token</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">bearer_token_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">tls_client_config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">        </span><span style="color:#204a87;font-weight:bold">insecure</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">false</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h2 id="配置说明">配置说明</h2>
+<h3 id="kubernetesconfig">KubernetesConfig</h3>
 <table>
 <thead>
 <tr>
 <th>名称</th>
+<th>类型</th>
 <th>说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>Added</td>
-<td>添加新功能</td>
+<td>config_path</td>
+<td>string</td>
+<td>连接 k8s 的 kubeconfig 配置文件地址</td>
 </tr>
 <tr>
-<td>Changed</td>
-<td>功能的变更</td>
-</tr>
-<tr>
-<td>Deprecated</td>
-<td>未来会删除</td>
-</tr>
-<tr>
-<td>Removed</td>
-<td>之前为Deprecated状态，此版本被移除</td>
-</tr>
-<tr>
-<td>Fixed</td>
-<td>功能的修复</td>
-</tr>
-<tr>
-<td>Security</td>
-<td>有关安全问题的修复</td>
+<td>rest_config</td>
+<td>RestConfig</td>
+<td>连接 k8s 的 rest config 配置参数，优先级低于 config_path</td>
 </tr>
 </tbody>
 </table>
-<h2 id="unreleased">[Unreleased]</h2>
-<h2 id="023---2022-11-28">[0.2.3] - 2022-11-28</h2>
-<h3 id="added">Added</h3>
-<p>grpc-kit/pkg 模块</p>
 <ul>
-<li>支持针对用户组进行鉴权</li>
+<li>RestConfig</li>
 </ul>
-<ol>
-<li>http_users 新增 &ldquo;groups&rdquo; 属性；</li>
-<li>如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403；</li>
-<li>用户组区分大小写</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td>string</td>
+<td>kube-apiserver 地址，如 1.1.1.1:6443</td>
+</tr>
+<tr>
+<td>bearer_token</td>
+<td>string</td>
+<td>访问 apiserver 的 token</td>
+</tr>
+<tr>
+<td>bearer_token_file</td>
+<td>string</td>
+<td>访问 apiserver 的 token 文件，优先级低于 bearer_token</td>
+</tr>
+<tr>
+<td>tls_client_config</td>
+<td>TLSClientConfig</td>
+<td>连接 apiserver tls 配置</td>
+</tr>
+</tbody>
+</table>
 <ul>
-<li>添加最小化配置示例</li>
+<li>TLSClientConfig</li>
 </ul>
-<ol>
-<li>未配置的模块，将不开启该功能</li>
-<li>添加 &ldquo;app-mini.yaml&rdquo; 示例</li>
-</ol>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>insecure</td>
+<td>bool</td>
+<td>是否忽略 ca 证书验证</td>
+</tr>
+</tbody>
+</table>
+<h2 id="应用场景">应用场景</h2>
+<h3 id="在集群内连接-apiserver">在集群内连接 apiserver</h3>
 <ul>
-<li>添加健康检测服务可对外部网络</li>
+<li>配置 app.yaml 文件</li>
 </ul>
-<ol>
-<li>添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务</li>
-<li>区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务</li>
-</ol>
-<p>grpc-kit/cli 模块</p>
-<ul>
-<li>支持自定义应用短名称</li>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 流程编排配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">automations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>如果未主动配置 k8s 连接串，则使用 &ldquo;InClusterConfig&rdquo; 模式连接 kube-apiserver，依赖以下变量与文件：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>KUBERNETES_SERVICE_HOST
+</span></span><span style="display:flex;"><span>KUBERNETES_SERVICE_PORT
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>/var/run/secrets/kubernetes.io/serviceaccount/token
+</span></span><span style="display:flex;"><span>/var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+</span></span></code></pre></div><ul>
+<li>确认 sa 挂载了 token</li>
 </ul>
-<ol>
-<li>通过自定义&quot;SHORTNAME&quot;变量；</li>
-</ol>
-<ul>
-<li>所有脚本应用shell更改</li>
+<p>假设运行 pod 的 sa 账号是 &ldquo;grpc-kit&rdquo;。</p>
+<p>开启 &ldquo;automountServiceAccountToken&rdquo; 参数以自动挂载 token（默认开启状态）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ServiceAccount</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">grpc-kit</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">automountServiceAccountToken</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>或者在 Pod 中开启（默认开启状态）：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Pod</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">example-pod</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">spec</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">automountServiceAccountToken</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><ul>
+<li>确认 sa 用于创建 workflow 权限</li>
 </ul>
-<ol>
-<li>ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持</li>
-</ol>
-<ul>
-<li>更改默认 http 服务端口 10080 至 8080</li>
-</ul>
-<ol>
-<li>由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot;</li>
-</ol>
-<ul>
-<li>cli、pkg 组件版本号统一</li>
-</ul>
-<ol>
-<li>为了解决统一编写变更记录(CHANGELOG.md)</li>
-</ol>
-<ul>
-<li>支持自动生成 kubernetes 编排模版</li>
-</ul>
-<ol>
-<li>新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod</li>
-<li>新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local</li>
-<li>新增指令 <code>make manifests</code> 生成基于 Kubernetes 的编排清单</li>
-<li>模版路径：scripts/templates/kubernetes</li>
-</ol>
-<h2 id="022---2022-06-30">[0.2.2] - 2022-06-30</h2>
-<h3 id="changed">Changed</h3>
-<ul>
-<li>版本号格式的变更</li>
-</ul>
-<p>旧规则以&quot;v&quot;为前缀，更新后不在带&quot;v&quot;为前缀，如：&ldquo;v0.1.0-beta.3&rdquo;，变更为：&ldquo;0.1.0-beta.3&rdquo;</p>
-<h3 id="added-1">Added</h3>
-<ul>
-<li>新增&quot;VERSION&quot;文件</li>
-</ul>
-<p>用于描述当前分支版本，同时提供给CICD使用，如果当前分支未打成&quot;tag&quot;，则均说明是先行版本号，同时版本去掉以&quot;v&quot;开头；</p>
-<ul>
-<li>新增&quot;Makefile&quot;的帮助说明</li>
-</ul>
-<pre tabindex="0"><code>make help
-</code></pre><h2 id="021---2022-06-09">[0.2.1] - 2022-06-09</h2>
-<h3 id="added-2">Added</h3>
-<ul>
-<li>&ldquo;api/doc&quot;目录内容更改至&quot;public/doc&rdquo;</li>
-<li>&ldquo;api/proto&quot;目录更改为&quot;api/{product-code}/{short-name}&rdquo;</li>
-<li>&ldquo;cli&quot;新增&quot;repository&quot;参数用于说明代码仓库名</li>
-<li>rpc客户端、服务端实例初始化转移至&quot;cfg&quot;实现</li>
-<li>favicon.ico文件移至自定义http handler中实现</li>
-<li>http接口统一以&rdquo;/api/&ldquo;为前缀对外暴露</li>
-</ul>
-
+<p>假设应用运行在命名空间 &ldquo;biz-dev-uptime&rdquo; 下使用 &ldquo;grpc-kit&rdquo; 账户：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ServiceAccount</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">grpc-kit</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">biz-dev-uptime</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">Secret</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">type</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">kubernetes.io/service-account-token</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">grpc-kit</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">biz-dev-uptime</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">annotations</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">kubernetes.io/service-account.name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">grpc-kit</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRole</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">executor</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">rules</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span>- <span style="color:#204a87;font-weight:bold">apiGroups</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">argoproj.io</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">resources</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">workflowtaskresults</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">workflowtemplates</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">verbs</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">create</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span>- <span style="color:#000">patch</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">---</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">apiVersion</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io/v1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRoleBinding</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">metadata</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">executor</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">roleRef</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">apiGroup</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">rbac.authorization.k8s.io</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ClusterRole</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">executor</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">subjects</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span>- <span style="color:#204a87;font-weight:bold">kind</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">ServiceAccount</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">grpc-kit</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">namespace</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">biz-dev-uptime</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div>
 	
 		<br /><hr />
 		<style>
@@ -1451,7 +1485,7 @@ var _hmt = _hmt || [];
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 March 19, 2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
+  最后修改 November 22, 2024: <a href="https://github.com/grpc-kit/doc/commit/c108f22bc7873e794ddc68d63dc85fbd151fd164">feat: add k8s connect config (c108f22)</a>
 </div>
 
 </div>

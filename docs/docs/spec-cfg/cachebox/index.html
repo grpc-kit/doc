@@ -18,57 +18,35 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>CHANGELOG 0.2 | gRPC Kit</title>
-<meta name="description" content="Changelog
-
-
-
-名称
-说明
-
-
-
-
-Added
-添加新功能
-
-
-Changed
-功能的变更
-
-
-Deprecated
-未来会删除
-
-
-Removed
-之前为Deprecated状态，此版本被移除
-
-
-Fixed
-功能的修复
-
-
-Security …">
-<meta property="og:title" content="CHANGELOG 0.2" />
-<meta property="og:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0." />
+<title>缓存服务 | gRPC Kit</title>
+<meta name="description" content="简要概述
+支持 memory、redis 实现数据临时缓存，以降低查询后端数据库压力。
+配置示例
+最小化配置
+# 缓存服务配置
+cachebox:
+  enable: true
+  driver: memory
+  memory:
+    max_entry: 60
+导出默认值
+# …">
+<meta property="og:title" content="缓存服务" />
+<meta property="og:description" content="简要概述 支持 memory、redis 实现数据临时缓存，以降低查询后端数据库压力。
+配置示例 最小化配置 # 缓存服务配置 cachebox: enable: true driver: memory memory: max_entry: 60 导出默认值 # 缓存服务配置 cachebox: enable: true driver: redis # memory, redis memory: max_entry: 1024 redis: endpoints: - 127.0.0.1:6380 - 127.0.0.1:6381 - 127.0.0.1:6382 username: &#34;&#34; password: &#34;&#34; db_number: 1 sentinel: master_name: &#34;&#34; username: &#34;&#34; password: &#34;&#34; tls_client_config: ca_file: &#34;&#34; cert_file: &#34;&#34; key_file: &#34;&#34; insecure_skip_verify: true 函数定义 公共接口 // LRUCachebox 缓存实现 LRU 效果 type LRUCachebox interface { // Remove 重内存缓存移除值 Remove(ctx context." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/changelog/changelog-0.2/" /><meta property="article:section" content="docs" />
-<meta property="article:published_time" content="2023-01-20T22:08:54+08:00" />
-<meta property="article:modified_time" content="2023-03-19T22:30:44+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="CHANGELOG 0.2">
-<meta itemprop="description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0."><meta itemprop="datePublished" content="2023-01-20T22:08:54+08:00" />
-<meta itemprop="dateModified" content="2023-03-19T22:30:44+08:00" />
-<meta itemprop="wordCount" content="105">
+<meta property="og:url" content="/docs/spec-cfg/cachebox/" /><meta property="article:section" content="docs" />
+<meta property="article:published_time" content="2023-02-12T11:10:43+08:00" />
+<meta property="article:modified_time" content="2024-12-02T11:52:01+08:00" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="缓存服务">
+<meta itemprop="description" content="简要概述 支持 memory、redis 实现数据临时缓存，以降低查询后端数据库压力。
+配置示例 最小化配置 # 缓存服务配置 cachebox: enable: true driver: memory memory: max_entry: 60 导出默认值 # 缓存服务配置 cachebox: enable: true driver: redis # memory, redis memory: max_entry: 1024 redis: endpoints: - 127.0.0.1:6380 - 127.0.0.1:6381 - 127.0.0.1:6382 username: &#34;&#34; password: &#34;&#34; db_number: 1 sentinel: master_name: &#34;&#34; username: &#34;&#34; password: &#34;&#34; tls_client_config: ca_file: &#34;&#34; cert_file: &#34;&#34; key_file: &#34;&#34; insecure_skip_verify: true 函数定义 公共接口 // LRUCachebox 缓存实现 LRU 效果 type LRUCachebox interface { // Remove 重内存缓存移除值 Remove(ctx context."><meta itemprop="datePublished" content="2023-02-12T11:10:43+08:00" />
+<meta itemprop="dateModified" content="2024-12-02T11:52:01+08:00" />
+<meta itemprop="wordCount" content="265">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="CHANGELOG 0.2"/>
-<meta name="twitter:description" content="Changelog 名称 说明 Added 添加新功能 Changed 功能的变更 Deprecated 未来会删除 Removed 之前为Deprecated状态，此版本被移除 Fixed 功能的修复 Security 有关安全问题的修复 [Unreleased] [0.2.3] - 2022-11-28 Added grpc-kit/pkg 模块
-支持针对用户组进行鉴权 http_users 新增 &ldquo;groups&rdquo; 属性； 如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403； 用户组区分大小写 添加最小化配置示例 未配置的模块，将不开启该功能 添加 &ldquo;app-mini.yaml&rdquo; 示例 添加健康检测服务可对外部网络 添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务 区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务 grpc-kit/cli 模块
-支持自定义应用短名称 通过自定义&quot;SHORTNAME&quot;变量； 所有脚本应用shell更改 ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持 更改默认 http 服务端口 10080 至 8080 由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot; cli、pkg 组件版本号统一 为了解决统一编写变更记录(CHANGELOG.md) 支持自动生成 kubernetes 编排模版 新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod 新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local 新增指令 make manifests 生成基于 Kubernetes 的编排清单 模版路径：scripts/templates/kubernetes [0."/>
+<meta name="twitter:title" content="缓存服务"/>
+<meta name="twitter:description" content="简要概述 支持 memory、redis 实现数据临时缓存，以降低查询后端数据库压力。
+配置示例 最小化配置 # 缓存服务配置 cachebox: enable: true driver: memory memory: max_entry: 60 导出默认值 # 缓存服务配置 cachebox: enable: true driver: redis # memory, redis memory: max_entry: 1024 redis: endpoints: - 127.0.0.1:6380 - 127.0.0.1:6381 - 127.0.0.1:6382 username: &#34;&#34; password: &#34;&#34; db_number: 1 sentinel: master_name: &#34;&#34; username: &#34;&#34; password: &#34;&#34; tls_client_config: ca_file: &#34;&#34; cert_file: &#34;&#34; key_file: &#34;&#34; insecure_skip_verify: true 函数定义 公共接口 // LRUCachebox 缓存实现 LRU 效果 type LRUCachebox interface { // Remove 重内存缓存移除值 Remove(ctx context."/>
 
 
 
@@ -434,14 +412,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
-      <input type="checkbox" id="docsspec-cfg-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check" checked/>
       <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -450,7 +428,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
+                <li class="without-sib" id="m-docsspec-cfgservices">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
@@ -467,7 +445,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
+                <li class="without-sib" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
@@ -484,10 +462,10 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgcachebox">
-                  <span >
+                <li class="without-sib active-path" id="m-docsspec-cfgcachebox">
+                  <span  id="td-sidebar-nav-active-item" >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcachebox-a" href="/docs/spec-cfg/cachebox/">缓存服务</a>
+                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgcachebox-a" href="/docs/spec-cfg/cachebox/">缓存服务</a>
                     
                   </span>
                   
@@ -501,7 +479,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
+                <li class="without-sib" id="m-docsspec-cfgobservables">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
@@ -518,7 +496,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
+                <li class="without-sib" id="m-docsspec-cfgobjstore">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
@@ -535,7 +513,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgautomations">
+                <li class="without-sib" id="m-docsspec-cfgautomations">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgautomations-a" href="/docs/spec-cfg/automations/">流程编排</a>
@@ -552,7 +530,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgfrontend">
+                <li class="without-sib" id="m-docsspec-cfgfrontend">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
@@ -569,7 +547,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
+                <li class="without-sib" id="m-docsspec-cfgindependent">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
@@ -586,7 +564,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                <li class="without-sib" id="m-docsspec-cfgcfg">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
@@ -1068,14 +1046,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docschangelog">
-      <input type="checkbox" id="docschangelog-check" checked/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docschangelog">
+      <input type="checkbox" id="docschangelog-check"/>
       <label for="docschangelog-check" ><a href="/docs/changelog/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">更新日志</a></label>
       
         
         
       
-      <ul class="ul-2">
+      <ul class="ul-2 collapsed">
 
         
           
@@ -1084,7 +1062,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docschangelogchangelog-03">
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-03">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-03-a" href="/docs/changelog/changelog-0.3/">CHANGELOG 0.3</a>
@@ -1101,10 +1079,10 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib active-path" id="m-docschangelogchangelog-02">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-02">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-02-a" href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
                     
                   </span>
                   
@@ -1118,7 +1096,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docschangelogchangelog-01">
+                <li class="without-sib collapsed" id="m-docschangelogchangelog-01">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docschangelogchangelog-01-a" href="/docs/changelog/changelog-0.1/">CHANGELOG 0.1</a>
@@ -1178,22 +1156,25 @@ var _hmt = _hmt || [];
 <h5>目录</h5>
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#changelog">Changelog</a></li>
-    <li><a href="#unreleased">[Unreleased]</a></li>
-    <li><a href="#023---2022-11-28">[0.2.3] - 2022-11-28</a>
+    <li><a href="#简要概述">简要概述</a></li>
+    <li><a href="#配置示例">配置示例</a>
       <ul>
-        <li><a href="#added">Added</a></li>
+        <li><a href="#最小化配置">最小化配置</a></li>
+        <li><a href="#导出默认值">导出默认值</a></li>
       </ul>
     </li>
-    <li><a href="#022---2022-06-30">[0.2.2] - 2022-06-30</a>
+    <li><a href="#函数定义">函数定义</a>
       <ul>
-        <li><a href="#changed">Changed</a></li>
-        <li><a href="#added-1">Added</a></li>
+        <li><a href="#公共接口">公共接口</a></li>
+        <li><a href="#获取实例">获取实例</a></li>
       </ul>
     </li>
-    <li><a href="#021---2022-06-09">[0.2.1] - 2022-06-09</a>
+    <li><a href="#应用场景">应用场景</a>
       <ul>
-        <li><a href="#added-2">Added</a></li>
+        <li><a href="#使用内存缓存">使用内存缓存</a></li>
+        <li><a href="#使用单实例-redis-缓存">使用单实例 redis 缓存</a></li>
+        <li><a href="#使用-redis-cluster-缓存">使用 redis cluster 缓存</a></li>
+        <li><a href="#使用-redis-sentinel-缓存">使用 redis sentinel 缓存</a></li>
       </ul>
     </li>
   </ul>
@@ -1233,16 +1214,16 @@ var _hmt = _hmt || [];
     <a href="/docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="/docs/changelog/">更新日志</a>
+    <a href="/docs/spec-cfg/">配置规范</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/changelog/changelog-0.2/">CHANGELOG 0.2</a>
+    <a href="/docs/spec-cfg/cachebox/">缓存服务</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>CHANGELOG 0.2</h1>
+	<h1>缓存服务</h1>
 	
 	<header class="article-meta">
 		
@@ -1258,130 +1239,149 @@ var _hmt = _hmt || [];
 			
 		
 		
-			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
+			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 2 分钟阅读 &nbsp;</p>
 
 		
 	</header>    
-	<h2 id="changelog">Changelog</h2>
-<table>
-<thead>
-<tr>
-<th>名称</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Added</td>
-<td>添加新功能</td>
-</tr>
-<tr>
-<td>Changed</td>
-<td>功能的变更</td>
-</tr>
-<tr>
-<td>Deprecated</td>
-<td>未来会删除</td>
-</tr>
-<tr>
-<td>Removed</td>
-<td>之前为Deprecated状态，此版本被移除</td>
-</tr>
-<tr>
-<td>Fixed</td>
-<td>功能的修复</td>
-</tr>
-<tr>
-<td>Security</td>
-<td>有关安全问题的修复</td>
-</tr>
-</tbody>
-</table>
-<h2 id="unreleased">[Unreleased]</h2>
-<h2 id="023---2022-11-28">[0.2.3] - 2022-11-28</h2>
-<h3 id="added">Added</h3>
-<p>grpc-kit/pkg 模块</p>
+	<h2 id="简要概述">简要概述</h2>
+<p>支持 memory、redis 实现数据临时缓存，以降低查询后端数据库压力。</p>
+<h2 id="配置示例">配置示例</h2>
+<h3 id="最小化配置">最小化配置</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">memory</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">memory</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">max_entry</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">60</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h3 id="导出默认值">导出默认值</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">redis</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#8f5902;font-style:italic"># memory, redis</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">memory</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">max_entry</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1024</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">redis</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">endpoints</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6380</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6381</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6382</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">username</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">password</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">db_number</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">sentinel</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">master_name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">username</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">password</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">tls_client_config</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">ca_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">cert_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">key_file</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">insecure_skip_verify</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h2 id="函数定义">函数定义</h2>
+<h3 id="公共接口">公共接口</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// LRUCachebox 缓存实现 LRU 效果
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">type</span> <span style="color:#000">LRUCachebox</span> <span style="color:#204a87;font-weight:bold">interface</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">// Remove 重内存缓存移除值
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>	<span style="color:#000">Remove</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Context</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">key</span> <span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">// SetValue 向内存缓存添加值
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>	<span style="color:#000">SetValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Context</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">key</span> <span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">value</span> <span style="color:#000">any</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#8f5902;font-style:italic">// GetStructValue 从内存缓存获取值，并填充用户给定的类型
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span>	<span style="color:#000">GetStructValue</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">ctx</span> <span style="color:#000">context</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Context</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">key</span> <span style="color:#204a87;font-weight:bold">string</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">ptx</span> <span style="color:#000">any</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">bool</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h3 id="获取实例">获取实例</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-golang" data-lang="golang"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// GetLRUCachebox 用于获取 LRU 缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">c</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">LocalConfig</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">GetLRUCachebox</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">LRUCachebox</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">error</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ce5c00;font-weight:bold">......</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// GetCacheboxRedisClient 用于获取缓存服务中初始化的 redis 连接
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">c</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">LocalConfig</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">GetCacheboxRedisClient</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">redis</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">UniversalClient</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">error</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ce5c00;font-weight:bold">......</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic">// HasCacheboxEnabled 用于判断是否启用缓存
+</span></span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"></span><span style="color:#204a87;font-weight:bold">func</span> <span style="color:#000;font-weight:bold">(</span><span style="color:#000">c</span> <span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#000">LocalConfig</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">HasCacheboxEnabled</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">bool</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#ce5c00;font-weight:bold">......</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h2 id="应用场景">应用场景</h2>
+<h3 id="使用内存缓存">使用内存缓存</h3>
 <ul>
-<li>支持针对用户组进行鉴权</li>
+<li>app.yaml 配置</li>
 </ul>
-<ol>
-<li>http_users 新增 &ldquo;groups&rdquo; 属性；</li>
-<li>如果配置了 &ldquo;security.authorization.allowed_groups&rdquo; 则所有需要认证鉴权的接口必须属于该组里面，否则会403；</li>
-<li>用户组区分大小写</li>
-</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">memory</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#8f5902;font-style:italic"># memory, redis</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">memory</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">max_entry</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">60</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><ul>
+<li>获取实例</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">// 判断配置中是否开启缓存</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">if m.baseCfg.HasCacheboxEnabled() {</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">	</span><span style="color:#000">lruCache, err := m.baseCfg.GetLRUCachebox()</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">	</span><span style="color:#000">if err == nil &amp;&amp; lruCache != nil {</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">		</span><span style="color:#000">if lruCache.SetValue(ctx, cacheKey, u) {</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">			</span><span style="color:#000">m.logger.Debugf(&#34;set cache success success&#34;)</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">		</span>}<span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">	</span>}<span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span>}<span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h3 id="使用单实例-redis-缓存">使用单实例 redis 缓存</h3>
 <ul>
-<li>添加最小化配置示例</li>
+<li>app.yaml 配置</li>
 </ul>
-<ol>
-<li>未配置的模块，将不开启该功能</li>
-<li>添加 &ldquo;app-mini.yaml&rdquo; 示例</li>
-</ol>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">redis</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">redis</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">endpoints</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6379</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">db_number</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#0000cf;font-weight:bold">0</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><ul>
+<li>获取实例</li>
+</ul>
+<p>同上。</p>
+<h3 id="使用-redis-cluster-缓存">使用 redis cluster 缓存</h3>
 <ul>
-<li>添加健康检测服务可对外部网络</li>
+<li>app.yaml 配置</li>
 </ul>
-<ol>
-<li>添加 &ldquo;HTTP GET /ping&rdquo; 接口，不过 grpc 服务</li>
-<li>区别于 &ldquo;HTTP GET /healthz&rdquo;，该接口过 grpc 服务</li>
-</ol>
-<p>grpc-kit/cli 模块</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">redis</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">redis</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">endpoints</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6380</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6381</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6382</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">username</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">password</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><ul>
+<li>获取实例</li>
+</ul>
+<p>同上。</p>
+<h3 id="使用-redis-sentinel-缓存">使用 redis sentinel 缓存</h3>
 <ul>
-<li>支持自定义应用短名称</li>
+<li>app.yaml 配置</li>
 </ul>
-<ol>
-<li>通过自定义&quot;SHORTNAME&quot;变量；</li>
-</ol>
-<ul>
-<li>所有脚本应用shell更改</li>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># 缓存服务配置</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">cachebox</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">enable</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">true</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">driver</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">redis</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">redis</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">endpoints</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6380</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6381</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span>- <span style="color:#0000cf;font-weight:bold">127.0.0.1</span><span style="color:#000;font-weight:bold">:</span><span style="color:#0000cf;font-weight:bold">6382</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">sentinel</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">master_name</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;test&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">username</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">password</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><ul>
+<li>获取实例</li>
 </ul>
-<ol>
-<li>ubuntu默认为dash，明确使用&quot;/bin/bash&quot;，而非&quot;/bin/sh&quot;，会导致部分shell不支持</li>
-</ol>
-<ul>
-<li>更改默认 http 服务端口 10080 至 8080</li>
-</ul>
-<ol>
-<li>由于chrome等浏览器默认对&quot;10080&quot;端口存在&quot;ERR_UNSAFE_PORT&quot;告警，所以更改http默认为&quot;8080&quot;</li>
-</ol>
-<ul>
-<li>cli、pkg 组件版本号统一</li>
-</ul>
-<ol>
-<li>为了解决统一编写变更记录(CHANGELOG.md)</li>
-</ol>
-<ul>
-<li>支持自动生成 kubernetes 编排模版</li>
-</ul>
-<ol>
-<li>新增 &ldquo;DEPLOY_ENV&rdquo; 变量，表示部署环境，如：dev、test、prod</li>
-<li>新增 &ldquo;BUILD_ENV&rdquo; 变量，表示构建环境，一般用户自定义，默认为：local</li>
-<li>新增指令 <code>make manifests</code> 生成基于 Kubernetes 的编排清单</li>
-<li>模版路径：scripts/templates/kubernetes</li>
-</ol>
-<h2 id="022---2022-06-30">[0.2.2] - 2022-06-30</h2>
-<h3 id="changed">Changed</h3>
-<ul>
-<li>版本号格式的变更</li>
-</ul>
-<p>旧规则以&quot;v&quot;为前缀，更新后不在带&quot;v&quot;为前缀，如：&ldquo;v0.1.0-beta.3&rdquo;，变更为：&ldquo;0.1.0-beta.3&rdquo;</p>
-<h3 id="added-1">Added</h3>
-<ul>
-<li>新增&quot;VERSION&quot;文件</li>
-</ul>
-<p>用于描述当前分支版本，同时提供给CICD使用，如果当前分支未打成&quot;tag&quot;，则均说明是先行版本号，同时版本去掉以&quot;v&quot;开头；</p>
-<ul>
-<li>新增&quot;Makefile&quot;的帮助说明</li>
-</ul>
-<pre tabindex="0"><code>make help
-</code></pre><h2 id="021---2022-06-09">[0.2.1] - 2022-06-09</h2>
-<h3 id="added-2">Added</h3>
-<ul>
-<li>&ldquo;api/doc&quot;目录内容更改至&quot;public/doc&rdquo;</li>
-<li>&ldquo;api/proto&quot;目录更改为&quot;api/{product-code}/{short-name}&rdquo;</li>
-<li>&ldquo;cli&quot;新增&quot;repository&quot;参数用于说明代码仓库名</li>
-<li>rpc客户端、服务端实例初始化转移至&quot;cfg&quot;实现</li>
-<li>favicon.ico文件移至自定义http handler中实现</li>
-<li>http接口统一以&rdquo;/api/&ldquo;为前缀对外暴露</li>
-</ul>
+<p>同上。</p>
 
 	
 		<br /><hr />
@@ -1451,7 +1451,7 @@ var _hmt = _hmt || [];
 	
 	
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 March 19, 2023: <a href="https://github.com/grpc-kit/doc/commit/c3c72666fd7bb8a83e9cc685b317a102fd17f8ee">feat: 添加运维管理 systemd 文档 (c3c7266)</a>
+  最后修改 December 2, 2024: <a href="https://github.com/grpc-kit/doc/commit/d5df6277a845e9da0dcf13b8c23a7157a3e79406">docs: add redis sentinel (d5df627)</a>
 </div>
 
 </div>
