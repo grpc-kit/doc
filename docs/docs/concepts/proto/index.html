@@ -4,6 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.110.0">
+<link rel="alternate" type="application/rss&#43;xml" href="/docs/concepts/proto/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -18,28 +19,16 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>gRPC Kit</title>
-<meta name="description" content="cfg
-配置说明
-当Debugger为&quot;debug&quot;模式或者开启opentracing的log_field http_body，且content-type为json时，开启记录用户请求体
-仅 LocalConfig 对外提供函数调用，其他均为方法内私有
-">
-<meta property="og:title" content="" />
-<meta property="og:description" content="cfg 配置说明 当Debugger为&quot;debug&quot;模式或者开启opentracing的log_field http_body，且content-type为json时，开启记录用户请求体
-仅 LocalConfig 对外提供函数调用，其他均为方法内私有" />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="/docs/spec-cfg/cfg/" /><meta property="article:section" content="docs" />
-
-<meta property="article:modified_time" content="2023-02-12T16:08:33+08:00" /><meta property="og:site_name" content="gRPC Kit" />
-<meta itemprop="name" content="">
-<meta itemprop="description" content="cfg 配置说明 当Debugger为&quot;debug&quot;模式或者开启opentracing的log_field http_body，且content-type为json时，开启记录用户请求体
-仅 LocalConfig 对外提供函数调用，其他均为方法内私有">
-<meta itemprop="dateModified" content="2023-02-12T16:08:33+08:00" />
-<meta itemprop="wordCount" content="7">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content=""/>
-<meta name="twitter:description" content="cfg 配置说明 当Debugger为&quot;debug&quot;模式或者开启opentracing的log_field http_body，且content-type为json时，开启记录用户请求体
-仅 LocalConfig 对外提供函数调用，其他均为方法内私有"/>
+<title>Proto | gRPC Kit</title>
+<meta name="description" content="">
+<meta property="og:title" content="Proto" />
+<meta property="og:description" content="" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/docs/concepts/proto/" /><meta property="og:site_name" content="gRPC Kit" />
+<meta itemprop="name" content="Proto">
+<meta itemprop="description" content=""><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Proto"/>
+<meta name="twitter:description" content=""/>
 
 
 
@@ -64,7 +53,7 @@ var _hmt = _hmt || [];
 
 
   </head>
-  <body class="td-page">
+  <body class="td-section">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -287,14 +276,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsconcepts">
-      <input type="checkbox" id="docsconcepts-check"/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsconcepts">
+      <input type="checkbox" id="docsconcepts-check" checked/>
       <label for="docsconcepts-check" ><a href="/docs/concepts/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">核心组件</a></label>
       
         
         
       
-      <ul class="ul-2 collapsed">
+      <ul class="ul-2">
 
         
           
@@ -398,7 +387,7 @@ var _hmt = _hmt || [];
 
   
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-sib collapsed" id="docsconceptsproto">
-      <span > <a  href="/docs/concepts/proto/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">Proto</a></span>
+      <span  id="td-sidebar-nav-active-item" > <a  href="/docs/concepts/proto/" class="align-left pl-0 pr-2 active td-sidebar-link td-sidebar-link__section">Proto</a></span>
       
     </li>
   
@@ -438,14 +427,14 @@ var _hmt = _hmt || [];
 
 
   
-    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib active-path" id="docsspec-cfg">
-      <input type="checkbox" id="docsspec-cfg-check" checked/>
+    <li class="section td-sidebar-nav__section-title td-sidebar-nav__section with-sib collapsed" id="docsspec-cfg">
+      <input type="checkbox" id="docsspec-cfg-check"/>
       <label for="docsspec-cfg-check" ><a href="/docs/spec-cfg/" class="align-left pl-0 pr-2 td-sidebar-link td-sidebar-link__section">配置规范</a></label>
       
         
         
       
-      <ul class="ul-2">
+      <ul class="ul-2 collapsed">
 
         
           
@@ -454,7 +443,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgservices">
+                <li class="without-sib collapsed" id="m-docsspec-cfgservices">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgservices-a" href="/docs/spec-cfg/services/">基础服务</a>
@@ -471,7 +460,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgsecurity">
+                <li class="without-sib collapsed" id="m-docsspec-cfgsecurity">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgsecurity-a" href="/docs/spec-cfg/security/">认证鉴权</a>
@@ -488,7 +477,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgcachebox">
+                <li class="without-sib collapsed" id="m-docsspec-cfgcachebox">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcachebox-a" href="/docs/spec-cfg/cachebox/">缓存服务</a>
@@ -505,7 +494,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgobservables">
+                <li class="without-sib collapsed" id="m-docsspec-cfgobservables">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobservables-a" href="/docs/spec-cfg/observables/">可观测性</a>
@@ -522,7 +511,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgobjstore">
+                <li class="without-sib collapsed" id="m-docsspec-cfgobjstore">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgobjstore-a" href="/docs/spec-cfg/objstore/">对象存储</a>
@@ -539,7 +528,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgautomations">
+                <li class="without-sib collapsed" id="m-docsspec-cfgautomations">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgautomations-a" href="/docs/spec-cfg/automations/">流程编排</a>
@@ -556,7 +545,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgfrontend">
+                <li class="without-sib collapsed" id="m-docsspec-cfgfrontend">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgfrontend-a" href="/docs/spec-cfg/frontend/">前端托管</a>
@@ -573,7 +562,7 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib" id="m-docsspec-cfgindependent">
+                <li class="without-sib collapsed" id="m-docsspec-cfgindependent">
                   <span >
                     
                       <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgindependent-a" href="/docs/spec-cfg/independent/">应用私有</a>
@@ -590,10 +579,10 @@ var _hmt = _hmt || [];
               
               
               
-                <li class="without-sib active-path" id="m-docsspec-cfgcfg">
-                  <span  id="td-sidebar-nav-active-item" >
+                <li class="without-sib collapsed" id="m-docsspec-cfgcfg">
+                  <span >
                     
-                      <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
+                      <a class="td-sidebar-link td-sidebar-link__page " id="m-docsspec-cfgcfg-a" href="/docs/spec-cfg/cfg/"></a>
                     
                   </span>
                   
@@ -1213,17 +1202,17 @@ var _hmt = _hmt || [];
     <a href="/docs/">Documentation</a>
   </li>
   <li class="breadcrumb-item">
-    <a href="/docs/spec-cfg/">配置规范</a>
+    <a href="/docs/concepts/">核心组件</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="/docs/spec-cfg/cfg/"></a>
+    <a href="/docs/concepts/proto/">Proto</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1></h1>
-	
+	<h1>Proto</h1>
+  
 	<header class="article-meta">
 		
 		
@@ -1241,85 +1230,107 @@ var _hmt = _hmt || [];
 			<p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i>&nbsp; 少于1分钟 &nbsp;</p>
 
 		
-	</header>    
-	<h1 id="cfg">cfg</h1>
-<h2 id="配置说明">配置说明</h2>
-<p>当Debugger为&quot;debug&quot;模式或者开启opentracing的log_field http_body，且content-type为json时，开启记录用户请求体</p>
-<p>仅 LocalConfig 对外提供函数调用，其他均为方法内私有</p>
-
+	</header>
 	
-		<br /><hr />
-		<style>
-  .feedback--answer {
-    display: inline-block;
-  }
-  .feedback--answer-no {
-    margin-left: 1em;
-  }
-  .feedback--response {
-    display: none;
-    margin-top: 1em;
-  }
-  .feedback--response__visible {
-    display: block;
-  }
-</style>
-
-<div class="d-print-none">
-  <h4 class="feedback--title">希望您的反馈</h4>
-  <p class="feedback--question">该页面的内容对您有帮助吗?</p>
-  <button class="btn btn-primary mb-4 feedback--answer feedback--answer-yes">是的</button>
-  <button class="btn btn-danger mb-4 feedback--answer feedback--answer-no">没有</button>
-  <p class="feedback--response feedback--response-yes">
-    感谢您的支持! 如有其他建议，<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
-  </p>
-  <p class="feedback--response feedback--response-no">
-    非常抱歉，您有什么改进建议？<a href="https://github.com/grpc-kit/doc/issues/new">请告诉我们！</a>
-  </p>
+        <div class="section-index">
+    
+    
+    
+    
+    
+    <hr class="panel-line">
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    
 </div>
 
-<script>
-  const yesButton = document.querySelector('.feedback--answer-yes');
-  const noButton = document.querySelector('.feedback--answer-no');
-  const yesResponse = document.querySelector('.feedback--response-yes');
-  const noResponse = document.querySelector('.feedback--response-no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  const sendFeedback = (value) => {
-    if (typeof ga !== 'function') return;
-    const args = {
-      command: 'send',
-      hitType: 'event',
-      category: 'Helpful',
-      action: 'click',
-      label: window.location.pathname,
-      value: value
-    };
-    ga(args.command, args.hitType, args.category, args.action, args.label, args.value);
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(1);
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback--response__visible');
-    disableButtons();
-    sendFeedback(0);
-  });
-</script>
 
-		<br />
-	
-	
+    
+
 	<div class="text-muted mt-5 pt-3 border-top">
-  最后修改 February 12, 2023: <a href="https://github.com/grpc-kit/doc/commit/781e64cc1d964f84d8e70bbdc71d7bd74567429f">feat: 添加配置规范文档结构 (781e64c)</a>
+  最后修改 May 29, 2025: <a href="https://github.com/grpc-kit/doc/commit/fb10a98f1aaf6b49bc69d96a56e58153b5df9d27">docs: add proto (fb10a98)</a>
 </div>
 
 </div>
-
 
           </main>
 
